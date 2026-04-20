@@ -2,12 +2,15 @@
 Nodal · Urban Changemakers of Latin America — interactive directory.
 Run: streamlit run src/dashboard/app.py
 """
+import re
 import sys
+import unicodedata
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 import streamlit as st
+import streamlit.components.v1 as components
 import pandas as pd
 import plotly.express as px
 
@@ -91,18 +94,20 @@ st.markdown(f"""
         color: {INK} !important;
         border: none !important;
         border-top: 1px solid {SOFT} !important;
+        border-left: 3px solid transparent !important;
         border-radius: 0 !important;
-        padding: 1.2rem 0.5rem 1.2rem 0 !important;
+        padding: 1.2rem 0.75rem 1.2rem 0.75rem !important;
         width: 100% !important;
         font-family: 'Inter' !important;
         font-weight: 400 !important;
         white-space: normal !important;
         line-height: 1.5 !important;
-        transition: background 0.12s ease !important;
+        transition: background 0.14s ease, border-left-color 0.14s ease !important;
     }}
     .stButton > button[kind="tertiary"]:hover {{
         background: {PAPER} !important;
         color: {INK} !important;
+        border-left-color: {GREEN} !important;
         cursor: pointer;
     }}
 
@@ -202,7 +207,114 @@ st.markdown(f"""
         margin-top: 0.8rem;
         transition: background 0.15s ease;
     }}
-    a.course-cta:hover {{ background: {GREEN_DARK}; }}
+    a.course-cta:hover {{ background: {GREEN_DARK}; transform: translateY(-1px); box-shadow: 0 6px 20px -8px rgba(111,168,61,0.55); }}
+
+    /* ── Motion — subtle entrance for cards & stats ──────────────────────── */
+    @keyframes fadeInUp {{
+        from {{ opacity: 0; transform: translateY(6px); }}
+        to   {{ opacity: 1; transform: translateY(0); }}
+    }}
+    .stat, .insight, .course-card, .peer-card, .contact-row {{
+        animation: fadeInUp 0.42s ease both;
+    }}
+
+    /* Pill — small hover bloom */
+    .pill, .pill-muted {{ transition: transform .15s ease, box-shadow .15s ease; }}
+    .pill:hover {{ transform: translateY(-1px);
+                   box-shadow: 0 4px 12px -6px rgba(111,168,61,0.45); }}
+
+    /* Actor-class badge — small coloured chip */
+    .class-badge {{
+        display: inline-block;
+        padding: 0.22rem 0.7rem;
+        border-radius: 999px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-left: 0.55rem;
+        vertical-align: 0.08em;
+    }}
+    .cb-institution   {{ background: #E7EEF8; color: #2F4A7A; }}
+    .cb-civil_society {{ background: {GREEN_SOFT}; color: {GREEN_DARK}; }}
+    .cb-politician    {{ background: #F6E8EE; color: #8A2B50; }}
+    .cb-entrepreneur  {{ background: #FFF2D6; color: #7A541A; }}
+    .cb-company       {{ background: #ECECEC; color: #2E2E2E; }}
+
+    /* Contact block inside profile */
+    .contact-row {{
+        display: flex; flex-wrap: wrap; gap: 0.55rem;
+        margin: 0.6rem 0 1rem 0;
+    }}
+    .contact-chip {{
+        display: inline-flex; align-items: center; gap: 0.45rem;
+        padding: 0.55rem 1rem;
+        border-radius: 999px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-decoration: none !important;
+        transition: all .16s ease;
+        border: 1px solid {SOFT};
+    }}
+    .chip-primary {{ background: {GREEN}; color: white !important; border-color: {GREEN}; }}
+    .chip-primary:hover {{ background: {GREEN_DARK}; border-color: {GREEN_DARK};
+                           transform: translateY(-1px);
+                           box-shadow: 0 8px 22px -8px rgba(111,168,61,0.6); }}
+    .chip-ghost {{ background: white; color: {INK} !important; }}
+    .chip-ghost:hover {{ border-color: {INK}; transform: translateY(-1px); }}
+    .chip-mute {{ background: {SOFT}; color: {MUTED} !important; cursor: default; }}
+
+    /* Peer card with why-matched pills */
+    .peer-card {{
+        padding: 0.85rem 0;
+        border-top: 1px solid {SOFT};
+        transition: background .15s ease, padding-left .15s ease;
+    }}
+    .peer-card:hover {{ background: {PAPER}; padding-left: 0.4rem; }}
+    .why-pill {{
+        display: inline-block;
+        background: white;
+        border: 1px solid {SOFT};
+        padding: 0.18rem 0.6rem 0.18rem 0.55rem;
+        border-radius: 999px;
+        font-size: 0.72rem;
+        color: {INK};
+        margin: 0.25rem 0.25rem 0 0;
+    }}
+    .why-pill .why-k {{
+        color: {MUTED};
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        font-size: 0.62rem;
+        margin-right: 0.4rem;
+    }}
+
+    /* Segmented control — larger, pill-y */
+    div[data-testid="stSegmentedControl"] button {{
+        border-radius: 999px !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.02em !important;
+        transition: all .16s ease !important;
+    }}
+    div[data-testid="stSegmentedControl"] button:hover {{
+        border-color: {GREEN} !important;
+        color: {GREEN_DARK} !important;
+    }}
+
+    /* Refined hero */
+    .lede {{ letter-spacing: -0.005em; }}
+    h1 {{ background: linear-gradient(180deg, {INK} 0%, #3A3A3A 100%);
+          -webkit-background-clip: text; background-clip: text;
+          -webkit-text-fill-color: transparent; }}
+
+    /* Subtle green underline accent under top bar */
+    .accent-line {{
+        height: 2px; width: 100%;
+        background: linear-gradient(90deg, transparent 0%, {GREEN} 20%, {GREEN_DARK} 50%, {GREEN} 80%, transparent 100%);
+        opacity: 0.55;
+        margin-top: 0.7rem;
+    }}
 </style>
 """, unsafe_allow_html=True)
 
@@ -216,15 +328,17 @@ with bar_l:
         unsafe_allow_html=True,
     )
 with bar_r1:
-    if st.button("🇪🇸 ES",
+    if st.button("ES",
                  type="primary" if st.session_state.lang == "es" else "secondary",
                  key="lang_es", use_container_width=True):
         st.session_state.lang = "es"; st.rerun()
 with bar_r2:
-    if st.button("🇬🇧 EN",
+    if st.button("EN",
                  type="primary" if st.session_state.lang == "en" else "secondary",
                  key="lang_en", use_container_width=True):
         st.session_state.lang = "en"; st.rerun()
+
+st.markdown('<div class="accent-line"></div>', unsafe_allow_html=True)
 
 lang = st.session_state.lang
 
@@ -296,22 +410,87 @@ if search_term:
 else:
     df_f = df_base
 
+def slugify(s: str) -> str:
+    """Turn 'Cali Cómo Vamos' into 'cali-como-vamos' — clean URLs, stable across langs."""
+    s = unicodedata.normalize("NFKD", str(s)).encode("ascii", "ignore").decode()
+    s = re.sub(r"[^a-zA-Z0-9\s-]", "", s).strip().lower()
+    return re.sub(r"[\s_-]+", "-", s) or "x"
+
+name_by_slug = {slugify(n): n for n in df["name"]}
+
+# Deep-link: ?org=slug-or-name opens the profile once per session.
+# (Without the guard, closing the dialog would trigger an infinite re-open loop.)
+_qp_org = st.query_params.get("org")
+if (
+    _qp_org
+    and st.session_state.selected_org is None
+    and not st.session_state.get("_deep_linked")
+):
+    target = name_by_slug.get(_qp_org) or (_qp_org if _qp_org in set(df["name"]) else None)
+    if target:
+        st.session_state.selected_org = target
+        st.session_state._deep_linked = True
+
+# Class-badge helper
+CLASS_KEYS = ["institution", "civil_society", "politician", "entrepreneur", "company"]
+
+def class_badge_html(actor_class: str, lang: str) -> str:
+    label = t(f"cls_{actor_class}", lang) if actor_class in CLASS_KEYS else actor_class
+    return f'<span class="class-badge cb-{actor_class}">{label}</span>'
+
 # ── Profile dialog ───────────────────────────────────────────────────────────
 @st.dialog(" ", width="large")
 def show_profile(name: str):
+    import urllib.parse
     row = df[df["name"] == name]
     if row.empty:
         st.write("—"); return
     row = row.iloc[0]
 
-    st.markdown(f'<div class="eyebrow">{row["type"]} · {row["city"]}, {row["country"]}</div>',
-                unsafe_allow_html=True)
+    actor_class = row.get("actor_class", "institution")
+    st.markdown(
+        f'<div class="eyebrow">{row["type"]} · {row["city"]}, {row["country"]}'
+        f'{class_badge_html(actor_class, lang)}</div>',
+        unsafe_allow_html=True,
+    )
     st.markdown(f'<h1 style="font-size:2.3rem; margin:0.2rem 0 0.8rem 0;">{row["name"]}</h1>',
                 unsafe_allow_html=True)
 
     pills = " ".join(f'<span class="pill">{f}</span>' for f in row["focus_areas"])
-    st.markdown(f'<div style="margin-bottom:1.2rem;">{pills}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="margin-bottom:0.7rem;">{pills}</div>', unsafe_allow_html=True)
 
+    # ── Contact block (fast path to reach out) ──────────────────────────────
+    email = (row.get("email") or "").strip()
+    website = row.get("website") if pd.notna(row.get("website")) else ""
+    chips = []
+    if email:
+        subject = urllib.parse.quote(f"Nodal · {row['name']}")
+        chips.append(
+            f'<a class="contact-chip chip-primary" '
+            f'href="mailto:{email}?subject={subject}">{t("p_write", lang)} →</a>'
+        )
+    else:
+        chips.append(
+            f'<span class="contact-chip chip-mute">{t("p_no_email", lang)}</span>'
+        )
+    if website:
+        chips.append(
+            f'<a class="contact-chip chip-ghost" href="{website}" target="_blank" rel="noopener">'
+            f'{t("p_visit", lang)}</a>'
+        )
+    if not email and not website:
+        nodal_subject = urllib.parse.quote(f"Nodal · {row['name']}")
+        chips.append(
+            f'<a class="contact-chip chip-ghost" '
+            f'href="mailto:nodal@sistemaurbano.org?subject={nodal_subject}">'
+            f'{t("p_via_nodal", lang)} →</a>'
+        )
+    st.markdown(
+        f'<div class="contact-row">{"".join(chips)}</div>',
+        unsafe_allow_html=True,
+    )
+
+    # ── About ───────────────────────────────────────────────────────────────
     st.markdown(f"### {t('p_about', lang)}")
     st.markdown(f'<div style="font-size:1rem; line-height:1.6; color:{INK};">'
                 f'{row["description"]}</div>', unsafe_allow_html=True)
@@ -333,14 +512,54 @@ def show_profile(name: str):
                 f'<span style="color:{INK}; font-size:0.98rem;">{v}</span></div>',
                 unsafe_allow_html=True,
             )
-        if pd.notna(row.get("website")) and row.get("website"):
-            st.markdown(
-                f'<div style="padding:0.6rem 0; border-top:1px solid {SOFT};">'
-                f'<a href="{row["website"]}" target="_blank" style="color:{GREEN_DARK}; '
-                f'font-weight:600; text-decoration:none; font-size:0.98rem;">'
-                f'{t("p_visit", lang)}</a></div>',
-                unsafe_allow_html=True,
-            )
+
+        st.markdown(f"### {t('p_share', lang)}")
+        st.caption(t("p_share_hint", lang))
+        copy_label = t("p_copy", lang)
+        copied_label = t("p_copied", lang)
+        components.html(
+            f"""
+            <div style="display:flex; gap:0.5rem; align-items:stretch;
+                        font-family:Inter,system-ui,sans-serif;">
+              <input id="share-url" readonly
+                     style="flex:1; min-width:0; padding:0.55rem 0.7rem;
+                            border:1px solid #EDEDED; border-radius:10px;
+                            background:#FAFAF7; color:#111; font-size:0.9rem;
+                            font-family:ui-monospace,SFMono-Regular,Menlo,monospace;"/>
+              <button id="share-copy"
+                      style="padding:0.55rem 0.95rem; border:1px solid #6FA83D;
+                             background:#6FA83D; color:white; border-radius:10px;
+                             font-weight:600; font-size:0.85rem; cursor:pointer;
+                             transition:background .15s ease;">{copy_label}</button>
+            </div>
+            <script>
+              (function() {{
+                const slug = {slugify(row['name'])!r};
+                const loc = window.parent.location;
+                const base = loc.origin + loc.pathname;
+                const url = base + "?org=" + slug;
+                const input = document.getElementById("share-url");
+                const btn = document.getElementById("share-copy");
+                input.value = url;
+                btn.addEventListener("click", async () => {{
+                  try {{
+                    await navigator.clipboard.writeText(url);
+                  }} catch (e) {{
+                    input.select(); document.execCommand("copy");
+                  }}
+                  const prev = btn.textContent;
+                  btn.textContent = {copied_label!r};
+                  btn.style.background = "#4F7F28";
+                  setTimeout(() => {{
+                    btn.textContent = prev;
+                    btn.style.background = "#6FA83D";
+                  }}, 1400);
+                }});
+              }})();
+            </script>
+            """,
+            height=60,
+        )
 
     with c2:
         st.markdown(f"### {t('p_peers', lang)}")
@@ -350,14 +569,29 @@ def show_profile(name: str):
             st.markdown(f'<div class="note">{t("p_peers_none", lang)}</div>',
                         unsafe_allow_html=True)
         else:
+            why_labels = {
+                "focus":   t("p_why_focus",   lang),
+                "city":    t("p_why_city",    lang),
+                "country": t("p_why_country", lang),
+                "class":   t("p_why_class",   lang),
+            }
             for _, p in peers.iterrows():
-                shared = sorted(set(p["focus_areas"]) & set(row["focus_areas"]))
-                shared_str = " · ".join(shared) if shared else p["type"]
+                p_class = p.get("actor_class", "institution")
+                why_html = ""
+                for reason in (p.get("why") or []):
+                    kind, _, val = reason.partition(":")
+                    label = why_labels.get(kind, kind)
+                    display_val = t(f"cls_{val}", lang) if kind == "class" and val in CLASS_KEYS else val
+                    why_html += (f'<span class="why-pill">'
+                                 f'<span class="why-k">{label}</span>{display_val}</span>')
                 st.markdown(
-                    f'<div style="padding:0.55rem 0; border-top:1px solid {SOFT};">'
-                    f'<div style="font-weight:600; font-size:0.95rem; color:{INK};">{p["name"]}</div>'
-                    f'<div style="color:{MUTED}; font-size:0.8rem;">'
-                    f'{p["city"]}, {p["country"]} · {shared_str}</div></div>',
+                    f'<div class="peer-card">'
+                    f'<div style="font-weight:600; font-size:0.97rem; color:{INK};">'
+                    f'{p["name"]}{class_badge_html(p_class, lang)}</div>'
+                    f'<div style="color:{MUTED}; font-size:0.82rem; margin-top:0.15rem;">'
+                    f'{p["city"]}, {p["country"]} · {p["type"]}</div>'
+                    f'<div style="margin-top:0.35rem;">{why_html}</div>'
+                    f'</div>',
                     unsafe_allow_html=True,
                 )
 
@@ -380,7 +614,7 @@ with sc1:
         t("search_label", lang),
         value=st.session_state.search,
         label_visibility="collapsed",
-        placeholder="🔎  " + t("search_label", lang),
+        placeholder=t("search_label", lang),
     )
 with sc2:
     st.markdown(
@@ -406,7 +640,8 @@ stat(c1, t("stat_orgs", lang), len(df_f))
 stat(c2, t("stat_country", lang), df_f["country"].nunique())
 stat(c3, t("stat_cities", lang), df_f["city"].nunique())
 stat(c4, t("stat_focus", lang), df_f["focus_areas"].explode().nunique())
-median_age = int(df_f["age_years"].replace(0, pd.NA).median() or 0)
+_median = df_f["age_years"].replace(0, pd.NA).median() if len(df_f) else pd.NA
+median_age = int(_median) if pd.notna(_median) else 0
 stat(c5, t("stat_age", lang), median_age, t("stat_yrs", lang))
 
 # ── Map ──────────────────────────────────────────────────────────────────────
@@ -600,13 +835,16 @@ if not courses.empty:
                 unsafe_allow_html=True,
             )
 
-# ── Directory — clickable rows ───────────────────────────────────────────────
-st.markdown(f"## {t('sec_dir', lang)}")
-st.markdown(f'<div class="intro">{t("sec_dir_intro", lang)}</div>', unsafe_allow_html=True)
+# ── Connect with leaders — tabbed actor navigation ───────────────────────────
+st.markdown(f"## {t('sec_connect', lang)}")
+st.markdown(f'<div class="intro">{t("sec_connect_intro", lang)}</div>', unsafe_allow_html=True)
 
 sort_options = [t("sort_name", lang), t("sort_new", lang),
                 t("sort_old", lang), t("sort_country", lang)]
-sort_by = st.selectbox(t("sort_label", lang), sort_options, label_visibility="collapsed")
+
+sc_sort, _ = st.columns([1, 2])
+with sc_sort:
+    sort_by = st.selectbox(t("sort_label", lang), sort_options, label_visibility="collapsed")
 
 if sort_by == t("sort_name", lang):
     table = df_f.sort_values("name")
@@ -617,18 +855,47 @@ elif sort_by == t("sort_old", lang):
 else:
     table = df_f.sort_values(["country", "name"])
 
+# Actor-class navigation via segmented control (persists across reruns)
+tab_defs = [
+    ("all",            t("tab_all",          lang), None),
+    ("institution",    t("tab_institution",  lang), "institution"),
+    ("civil_society",  t("tab_civil",        lang), "civil_society"),
+    ("politician",     t("tab_politician",   lang), "politician"),
+    ("entrepreneur",   t("tab_entrepreneur", lang), "entrepreneur"),
+    ("company",        t("tab_company",      lang), "company"),
+]
+tab_keys   = [k   for k, _, _ in tab_defs]
+tab_labels = {k: lbl for k, lbl, _ in tab_defs}
+tab_filter = {k: cls for k, _, cls in tab_defs}
+
+active = st.segmented_control(
+    " ",
+    options=tab_keys,
+    format_func=lambda k: tab_labels[k],
+    default="all",
+    key="directory_tab",
+    label_visibility="collapsed",
+) or "all"
+
+active_cls = tab_filter[active]
+subset = table if active_cls is None else table[table["actor_class"] == active_cls]
+
 if len(table) == 0:
     st.markdown(f'<div class="note">{t("search_empty", lang)}</div>', unsafe_allow_html=True)
+elif len(subset) == 0:
+    st.markdown(f'<div class="note">{t("tab_empty", lang)}</div>', unsafe_allow_html=True)
 
-for _, row in table.iterrows():
+for _, row in subset.iterrows():
     focus_str = " · ".join(row["focus_areas"])
     founded = f' · {int(row["founded_year"])}' if pd.notna(row["founded_year"]) else ""
+    cls_label = t(f"cls_{row.get('actor_class','institution')}", lang)
     label = (
-        f'{row["name"]}\n'
+        f'{row["name"]}  ·  {cls_label}\n'
         f'{row["type"]} · {row["city"]}, {row["country"]}{founded}\n'
         f'{row["description"]}\n'
         f'{focus_str} ›'
     )
-    if st.button(label, key=f"org_{row['name']}", type="tertiary", use_container_width=True):
+    if st.button(label, key=f"org_{active}_{row['name']}",
+                 type="tertiary", use_container_width=True):
         st.session_state.selected_org = row["name"]
         st.rerun()

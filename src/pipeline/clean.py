@@ -32,6 +32,30 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
 
     df["type"] = df["type"].fillna("Organization").str.strip().str.title()
 
+    type_to_class = {
+        "Observatory": "institution",
+        "Network": "institution",
+        "Program": "institution",
+        "Public": "institution",
+        "Foundation": "institution",
+        "Ngo": "civil_society",
+        "Collective": "civil_society",
+        "Politician": "politician",
+        "Entrepreneur": "entrepreneur",
+        "Company": "company",
+    }
+    derived = df["type"].map(type_to_class)
+    if "actor_class" in df.columns:
+        df["actor_class"] = df["actor_class"].fillna(derived).fillna("institution")
+    else:
+        df["actor_class"] = derived.fillna("institution")
+    df["actor_class"] = df["actor_class"].str.strip().str.lower()
+
+    if "email" in df.columns:
+        df["email"] = df["email"].fillna("").astype(str).str.strip()
+    else:
+        df["email"] = ""
+
     df["founded_year"] = pd.to_numeric(df.get("founded_year"), errors="coerce")
     current_year = 2026
     df["age_years"] = (current_year - df["founded_year"]).fillna(0).astype(int)

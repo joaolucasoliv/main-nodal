@@ -1,12 +1,21 @@
 """
-Find peer organisations for a given entry, based on shared focus areas,
-region, and generation — the scaffolding that makes Nodal a matchmaking tool.
+Find peer organisations for a given entry.
+
+Scoring favours *actionable* matches: strong topic overlap, geographic
+proximity, and cross-class complementarity (a founder benefits from meeting
+institutions and politicians, not only other founders).
 """
 import pandas as pd
 
 
 def peers_of(df: pd.DataFrame, name: str, top_n: int = 6) -> pd.DataFrame:
-    """Return orgs most similar to `name` by shared focus areas, then same country, then same type."""
+    """Rank peers for `name` by focus overlap, geography and class complementarity.
+
+    Returns a DataFrame with extra columns:
+      - score:   numeric ranking score
+      - why:     list of short reason strings for the match
+      - shared:  list of overlapping focus areas (may be empty)
+    """
     if name not in set(df["name"]):
         return df.iloc[0:0]
 
@@ -15,18 +24,42 @@ def peers_of(df: pd.DataFrame, name: str, top_n: int = 6) -> pd.DataFrame:
     target_country = row["country"]
     target_city = row["city"]
     target_type = row["type"]
+    target_class = row.get("actor_class", "institution")
 
     others = df[df["name"] != name].copy()
 
-    def score(r) -> float:
-        focus_overlap = len(set(r["focus_areas"] or []) & target_focus)
-        same_city = 2 if r["city"] == target_city else 0
-        same_country = 1 if r["country"] == target_country else 0
-        same_type = 0.5 if r["type"] == target_type else 0
-        return focus_overlap * 2 + same_city + same_country + same_type
+    def score_row(r):
+        shared = sorted(set(r["focus_areas"] or []) & target_focus)
+        reasons: list[str] = []
+        s = 0.0
 
-    others["score"] = others.apply(score, axis=1)
-    return others.sort_values("score", ascending=False).head(top_n)
+        if shared:
+            s += len(shared) * 2.0
+            reasons.append("focus:" + " · ".join(shared[:3]))
+
+        if r["city"] == target_city:
+            s += 2.0
+            reasons.append(f"city:{r['city']}")
+        elif r["country"] == target_country:
+            s += 1.0
+            reasons.append(f"country:{r['country']}")
+
+        # Cross-class complementarity: leaders grow through diverse connections.
+        r_class = r.get("actor_class", "institution")
+        if r_class != target_class:
+            s += 0.8
+            reasons.append(f"class:{r_class}")
+        else:
+            s -= 0.2
+
+        if r["type"] == target_type:
+            s += 0.25
+
+        return pd.Series({"score": s, "why": reasons, "shared": shared})
+
+    scored = others.apply(score_row, axis=1)
+    out = pd.concat([others.reset_index(drop=True), scored.reset_index(drop=True)], axis=1)
+    return out.sort_values("score", ascending=False).head(top_n)
 
 
 def same_city(df: pd.DataFrame, city: str, exclude: str = "") -> pd.DataFrame:

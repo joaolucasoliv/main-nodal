@@ -165,6 +165,45 @@ TRANSLATIONS = {
                      "en": "No strongly overlapping peers yet."},
     "p_visit":      {"es": "Visitar sitio →",   "en": "Visit website →"},
     "p_close":      {"es": "Cerrar",            "en": "Close"},
+
+    # Actor classes & tabs
+    "sec_connect":      {"es": "Conecta con líderes",
+                         "en": "Connect with leaders"},
+    "sec_connect_intro":{"es": "Explora el ecosistema por tipo de actor. Abre cualquier perfil para escribir, compartir o descubrir pares complementarios.",
+                         "en": "Browse the ecosystem by actor type. Open any profile to reach out, share it, or discover complementary peers."},
+    "tab_all":          {"es": "Todos",          "en": "All"},
+    "tab_institution":  {"es": "Instituciones",  "en": "Institutions"},
+    "tab_civil":        {"es": "Sociedad civil", "en": "Civil society"},
+    "tab_politician":   {"es": "Políticos",      "en": "Politicians"},
+    "tab_entrepreneur": {"es": "Emprendedores",  "en": "Entrepreneurs"},
+    "tab_company":      {"es": "Empresas",       "en": "Companies"},
+    "tab_empty":        {"es": "Aún no hay entradas en esta categoría. Sube un CSV con la columna actor_class para empezar a poblarla.",
+                         "en": "No entries yet in this category. Upload a CSV with the actor_class column to start populating it."},
+
+    # Contact / share
+    "p_contact":    {"es": "Contacto directo",    "en": "Direct contact"},
+    "p_write":      {"es": "Escribir por email",  "en": "Email this leader"},
+    "p_share":      {"es": "Compartir perfil",    "en": "Share profile"},
+    "p_share_hint": {"es": "Copia este enlace para compartir el perfil:",
+                     "en": "Copy this link to share the profile:"},
+    "p_copy":       {"es": "Copiar",              "en": "Copy"},
+    "p_copied":     {"es": "¡Copiado!",           "en": "Copied!"},
+    "p_why":        {"es": "Por qué este match",  "en": "Why this match"},
+    "p_why_focus":  {"es": "Enfoque",             "en": "Focus"},
+    "p_why_city":   {"es": "Ciudad",              "en": "City"},
+    "p_why_country":{"es": "País",                "en": "Country"},
+    "p_why_class":  {"es": "Clase",               "en": "Class"},
+    "p_no_email":    {"es": "Sin email público. Usa el sitio web.",
+                      "en": "No public email. Use the website."},
+    "p_via_nodal":   {"es": "Conectar vía Nodal",
+                      "en": "Connect through Nodal"},
+
+    # Actor class labels (singular, for pills/badges)
+    "cls_institution":   {"es": "Institución",   "en": "Institution"},
+    "cls_civil_society": {"es": "Sociedad civil","en": "Civil society"},
+    "cls_politician":    {"es": "Político/a",    "en": "Politician"},
+    "cls_entrepreneur":  {"es": "Emprendedor/a", "en": "Entrepreneur"},
+    "cls_company":       {"es": "Empresa",       "en": "Company"},
 }
 
 
