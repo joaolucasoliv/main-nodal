@@ -2,9 +2,11 @@
 Nodal · Urban Changemakers of Latin America — interactive directory.
 Run: streamlit run src/dashboard/app.py
 """
+import csv
 import re
 import sys
 import unicodedata
+from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -308,6 +310,9 @@ st.markdown(f"""
           -webkit-background-clip: text; background-clip: text;
           -webkit-text-fill-color: transparent; }}
 
+    /* Hide the auto-rendered dialog title — the body has its own h1 */
+    div[role="dialog"] h2 {{ display: none; }}
+
     /* Subtle green underline accent under top bar */
     .accent-line {{
         height: 2px; width: 100%;
@@ -392,11 +397,17 @@ with st.sidebar:
     all_focus = sorted({f for lst in df["focus_areas"] for f in lst})
     sel_focus = st.multiselect(t("sb_focus", lang), all_focus, default=all_focus)
 
-    df_base = df[
-        df["type"].isin(sel_types)
-        & df["country"].isin(sel_countries)
-        & df["focus_areas"].apply(lambda lst: any(f in sel_focus for f in lst) or not lst)
-    ]
+    # An empty multiselect means "no filter" rather than "match nothing" —
+    # otherwise clearing a chip wipes the whole dashboard.
+    type_ok    = df["type"].isin(sel_types)         if sel_types     else True
+    country_ok = df["country"].isin(sel_countries)  if sel_countries else True
+    if sel_focus:
+        focus_ok = df["focus_areas"].apply(
+            lambda lst: any(f in sel_focus for f in lst) or not lst
+        )
+    else:
+        focus_ok = True
+    df_base = df[type_ok & country_ok & focus_ok]
 
 # Apply search on top of filters
 search_term = st.session_state.search.strip().lower()
@@ -420,7 +431,8 @@ name_by_slug = {slugify(n): n for n in df["name"]}
 
 # Deep-link: ?org=slug-or-name opens the profile once per session.
 # (Without the guard, closing the dialog would trigger an infinite re-open loop.)
-_qp_org = st.query_params.get("org")
+_qp_raw = st.query_params.get("org")
+_qp_org = _qp_raw[0] if isinstance(_qp_raw, list) else _qp_raw
 if (
     _qp_org
     and st.session_state.selected_org is None
@@ -439,7 +451,7 @@ def class_badge_html(actor_class: str, lang: str) -> str:
     return f'<span class="class-badge cb-{actor_class}">{label}</span>'
 
 # ── Profile dialog ───────────────────────────────────────────────────────────
-@st.dialog(" ", width="large")
+@st.dialog("·", width="large")
 def show_profile(name: str):
     import urllib.parse
     row = df[df["name"] == name]
@@ -460,8 +472,10 @@ def show_profile(name: str):
     st.markdown(f'<div style="margin-bottom:0.7rem;">{pills}</div>', unsafe_allow_html=True)
 
     # ── Contact block (fast path to reach out) ──────────────────────────────
-    email = (row.get("email") or "").strip()
-    website = row.get("website") if pd.notna(row.get("website")) else ""
+    raw_email = row.get("email")
+    email = str(raw_email).strip() if pd.notna(raw_email) else ""
+    raw_site = row.get("website")
+    website = str(raw_site).strip() if pd.notna(raw_site) else ""
     chips = []
     if email:
         subject = urllib.parse.quote(f"Nodal · {row['name']}")
@@ -596,6 +610,9 @@ def show_profile(name: str):
                 )
 
 if st.session_state.selected_org:
+    # Keep the URL in sync with what's actually open, so copying the browser
+    # URL always shares the right profile (not a stale slug from earlier).
+    st.query_params["org"] = slugify(st.session_state.selected_org)
     show_profile(st.session_state.selected_org)
     st.session_state.selected_org = None
 
@@ -674,7 +691,8 @@ else:
                             key="map_chart")
     if event and event.get("selection") and event["selection"].get("points"):
         pt = event["selection"]["points"][0]
-        clicked_name = pt.get("hovertext") or pt.get("customdata", [None])[0]
+        cd = pt.get("customdata") or [None]
+        clicked_name = pt.get("hovertext") or (cd[0] if cd else None)
         if clicked_name:
             st.session_state.selected_org = clicked_name
             st.rerun()
@@ -742,6 +760,7 @@ with col_d:
 
 # ── Matrix ───────────────────────────────────────────────────────────────────
 st.markdown(f"## {t('sec_matrix', lang)}")
+st.markdown(f'<div class="intro">{t("sec_matrix_intro", lang)}</div>', unsafe_allow_html=True)
 if len(df_f) > 0:
     pivot = seg.cross_country_focus(df_f)
     pivot = pivot.loc[pivot.sum(axis=1).sort_values(ascending=False).index]
@@ -776,10 +795,16 @@ def load_courses(path: Path) -> pd.DataFrame:
     if not path.exists():
         return pd.DataFrame()
     c = pd.read_csv(path)
-    c["start_date"] = pd.to_datetime(c["start_date"], errors="coerce")
-    c["end_date"]   = pd.to_datetime(c["end_date"],   errors="coerce")
+    for date_col in ("start_date", "end_date"):
+        if date_col in c.columns:
+            c[date_col] = pd.to_datetime(c[date_col], errors="coerce")
     for col in ("instructors", "focus_areas", "includes"):
-        c[col] = c[col].fillna("").apply(lambda s: [x.strip() for x in s.split(";") if x.strip()])
+        if col in c.columns:
+            c[col] = c[col].fillna("").apply(
+                lambda s: [x.strip() for x in str(s).split(";") if x.strip()]
+            )
+        else:
+            c[col] = [[] for _ in range(len(c))]
     return c
 
 MONTHS_ES = ["enero", "febrero", "marzo", "abril", "mayo", "junio",
@@ -808,11 +833,12 @@ if not courses.empty:
 
         for _, c in upcoming.iterrows():
             date_str = fmt_date_range(c["start_date"], c["end_date"], lang)
-            sessions_str = t("c_sessions", lang,
-                             n=int(c["sessions"]), h=int(c["hours_per_session"]))
+            n_sessions = int(c["sessions"]) if pd.notna(c.get("sessions")) else 0
+            n_hours    = int(c["hours_per_session"]) if pd.notna(c.get("hours_per_session")) else 0
+            sessions_str = t("c_sessions", lang, n=n_sessions, h=n_hours)
             desc_col = f"description_{lang}"
-            desc = c[desc_col] if desc_col in c and pd.notna(c.get(desc_col)) else \
-                   (c.get("description_es") or "")
+            desc = (c.get(desc_col) if pd.notna(c.get(desc_col)) else None) \
+                   or c.get("description_es") or ""
             pills = " ".join(f'<span class="pill">{f}</span>' for f in c["focus_areas"])
             instructors_str = " · ".join(c["instructors"])
             includes_str = " · ".join(c["includes"])
@@ -834,6 +860,112 @@ if not courses.empty:
                 f'</div>',
                 unsafe_allow_html=True,
             )
+
+# ── Propose a member — crowdsourced submissions ──────────────────────────────
+SUBMISSIONS_PATH = Path(__file__).parent.parent.parent / "data" / "submissions.csv"
+SUBMISSION_FIELDS = [
+    "submitted_at", "submitter_name", "submitter_email",
+    "name", "actor_class", "type", "city", "country",
+    "focus_areas", "founded_year", "description",
+    "website", "email", "source", "status",
+]
+
+def append_submission(entry: dict) -> None:
+    """Append a new proposal to submissions.csv (creating it if needed).
+
+    Submissions land in a separate file so the curated directory stays
+    review-gated — nothing shows up in the main dataset until a curator
+    promotes it.
+    """
+    SUBMISSIONS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    new_file = not SUBMISSIONS_PATH.exists()
+    with SUBMISSIONS_PATH.open("a", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=SUBMISSION_FIELDS)
+        if new_file:
+            w.writeheader()
+        w.writerow({k: entry.get(k, "") for k in SUBMISSION_FIELDS})
+
+CLASS_OPTIONS = [
+    ("institution",    t("cls_institution",   lang)),
+    ("civil_society",  t("cls_civil_society", lang)),
+    ("politician",     t("cls_politician",    lang)),
+    ("entrepreneur",   t("cls_entrepreneur",  lang)),
+    ("company",        t("cls_company",       lang)),
+]
+_class_label_to_key = {lbl: key for key, lbl in CLASS_OPTIONS}
+_known_focus = sorted({f for lst in df["focus_areas"] for f in lst})
+
+st.markdown(f"## {t('sec_propose', lang)}")
+st.markdown(f'<div class="intro">{t("sec_propose_intro", lang)}</div>', unsafe_allow_html=True)
+
+with st.expander(t("prop_expand", lang), expanded=False):
+    with st.form("propose_member", clear_on_submit=True):
+        pc1, pc2 = st.columns(2)
+        with pc1:
+            f_name     = st.text_input(t("prop_name", lang))
+            f_class_lbl= st.selectbox(t("prop_class", lang),
+                                       [lbl for _, lbl in CLASS_OPTIONS])
+            f_type     = st.text_input(t("prop_type", lang),
+                                        help=t("prop_type_help", lang))
+            f_city     = st.text_input(t("prop_city", lang))
+            f_country  = st.text_input(t("prop_country", lang))
+            f_founded  = st.number_input(t("prop_founded", lang),
+                                          min_value=1800, max_value=2100,
+                                          value=2020, step=1)
+        with pc2:
+            f_focus    = st.multiselect(t("prop_focus", lang), _known_focus)
+            f_focus_other = st.text_input(t("prop_focus_other", lang),
+                                           help=t("prop_focus_other_help", lang))
+            f_website  = st.text_input(t("prop_website", lang))
+            f_email    = st.text_input(t("prop_email", lang))
+            f_desc     = st.text_area(t("prop_desc", lang), height=120)
+
+        st.markdown(f'<div class="note" style="margin-top:0.6rem;">{t("prop_who", lang)}</div>',
+                    unsafe_allow_html=True)
+        wc1, wc2 = st.columns(2)
+        with wc1:
+            f_sub_name = st.text_input(t("prop_your_name", lang))
+        with wc2:
+            f_sub_email= st.text_input(t("prop_your_email", lang))
+
+        submitted = st.form_submit_button(t("prop_submit", lang), type="primary")
+
+    if submitted:
+        # Minimal validation — required fields only.
+        missing = [k for k, v in {
+            "name": f_name, "city": f_city, "country": f_country,
+            "description": f_desc, "submitter_email": f_sub_email,
+        }.items() if not str(v).strip()]
+        if missing:
+            st.error(t("prop_missing", lang))
+        elif f_name.strip() in set(df["name"]):
+            st.warning(t("prop_duplicate", lang, name=f_name.strip()))
+        else:
+            focus_list = list(f_focus)
+            if f_focus_other.strip():
+                focus_list += [x.strip() for x in f_focus_other.split(",") if x.strip()]
+            entry = {
+                "submitted_at":    datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                "submitter_name":  f_sub_name.strip(),
+                "submitter_email": f_sub_email.strip(),
+                "name":            f_name.strip(),
+                "actor_class":     _class_label_to_key.get(f_class_lbl, "institution"),
+                "type":            f_type.strip() or "Organization",
+                "city":            f_city.strip(),
+                "country":         f_country.strip(),
+                "focus_areas":     ";".join(focus_list),
+                "founded_year":    int(f_founded),
+                "description":     f_desc.strip(),
+                "website":         f_website.strip(),
+                "email":           f_email.strip(),
+                "source":          "community-submission",
+                "status":          "pending",
+            }
+            try:
+                append_submission(entry)
+                st.success(t("prop_success", lang, name=entry["name"]))
+            except Exception as e:
+                st.error(t("prop_error", lang, err=str(e)))
 
 # ── Connect with leaders — tabbed actor navigation ───────────────────────────
 st.markdown(f"## {t('sec_connect', lang)}")
