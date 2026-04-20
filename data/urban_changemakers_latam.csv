@@ -1,0 +1,43 @@
+name,type,city,country,lat,lon,focus_areas,founded_year,description,source
+Lima Cómo Vamos,Observatory,Lima,Peru,-12.0464,-77.0428,Governance;Public Space;Housing,2010,Citizen observatory tracking urban quality of life in Lima through independent indicators.,americasquarterly.org
+Ocupa tu Calle,Collective,Lima,Peru,-12.0464,-77.0428,Public Space;Governance,2014,Citizen urbanism initiative activating neglected public spaces; UN-Habitat & Avina supported.,urbanagendaplatform.org
+Sistema Urbano,Network,Lima,Peru,-12.0464,-77.0428,Governance;Public Space;Climate;Housing;Mobility,2019,Ecosystem of Latin American urban projects led by Mariana Alegre Escorza.,sistemaurbano.org
+Nodal,Network,Lima,Peru,-12.0464,-77.0428,Governance;Public Space;Climate,2022,Latin American Urban Nodes — community of collective urbanism across the region.,sistemaurbano.org
+Clima Urbano,Program,Lima,Peru,-12.0464,-77.0428,Climate;Public Space,2021,Urban climate action program within Sistema Urbano ecosystem.,sistemaurbano.org
+Bogotá Cómo Vamos,Observatory,Bogotá,Colombia,4.7110,-74.0721,Governance;Mobility;Housing,1998,Founding member of the Cómo Vamos network; monitors quality of life indicators.,redcomovamos.org
+Medellín Cómo Vamos,Observatory,Medellín,Colombia,6.2442,-75.5812,Governance;Public Space;Mobility,2006,Citizen monitoring of Medellín's urban transformation and social urbanism model.,redcomovamos.org
+Cali Cómo Vamos,Observatory,Cali,Colombia,3.4516,-76.5320,Governance;Public Space,2005,Quality-of-life observatory for Cali and its metropolitan area.,redcomovamos.org
+Barranquilla Cómo Vamos,Observatory,Barranquilla,Colombia,10.9685,-74.7813,Governance;Climate,2007,Citizen observatory monitoring urban quality in Barranquilla.,redcomovamos.org
+Cartagena Cómo Vamos,Observatory,Cartagena,Colombia,10.3910,-75.4794,Governance;Housing;Climate,2005,Tracks indicators in Cartagena with focus on inequality and coastal risk.,redcomovamos.org
+Manizales Cómo Vamos,Observatory,Manizales,Colombia,5.0703,-75.5138,Governance;Climate,2007,Andean city observatory with focus on seismic and climate resilience.,redcomovamos.org
+Quito Cómo Vamos,Observatory,Quito,Ecuador,-0.1807,-78.4678,Governance;Mobility,2013,Ecuador's branch of the Cómo Vamos citizen monitoring network.,redcomovamos.org
+Groncol,Organization,Bogotá,Colombia,4.7110,-74.0721,Climate;Public Space,2009,Green infrastructure and urban sustainability solutions including living walls.,americasquarterly.org
+Econduce,Organization,Mexico City,Mexico,19.4326,-99.1332,Mobility;Climate,2014,Electric scooter sharing cooperative reducing emissions in CDMX.,americasquarterly.org
+Lugares Públicos,Collective,Mexico City,Mexico,19.4326,-99.1332,Public Space,2013,Mexico City placemaking collective; organizes regional placemaking conferences.,placemakingx.org
+Mi Policía,Program,Mexico City,Mexico,19.4326,-99.1332,Governance,2013,Civic tech app connecting residents with local police in CDMX.,americasquarterly.org
+Mobilab,Program,São Paulo,Brazil,-23.5505,-46.6333,Mobility;Governance,2015,São Paulo mobility innovation lab inside the municipal government.,americasquarterly.org
+Placemaking Brasil,Network,São Paulo,Brazil,-23.5505,-46.6333,Public Space,2015,Pioneering place-led development network active in São Paulo and Brasília.,placemakingx.org
+Instituto Pólis,NGO,São Paulo,Brazil,-23.5505,-46.6333,Housing;Governance,1987,Research and advocacy NGO working on right to the city and urban policy.,polis.org.br
+IPPUC,Public,Curitiba,Brazil,-25.4284,-49.2733,Mobility;Governance;Climate,1965,Institute of Urban Research and Planning of Curitiba — global reference on BRT.,ippuc.org.br
+Espacio Lúdico,Collective,Santiago,Chile,-33.4489,-70.6693,Public Space,2010,Chilean placemaking collective that convened the first Placemaking Latinoamérica.,placemakingx.org
+Ciudad Viva,NGO,Santiago,Chile,-33.4489,-70.6693,Governance;Mobility,2000,Citizen-led planning institution born from the anti-highway movement.,archdaily.com
+Placemaking Latinoamérica,Network,Valparaíso,Chile,-33.0472,-71.6127,Public Space,2013,Regional conference network convening placemakers across Latin America.,placemakingx.org
+ELEMENTAL,Organization,Santiago,Chile,-33.4489,-70.6693,Housing;Public Space,2001,"""Do Tank"" practice focused on social housing and public infrastructure (Aravena).",elementalchile.cl
+Weatherizers Without Borders,NGO,Buenos Aires,Argentina,-34.6037,-58.3816,Housing;Climate,2010,Energy efficiency and weatherization for low-income housing across Southern Cone.,americasquarterly.org
+ACIJ,NGO,Buenos Aires,Argentina,-34.6037,-58.3816,Governance;Housing,2002,Asociación Civil por la Igualdad y la Justicia — right to the city advocacy.,acij.org.ar
+Fundación Avina,Foundation,Buenos Aires,Argentina,-34.6037,-58.3816,Governance;Climate,1994,Regional foundation funding civic innovation across Latin America.,avina.net
+LATINNO,Network,São Paulo,Brazil,-23.5505,-46.6333,Governance,2015,Database and network on democratic innovations in Latin America.,latinno.net
+C40 Cities LatAm,Network,Rio de Janeiro,Brazil,-22.9068,-43.1729,Climate;Mobility,2005,Latin American node of global cities climate leadership group.,c40.org
+Cities Alliance LAC,Network,Medellín,Colombia,6.2442,-75.5812,Housing;Governance,2001,Global partnership for urban poverty reduction active across Latin America.,citiesalliance.org
+UN-Habitat ROLAC,Public,Rio de Janeiro,Brazil,-22.9068,-43.1729,Housing;Governance;Climate,2012,UN-Habitat's Regional Office for Latin America and the Caribbean.,unhabitat.org
+IDB Cities Network,Network,Washington DC,United States,38.9072,-77.0369,Governance;Climate;Mobility,2011,Inter-American Development Bank network of emerging Latin American cities.,iadb.org
+WRI Ross Center Brasil,NGO,São Paulo,Brazil,-23.5505,-46.6333,Mobility;Climate,2014,Brazilian hub of WRI's sustainable cities program.,wrirosscities.org
+WRI México,NGO,Mexico City,Mexico,19.4326,-99.1332,Mobility;Climate,2006,Mexican hub of WRI's sustainable cities and transport research.,wrirosscities.org
+ITDP Brasil,NGO,Rio de Janeiro,Brazil,-22.9068,-43.1729,Mobility;Climate,2010,Institute for Transportation and Development Policy; Brazil office.,itdpbrasil.org
+ITDP México,NGO,Mexico City,Mexico,19.4326,-99.1332,Mobility;Public Space,2010,ITDP Mexico chapter working on BRT and cycling infrastructure.,itdp.mx
+Laboratorio para la Ciudad,Program,Mexico City,Mexico,19.4326,-99.1332,Governance;Public Space,2013,First city innovation lab in the Americas; inspired the civic-lab movement.,labcd.mx
+IMPLAN Guadalajara,Public,Guadalajara,Mexico,20.6597,-103.3496,Governance;Mobility,2016,Metropolitan Planning Institute for Greater Guadalajara.,implanguadalajara.gob.mx
+Observatorio Ciudadano de La Paz,Observatory,La Paz,Bolivia,-16.5000,-68.1500,Governance;Public Space,2009,Bolivian citizen observatory monitoring municipal quality of life.,lapazcomovamos.org
+Red de Ciudades Cómo Vamos,Network,Bogotá,Colombia,4.7110,-74.0721,Governance;Housing;Mobility,2009,Regional network of 15+ citizen observatories across Latin America.,redcomovamos.org
+Corporación Ciudad Accesible,NGO,Santiago,Chile,-33.4489,-70.6693,Public Space;Mobility,2001,Accessibility advocacy for Chilean public space and transport.,ciudadaccesible.cl
+Minha Sampa,Collective,São Paulo,Brazil,-23.5505,-46.6333,Governance;Public Space,2012,Citizen mobilization platform for São Paulo urban policy.,minhasampa.org.br

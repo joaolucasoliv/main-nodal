@@ -1,0 +1,41 @@
+timestamp,name,email,city,country,role,organization,interests,urban_challenges,engagement_mode,experience_years,how_heard
+2024-10-01 09:12:00,Ana Lima,ana.lima@gmail.com,Lima,Peru,Student,PUCP,Housing;Public Space;Climate,Informal settlements;Lack of green areas,Learn;Collaborate,2,Social media
+2024-10-01 10:05:00,Carlos Mendoza,cmendoza@planeacion.gov.co,Bogotá,Colombia,Public Worker,Secretaría de Planeación,Mobility;Governance;Housing,Traffic congestion;Displacement,Collaborate;Advocate,8,Colleague
+2024-10-01 11:30:00,Fernanda Costa,fernanda.costa@usp.br,São Paulo,Brazil,Researcher,USP,Climate;Mobility;Governance,Urban heat islands;Flooding,Research;Learn,5,Conference
+2024-10-02 08:45:00,Diego Rojas,diego.rojas@activist.org,Medellín,Colombia,Activist,Red de Barrios,Public Space;Housing;Governance,Displacement;Lack of community spaces,Advocate;Collaborate,10,Community event
+2024-10-02 09:20:00,Valentina Torres,v.torres@arch.com,Santiago,Chile,Professional,Estudio Torres & Asociados,Public Space;Mobility;Climate,Urban sprawl;Car dependency,Collaborate;Research,6,LinkedIn
+2024-10-02 10:55:00,Miguel Ángel Flores,mflores@implanmx.org,Guadalajara,Mexico,Public Worker,IMPLAN Guadalajara,Mobility;Governance;Climate,Poor public transport;Air quality,Advocate;Collaborate,12,Professional network
+2024-10-03 09:00:00,Laura Quispe,laura.quispe@gmail.com,Arequipa,Peru,Student,UNSA,Housing;Public Space,Informal settlements;Lack of parks,Learn,1,Social media
+2024-10-03 11:15:00,Rafael Gómez,rafael.gomez@ong.org,Quito,Ecuador,Activist,Colectivo Ciudad Viva,Governance;Housing;Public Space,Evictions;Lack of participation,Advocate;Collaborate,7,Friend referral
+2024-10-04 08:30:00,Isabella Martins,i.martins@prefeitura.sp.gov.br,São Paulo,Brazil,Public Worker,Prefeitura de São Paulo,Housing;Climate;Mobility,Flooding;Informal settlements;Traffic,Collaborate;Advocate,9,Conference
+2024-10-04 10:00:00,Sebastián Cruz,s.cruz@unal.edu.co,Bogotá,Colombia,Student,Universidad Nacional,Mobility;Climate;Governance,Car dependency;Air quality,Learn;Research,3,Professor referral
+2024-10-05 09:45:00,Camila Reyes,c.reyes@arch.cl,Santiago,Chile,Professional,ELEMENTAL,Housing;Public Space;Climate,Social housing quality;Urban heat islands,Collaborate;Research,4,Social media
+2024-10-05 11:00:00,Jorge Huanca,jorge.huanca@munilima.gob.pe,Lima,Peru,Public Worker,Municipalidad de Lima,Governance;Mobility;Public Space,Traffic congestion;Pedestrian safety,Advocate;Collaborate,15,Institutional email
+2024-10-06 08:00:00,Natalia Vargas,n.vargas@activist.co,Medellín,Colombia,Activist,Territorio Sur,Housing;Governance,Displacement;Gentrification,Advocate,6,Community event
+2024-10-06 10:30:00,Andrés Castillo,a.castillo@uanl.mx,Monterrey,Mexico,Student,UANL,Mobility;Climate;Public Space,Heat;Lack of sidewalks,Learn;Collaborate,2,Social media
+2024-10-07 09:15:00,Paola Herrera,p.herrera@researcher.edu,Buenos Aires,Argentina,Researcher,CONICET,Governance;Housing;Climate,Informal settlements;Flooding;Gentrification,Research;Collaborate,7,Academic network
+2024-10-07 11:45:00,Tomás Aguilar,t.aguilar@gmail.com,Rosario,Argentina,Professional,Municipio de Rosario,Public Space;Mobility,Lack of cycling infrastructure;Pedestrian safety,Collaborate,5,LinkedIn
+2024-10-08 08:30:00,Mariana Espinoza,m.espinoza@student.edu,Quito,Ecuador,Student,PUCE,Housing;Climate;Governance,Informal settlements;Air quality,Learn,1,Social media
+2024-10-08 10:00:00,Héctor Morales,h.morales@planning.gov.mx,Mexico City,Mexico,Public Worker,SEDUVI,Mobility;Housing;Governance,Traffic;Social housing deficit;Corruption,Advocate;Collaborate,11,Government network
+2024-10-09 09:00:00,Sofía Lara,sofia.lara@ong.pe,Lima,Peru,Activist,Ciudad para Todos,Public Space;Housing;Governance,Lack of parks;Evictions,Advocate;Collaborate,4,Friend referral
+2024-10-09 11:30:00,Emilio Rondón,e.rondon@usb.ve,Caracas,Venezuela,Researcher,USB,Governance;Housing;Climate,Infrastructure decay;Water scarcity,Research,8,Academic network
+2024-10-10 09:45:00,Daniela Ponce,d.ponce@arch.com,Bogotá,Colombia,Professional,Taller de Espacio Público,Public Space;Mobility;Climate,Car dependency;Lack of trees,Collaborate;Research,3,Social media
+2024-10-10 11:00:00,Pablo Nieto,p.nieto@lima.gob.pe,Lima,Peru,Public Worker,Municipalidad de Lima,Housing;Governance;Mobility,Informal settlements;Traffic,Collaborate,13,Institutional email
+2024-10-11 09:00:00,Luciana Flores,l.flores@ucsm.edu.pe,Arequipa,Peru,Student,UCSM,Housing;Public Space,Informal settlements;Lack of green areas,Learn;Collaborate,2,Professor referral
+2024-10-11 10:30:00,Martín López,m.lopez@activist.ar,Buenos Aires,Argentina,Activist,Asamblea Villa 31,Housing;Governance,Evictions;Gentrification;Lack of participation,Advocate,9,Community event
+2024-10-12 08:00:00,Carolina Vega,c.vega@iteso.mx,Guadalajara,Mexico,Student,ITESO,Climate;Public Space;Mobility,Urban heat;Lack of public transport,Learn,2,Social media
+2024-10-12 10:15:00,Felipe Ortega,f.ortega@researcher.cl,Valparaíso,Chile,Researcher,PUCV,Housing;Governance;Climate,Coastal vulnerability;Informal settlements,Research;Collaborate,6,Academic network
+2024-10-13 09:30:00,Alejandra Medina,a.medina@gmail.com,Guayaquil,Ecuador,Professional,AMC Arquitectura,Public Space;Mobility;Climate,Flooding;Heat;Lack of pedestrian space,Collaborate,4,LinkedIn
+2024-10-13 11:00:00,Roberto Castañeda,r.castaneda@activist.mx,Mexico City,Mexico,Activist,Frente de Ciclistas Urbanos,Mobility;Climate;Governance,Car dependency;Air quality;Road deaths,Advocate;Collaborate,11,Community event
+2024-10-14 09:00:00,Gabriela Santos,g.santos@ufrj.br,Rio de Janeiro,Brazil,Researcher,UFRJ,Housing;Governance;Climate,Favelas;Flooding;Police violence,Research,5,Conference
+2024-10-14 10:30:00,Oscar Mendivil,o.mendivil@student.edu,Barranquilla,Colombia,Student,Uninorte,Climate;Public Space;Mobility,Flooding;Heat;Lack of cycling infra,Learn,1,Social media
+2024-10-15 09:15:00,Viviana Rocha,v.rocha@curitiba.gov.br,Curitiba,Brazil,Public Worker,IPPUC,Mobility;Climate;Governance,Urban mobility models;Green infrastructure,Collaborate;Research,10,Conference
+2024-10-15 11:00:00,Álvaro Peñaloza,a.penaloza@arch.co,Cali,Colombia,Professional,Estudio Urbano,Housing;Public Space;Mobility,Informal settlements;Lack of parks;Traffic,Collaborate,7,LinkedIn
+2024-10-16 09:00:00,Teresa Mamani,t.mamani@gmail.com,El Alto,Bolivia,Activist,Organización Mujeres Urbanas,Housing;Governance;Public Space,Informal settlements;Lack of services;Exclusion of women,Advocate,6,Friend referral
+2024-10-16 10:45:00,Rodrigo Allende,r.allende@uchile.cl,Santiago,Chile,Researcher,U de Chile,Housing;Governance;Climate,Gentrification;Housing deficit;Climate risk,Research;Collaborate,9,Academic network
+2024-10-17 09:30:00,Patricia Salinas,p.salinas@municusco.gob.pe,Cusco,Peru,Public Worker,Municipalidad de Cusco,Governance;Housing;Public Space,Heritage conservation;Informal growth;Tourism pressure,Advocate;Collaborate,8,Institutional email
+2024-10-17 11:00:00,Ernesto Figueroa,e.figueroa@student.edu,Cochabamba,Bolivia,Student,UMSS,Housing;Mobility;Public Space,Informal settlements;Lack of transport,Learn,2,Social media
+2024-10-18 08:30:00,Claudia Ríos,c.rios@activist.ec,Guayaquil,Ecuador,Activist,Frente Urbano,Climate;Housing;Governance,Flooding;Informal settlements;Corruption,Advocate,5,Community event
+2024-10-18 10:00:00,Ignacio Blanco,i.blanco@arch.com.ar,Córdoba,Argentina,Professional,Estudio Blanco,Housing;Public Space;Mobility,Social housing deficit;Lack of parks;Car dependency,Collaborate,6,LinkedIn
+2024-10-19 09:00:00,Daniela Chávez,d.chavez@unmsm.edu.pe,Lima,Peru,Student,UNMSM,Governance;Housing;Public Space,Corruption;Informal settlements;Lack of spaces,Learn;Advocate,3,Professor referral
+2024-10-19 10:30:00,Mauricio Arteaga,m.arteaga@iplanfor.gov.br,Fortaleza,Brazil,Public Worker,IPLANFOR,Climate;Mobility;Housing,Flooding;Heat;Informal settlements,Collaborate;Advocate,7,Conference
