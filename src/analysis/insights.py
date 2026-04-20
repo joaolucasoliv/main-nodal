@@ -1,74 +1,54 @@
 """
-Generate plain-language insights for Nodal product recommendations.
+Generate plain-language insights for Nodal product recommendations (i18n-aware).
 """
 import pandas as pd
 from src.pipeline import segment as seg
+from src.dashboard.i18n import t
 
 
-def generate(df: pd.DataFrame) -> list[dict]:
+def generate(df: pd.DataFrame, lang: str = "es") -> list[dict]:
     insights = []
 
     types = seg.by_type(df)
     top_type = types.iloc[0]["type"]
     top_type_count = int(types.iloc[0]["count"])
     insights.append({
-        "category": "Ecosystem Composition",
-        "finding": f"{top_type}s are the most common actor type ({top_type_count} entries).",
-        "implication": f"Design Nodal's onboarding to speak fluently to {top_type}s first — "
-                       "they are the densest, most-mobilised node in the ecosystem.",
+        "category": t("ins_comp", lang),
+        "finding":  t("ins_comp_f", lang, type=top_type, n=top_type_count),
+        "implication": t("ins_comp_a", lang, type=top_type),
     })
 
     countries = seg.by_country(df)
-    top3_countries = countries.head(3)["country"].tolist()
+    top3 = countries.head(3)["country"].tolist()
     insights.append({
-        "category": "Geographic Density",
-        "finding": f"Top three countries: {', '.join(top3_countries)}. "
-                   f"{df['country'].nunique()} countries represented.",
-        "implication": "Pilot the first platform features where ecosystem density is highest, "
-                       "then replicate outward. Avoid diluting effort across all countries early.",
+        "category": t("ins_geo", lang),
+        "finding":  t("ins_geo_f", lang, list=", ".join(top3), n=df["country"].nunique()),
+        "implication": t("ins_geo_a", lang),
     })
 
     focus = seg.by_focus(df)
     top3_focus = focus.head(3).index.tolist()
     insights.append({
-        "category": "Thematic Landscape",
-        "finding": f"Most-addressed focus areas: {', '.join(top3_focus)}.",
-        "implication": "These are where peer-learning demand is highest. "
-                       "Seed the first working groups and content library around these themes.",
+        "category": t("ins_theme", lang),
+        "finding":  t("ins_theme_f", lang, list=", ".join(top3_focus)),
+        "implication": t("ins_theme_a", lang),
     })
 
     if "generation" in df.columns:
         gens = seg.by_generation(df)
         new_gen = int(gens.get("2020s (new generation)", 0))
         insights.append({
-            "category": "Generational Mix",
-            "finding": f"{new_gen} organisations were founded in the 2020s, "
-                       f"alongside long-standing institutional actors.",
-            "implication": "Nodal sits between two generations — young initiatives need visibility and "
-                           "mentorship; legacy institutions need fresh talent and energy. "
-                           "Design exchanges that trade these assets.",
+            "category": t("ins_gen", lang),
+            "finding":  t("ins_gen_f", lang, n=new_gen),
+            "implication": t("ins_gen_a", lang),
         })
 
     cities = seg.by_city(df)
-    city_count = df["city"].nunique()
     top_city = cities.iloc[0]["city"]
     insights.append({
-        "category": "Urban Footprint",
-        "finding": f"Presence in {city_count} cities. {top_city} is the single densest node.",
-        "implication": "Host the founding convening in the densest node and stream it regionally — "
-                       "this concentrates energy without excluding distributed members.",
+        "category": t("ins_foot", lang),
+        "finding":  t("ins_foot_f", lang, n=df["city"].nunique(), city=top_city),
+        "implication": t("ins_foot_a", lang),
     })
 
     return insights
-
-
-def top_cities_per_type(df: pd.DataFrame, top_n: int = 3) -> pd.DataFrame:
-    return (
-        df.groupby(["type", "city"])
-        .size()
-        .reset_index(name="count")
-        .sort_values(["type", "count"], ascending=[True, False])
-        .groupby("type")
-        .head(top_n)
-        .reset_index(drop=True)
-    )
