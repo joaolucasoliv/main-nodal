@@ -35,6 +35,7 @@ TRANSLATIONS = {
     "sec_insights": {"es": "Lecturas para Nodal",   "en": "Readings for Nodal"},
     "sec_dir":      {"es": "Directorio",            "en": "Directory"},
     "sec_courses":  {"es": "Próximos cursos",       "en": "Upcoming courses"},
+    "sec_research": {"es": "Hub de Investigación",  "en": "Research Hub"},
 
     # Subsections
     "sub_type":  {"es": "Por tipo de actor",  "en": "By actor type"},
@@ -137,6 +138,12 @@ TRANSLATIONS = {
                           "en": "Click any organisation to open its full profile."},
     "sec_courses_intro": {"es": "Formaciones activas del Programa Nodal 2026. Inscripciones abiertas.",
                           "en": "Active trainings from the Nodal 2026 program. Enrolment open."},
+    "sec_research_intro": {"es": "Temas clave investigados y base de datos académica.",
+                           "en": "Key topics researched and academic paper database."},
+    "sub_research_topics": {"es": "Temas de Investigación", "en": "Research Topics"},
+    "sub_research_database": {"es": "Base de Datos Académica", "en": "Academic Database"},
+    "paper_authors": {"es": "Autores", "en": "Authors"},
+    "paper_read": {"es": "Leer investigación →", "en": "Read research →"},
 
     # Course cards
     "c_instructors": {"es": "Docentes",              "en": "Instructors"},
@@ -179,6 +186,8 @@ TRANSLATIONS = {
     "tab_politician":   {"es": "Políticos",      "en": "Politicians"},
     "tab_entrepreneur": {"es": "Emprendedores",  "en": "Entrepreneurs"},
     "tab_company":      {"es": "Empresas",       "en": "Companies"},
+    "tab_professor":    {"es": "Profesores",     "en": "Professors"},
+    "tab_researcher":   {"es": "Investigadores", "en": "Researchers"},
     "tab_empty":        {"es": "Aún no hay entradas en esta categoría. Sube un CSV con la columna actor_class para empezar a poblarla.",
                          "en": "No entries yet in this category. Upload a CSV with the actor_class column to start populating it."},
 
@@ -250,12 +259,23 @@ TRANSLATIONS = {
     "prop_error":        {"es": "No se pudo guardar la propuesta: {err}",
                           "en": "Could not save the proposal: {err}"},
 
+    # Propose a research
+    "prop_res_expand":   {"es": "Proponer una investigación académica", "en": "Propose an academic research"},
+    "prop_res_title":    {"es": "Título de la investigación", "en": "Research title"},
+    "prop_res_authors":  {"es": "Autores", "en": "Authors"},
+    "prop_res_year":     {"es": "Año de publicación", "en": "Publication year"},
+    "prop_res_link":     {"es": "Enlace al documento", "en": "Link to document"},
+    "prop_res_abstract": {"es": "Resumen (abstract)", "en": "Abstract"},
+    "prop_res_success":  {"es": "Recepción confirmada: «{name}». Será revisada.", "en": "Received: \"{name}\". It will be reviewed."},
+
     # Actor class labels (singular, for pills/badges)
     "cls_institution":   {"es": "Institución",   "en": "Institution"},
     "cls_civil_society": {"es": "Sociedad civil","en": "Civil society"},
     "cls_politician":    {"es": "Político/a",    "en": "Politician"},
     "cls_entrepreneur":  {"es": "Emprendedor/a", "en": "Entrepreneur"},
     "cls_company":       {"es": "Empresa",       "en": "Company"},
+    "cls_professor":     {"es": "Profesor/a",    "en": "Professor"},
+    "cls_researcher":    {"es": "Investigador/a","en": "Researcher"},
 }
 
 

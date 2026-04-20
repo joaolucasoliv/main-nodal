@@ -43,6 +43,8 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
         "Politician": "politician",
         "Entrepreneur": "entrepreneur",
         "Company": "company",
+        "Professor": "professor",
+        "Researcher": "researcher",
     }
     derived = df["type"].map(type_to_class)
     if "actor_class" in df.columns:

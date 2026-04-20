@@ -6,6 +6,7 @@ import csv
 import re
 import sys
 import unicodedata
+import base64
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -33,7 +34,7 @@ st.set_page_config(
 INK         = "#111111"
 MUTED       = "#6B6B6B"
 SOFT        = "#EDEDED"
-PAPER       = "#FAFAF7"
+PAPER       = "#FFFFFF"
 GREEN       = "#6FA83D"
 GREEN_DARK  = "#4F7F28"
 GREEN_SOFT  = "#E9F1DB"
@@ -50,6 +51,28 @@ if "search" not in st.session_state:
 st.markdown(f"""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:wght@600;700;800&display=swap');
+
+    .stApp {{
+        background-color: {PAPER};
+    }}
+    [data-testid="stSidebar"] > div:first-child {{
+        background-color: #F2ECEC !important;
+    }}
+    
+    div[data-baseweb="input"] > div,
+    div[data-baseweb="select"] > div,
+    div[data-baseweb="base-input"] > div,
+    div[data-baseweb="textarea"] > div {{
+        background-color: rgba(255, 255, 255, 0.5) !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        border-radius: 8px !important;
+    }}
+
+    [data-testid="stFileUploaderDropzone"] {{
+        background-color: rgba(255, 255, 255, 0.5) !important;
+        border: 1.5px dashed rgba(0, 0, 0, 0.18) !important;
+        border-radius: 8px !important;
+    }}
 
     html, body, [class*="css"] {{
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -242,6 +265,7 @@ st.markdown(f"""
     .cb-politician    {{ background: #F6E8EE; color: #8A2B50; }}
     .cb-entrepreneur  {{ background: #FFF2D6; color: #7A541A; }}
     .cb-company       {{ background: #ECECEC; color: #2E2E2E; }}
+    .cb-professor     {{ background: #EAE6F8; color: #4F388B; }}
 
     /* Contact block inside profile */
     .contact-row {{
@@ -328,7 +352,7 @@ bar_l, _, bar_r1, bar_r2 = st.columns([6, 3.5, 0.8, 0.8])
 with bar_l:
     st.markdown(
         f'<div style="font-weight:800; font-size:1.05rem; color:{INK}; padding-top:0.35rem;">'
-        f'<span style="color:{GREEN_DARK};">●</span>&nbsp; NODAL'
+        f'<span style="color:{GREEN_DARK};">●</span>&nbsp; Sistema Urbano | Nodal &nbsp;<span style="color:{GREEN_DARK};">●</span>'
         f'</div>',
         unsafe_allow_html=True,
     )
@@ -362,9 +386,15 @@ def get_data(source: str, sheet_id: str = "", uploaded=None) -> pd.DataFrame:
 
 # ── Sidebar ──────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown(f'<div style="font-weight:800; font-size:1.3rem; color:{INK};">'
-                f'<span style="color:{GREEN_DARK};">●</span>&nbsp; NODAL</div>',
-                unsafe_allow_html=True)
+    LOGO_PATH = Path(__file__).parent.parent / "assets" / "logo.png"
+    if LOGO_PATH.exists():
+        with open(LOGO_PATH, "rb") as f:
+            b64 = base64.b64encode(f.read()).decode()
+        st.markdown(f'<img src="data:image/png;base64,{b64}" width="220" style="margin-left:-0.5rem; margin-top:-1rem; margin-bottom:1rem;">', unsafe_allow_html=True)
+    else:
+        st.markdown(f'<div style="font-weight:800; font-size:1.3rem; color:{INK};">'
+                    f'<span style="color:{GREEN_DARK};">●</span>&nbsp; NODAL</div>',
+                    unsafe_allow_html=True)
     st.caption(t("sb_tag", lang))
     st.markdown("")
 
@@ -444,7 +474,7 @@ if (
         st.session_state._deep_linked = True
 
 # Class-badge helper
-CLASS_KEYS = ["institution", "civil_society", "politician", "entrepreneur", "company"]
+CLASS_KEYS = ["institution", "civil_society", "politician", "entrepreneur", "company", "professor", "researcher"]
 
 def class_badge_html(actor_class: str, lang: str) -> str:
     label = t(f"cls_{actor_class}", lang) if actor_class in CLASS_KEYS else actor_class
@@ -643,11 +673,12 @@ with sc2:
 
 # ── Stats ────────────────────────────────────────────────────────────────────
 def stat(col, label, value, unit=""):
+    unit_html = f'<div class="stat-unit">{unit}</div>' if unit else ""
     col.markdown(
         f'<div class="stat">'
         f'<div class="stat-label">{label}</div>'
         f'<div class="stat-value">{value}</div>'
-        f'{("<div class=\"stat-unit\">" + unit + "</div>") if unit else ""}'
+        f'{unit_html}'
         f'</div>',
         unsafe_allow_html=True,
     )
@@ -683,7 +714,7 @@ else:
     )
     fig_map.update_traces(marker=dict(size=13, color=GREEN, opacity=0.85))
     fig_map.update_layout(margin=dict(t=0, b=0, l=0, r=0),
-                          paper_bgcolor="white", showlegend=False)
+                          paper_bgcolor=PAPER, showlegend=False)
 
     # Enable point selection — clicking a dot opens the profile
     event = st.plotly_chart(fig_map, use_container_width=True,
@@ -703,7 +734,7 @@ st.markdown(f'<div class="intro">{t("sec_who_intro", lang)}</div>', unsafe_allow
 
 def clean_chart(fig, height=320):
     fig.update_layout(
-        paper_bgcolor="white", plot_bgcolor="white",
+        paper_bgcolor=PAPER, plot_bgcolor=PAPER,
         margin=dict(t=5, b=5, l=0, r=10), height=height,
         font=dict(family="Inter", size=12, color=INK), showlegend=False,
     )
@@ -783,6 +814,50 @@ if len(df_f) > 0:
             f'<div class="insight-cat">{ins["category"]}</div>'
             f'<div class="insight-find">{ins["finding"]}</div>'
             f'<div class="insight-act">{ins["implication"]}</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+
+# ── Research Hub ─────────────────────────────────────────────────────────────
+PAPERS_PATH = Path(__file__).parent.parent.parent / "data" / "papers_database.csv"
+
+@st.cache_data(show_spinner=False)
+def load_papers(path: Path) -> pd.DataFrame:
+    if not path.exists():
+        return pd.DataFrame()
+    p = pd.read_csv(path)
+    if "focus_areas" in p.columns:
+        p["focus_areas"] = p["focus_areas"].fillna("").apply(
+            lambda s: [x.strip() for x in str(s).split(";") if x.strip()]
+        )
+    return p
+
+st.markdown(f"## {t('sec_research', lang)}")
+st.markdown(f'<div class="intro">{t("sec_research_intro", lang)}</div>', unsafe_allow_html=True)
+
+st.markdown(f"### {t('sub_research_topics', lang)}")
+all_focus = sorted({f for lst in df["focus_areas"] for f in lst})
+topics_html = " ".join(f'<span class="pill" style="font-size: 0.85rem; padding: 0.4rem 1rem; margin: 0 0.5rem 0.6rem 0;">{f}</span>' for f in all_focus)
+st.markdown(f'<div style="margin-bottom: 2rem;">{topics_html}</div>', unsafe_allow_html=True)
+
+st.markdown(f"### {t('sub_research_database', lang)}")
+papers = load_papers(PAPERS_PATH)
+if papers.empty:
+     st.info("No research papers in database.")
+else:
+    cols = st.columns(2)
+    for i, (_, p) in enumerate(papers.iterrows()):
+        col = cols[i % 2]
+        pills = " ".join(f'<span class="pill-muted">{f}</span>' for f in p.get("focus_areas", []))
+        col.markdown(
+            f'<div class="course-card" style="border-left: 4px solid {MUTED}; padding: 1.2rem; margin-bottom: 0.8rem; height: 95%; display: flex; flex-direction: column;">'
+            f'<div class="course-title" style="font-size: 1.25rem; line-height: 1.25; margin-bottom: 0.4rem;">{p["title"]}</div>'
+            f'<div class="course-meta">{t("paper_authors", lang)}: {p["authors"]} &nbsp;·&nbsp; {p["year"]}</div>'
+            f'<div style="margin:0.25rem 0 0.5rem 0;">{pills}</div>'
+            f'<div class="course-desc" style="font-size: 0.9rem; max-width: 100%; flex-grow: 1;">{p["abstract"]}</div>'
+            f'<div style="margin-top:auto;">'
+            f'<a class="course-cta" style="background: {INK}; padding: 0.4rem 1rem; align-self: flex-start; margin-top: 0.8rem;" href="{p["link"]}" target="_blank" rel="noopener">'
+            f'{t("paper_read", lang)}</a></div>'
             f'</div>',
             unsafe_allow_html=True,
         )
@@ -891,6 +966,8 @@ CLASS_OPTIONS = [
     ("politician",     t("cls_politician",    lang)),
     ("entrepreneur",   t("cls_entrepreneur",  lang)),
     ("company",        t("cls_company",       lang)),
+    ("professor",      t("cls_professor",     lang)),
+    ("researcher",     t("cls_researcher",    lang)),
 ]
 _class_label_to_key = {lbl: key for key, lbl in CLASS_OPTIONS}
 _known_focus = sorted({f for lst in df["focus_areas"] for f in lst})
@@ -967,6 +1044,51 @@ with st.expander(t("prop_expand", lang), expanded=False):
             except Exception as e:
                 st.error(t("prop_error", lang, err=str(e)))
 
+def append_research(entry: dict) -> None:
+    RESEARCH_SUBMISSIONS_PATH = Path(__file__).parent.parent.parent / "data" / "research_submissions.csv"
+    RESEARCH_SUBMISSIONS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    new_file = not RESEARCH_SUBMISSIONS_PATH.exists()
+    fields = ["submitted_at", "title", "authors", "year", "focus_areas", "link", "abstract"]
+    with RESEARCH_SUBMISSIONS_PATH.open("a", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=fields)
+        if new_file:
+            w.writeheader()
+        w.writerow({k: entry.get(k, "") for k in fields})
+
+with st.expander(t("prop_res_expand", lang), expanded=False):
+    with st.form("propose_research", clear_on_submit=True):
+        r_c1, r_c2 = st.columns(2)
+        with r_c1:
+            r_title = st.text_input(t("prop_res_title", lang))
+            r_authors = st.text_input(t("prop_res_authors", lang))
+            r_year = st.number_input(t("prop_res_year", lang), min_value=1900, max_value=2100, value=2024, step=1)
+            r_link = st.text_input(t("prop_res_link", lang))
+        with r_c2:
+            r_focus = st.multiselect(t("prop_focus", lang), _known_focus)
+            r_abstract = st.text_area(t("prop_res_abstract", lang), height=180)
+            
+        r_submitted = st.form_submit_button(t("prop_submit", lang), type="primary")
+
+    if r_submitted:
+        missing = [k for k, v in {"title": r_title, "authors": r_authors, "link": r_link}.items() if not str(v).strip()]
+        if missing:
+            st.error(t("prop_missing", lang))
+        else:
+            entry = {
+                "submitted_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                "title": r_title.strip(),
+                "authors": r_authors.strip(),
+                "year": int(r_year),
+                "focus_areas": ";".join(r_focus),
+                "link": r_link.strip(),
+                "abstract": r_abstract.strip()
+            }
+            try:
+                append_research(entry)
+                st.success(t("prop_res_success", lang, name=r_title.strip()))
+            except Exception as e:
+                st.error(t("prop_error", lang, err=str(e)))
+
 # ── Connect with leaders — tabbed actor navigation ───────────────────────────
 st.markdown(f"## {t('sec_connect', lang)}")
 st.markdown(f'<div class="intro">{t("sec_connect_intro", lang)}</div>', unsafe_allow_html=True)
@@ -995,6 +1117,8 @@ tab_defs = [
     ("politician",     t("tab_politician",   lang), "politician"),
     ("entrepreneur",   t("tab_entrepreneur", lang), "entrepreneur"),
     ("company",        t("tab_company",      lang), "company"),
+    ("professor",      t("tab_professor",    lang), "professor"),
+    ("researcher",     t("tab_researcher",   lang), "researcher"),
 ]
 tab_keys   = [k   for k, _, _ in tab_defs]
 tab_labels = {k: lbl for k, lbl, _ in tab_defs}
