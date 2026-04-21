@@ -650,7 +650,9 @@ if st.session_state.selected_org:
 st.markdown(f'<div class="eyebrow">{t("hero_kicker", lang)}</div>', unsafe_allow_html=True)
 st.markdown(f"# {t('title', lang)}")
 st.markdown(f'<div class="lede">{t("hero_lede", lang)}</div>', unsafe_allow_html=True)
-st.markdown(f'<div class="note">{t("note", lang)}</div>', unsafe_allow_html=True)
+st.markdown(f'<div class="intro">{t("hero_mission", lang)}</div>', unsafe_allow_html=True)
+st.markdown(f'<div class="intro">{t("hero_beta", lang)}</div>', unsafe_allow_html=True)
+st.markdown(f'<div class="note">{t("hero_transparency", lang)}</div>', unsafe_allow_html=True)
 
 st.markdown('<hr class="thick">', unsafe_allow_html=True)
 
