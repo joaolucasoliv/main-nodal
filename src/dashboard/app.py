@@ -48,6 +48,10 @@ if "search" not in st.session_state:
     st.session_state.search = ""
 if "_route_applied" not in st.session_state:
     st.session_state._route_applied = None
+if "_pending_scroll" not in st.session_state:
+    st.session_state._pending_scroll = None
+if "_directory_focus" not in st.session_state:
+    st.session_state._directory_focus = None
 
 # ── CSS ──────────────────────────────────────────────────────────────────────
 st.markdown(f"""
@@ -903,12 +907,53 @@ st.markdown(f"""
         line-height: 1.55;
         margin-bottom: 0.9rem;
     }}
+    .propose-route-grid {{
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.9rem;
+        margin: 0.25rem 0 1.1rem 0;
+    }}
+    .propose-route-card {{
+        background: linear-gradient(180deg, #FFFFFF 0%, #FAF7F0 100%);
+        border: 1px solid #E8E1D3;
+        border-radius: 22px;
+        padding: 1rem 1.05rem;
+        box-shadow: 0 18px 40px -42px rgba(17,17,17,0.38);
+    }}
+    .propose-route-kicker {{
+        color: {GREEN_DARK};
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-weight: 700;
+        margin-bottom: 0.45rem;
+    }}
+    .propose-route-title {{
+        color: {INK};
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1.18rem;
+        line-height: 1.1;
+        font-weight: 700;
+        margin-bottom: 0.45rem;
+    }}
+    .propose-route-copy {{
+        color: {MUTED};
+        font-size: 0.88rem;
+        line-height: 1.5;
+    }}
     [data-testid="stExpander"] details {{
         border: 1px solid #E8E1D3 !important;
         border-radius: 20px !important;
         background: white !important;
         box-shadow: 0 18px 42px -42px rgba(17,17,17,0.52);
         overflow: hidden;
+    }}
+    [data-testid="stExpander"] details[open] {{
+        border-color: rgba(111,168,61,0.26) !important;
+        box-shadow: 0 26px 48px -34px rgba(79,127,40,0.22);
+    }}
+    [data-testid="stExpander"] details[open] summary {{
+        background: linear-gradient(180deg, #F4F8EC 0%, #FFFFFF 100%);
     }}
     [data-testid="stExpander"] summary {{
         padding: 0.25rem 0.3rem !important;
@@ -952,6 +997,9 @@ st.markdown(f"""
             min-height: 0;
         }}
         .sidebar-metrics {{
+            grid-template-columns: 1fr;
+        }}
+        .propose-route-grid {{
             grid-template-columns: 1fr;
         }}
     }}
@@ -1227,10 +1275,40 @@ def preferred_tab(*classes: str) -> str:
     counts = {cls: actor_count(df_f, cls) for cls in classes}
     return max(counts, key=counts.get) if counts else "all"
 
-def platform_card_html(kicker: str, title: str, desc: str, meta: str, tone: str, footer: str, cta: str, href: str) -> str:
-    link_attrs = 'target="_blank" rel="noopener"' if href.startswith("http") else 'target="_self"'
-    return (
-        f'<a class="platform-card-link" href="{href}" {link_attrs}>'
+def emit_scroll_script(target_id: str) -> None:
+    components.html(
+        f"""
+        <script>
+          (function() {{
+            const targetId = {target_id!r};
+            const parentDoc = window.parent.document;
+            let tries = 0;
+            const timer = setInterval(() => {{
+              const target = parentDoc.getElementById(targetId);
+              if (target) {{
+                target.scrollIntoView({{ behavior: "smooth", block: "start" }});
+                clearInterval(timer);
+              }}
+              tries += 1;
+              if (tries > 40) clearInterval(timer);
+            }}, 80);
+          }})();
+        </script>
+        """,
+        height=0,
+    )
+
+def platform_card_html(
+    kicker: str,
+    title: str,
+    desc: str,
+    meta: str,
+    tone: str,
+    footer: str,
+    cta: str,
+    href: str | None = None,
+) -> str:
+    body = (
         f'<div class="platform-card tone-{tone}">'
         f'<div class="platform-kicker">{kicker}</div>'
         f'<div class="platform-title">{title}</div>'
@@ -1239,7 +1317,19 @@ def platform_card_html(kicker: str, title: str, desc: str, meta: str, tone: str,
         f'<div class="platform-footer">{footer}</div>'
         f'<div class="platform-click">{cta} →</div>'
         f'</div>'
-        f'</a>'
+    )
+    if href:
+        link_attrs = 'target="_blank" rel="noopener"' if href.startswith("http") else 'target="_self"'
+        return f'<a class="platform-card-link" href="{href}" {link_attrs}>{body}</a>'
+    return body
+
+def propose_route_card_html(kicker: str, title: str, copy: str) -> str:
+    return (
+        f'<div class="propose-route-card">'
+        f'<div class="propose-route-kicker">{kicker}</div>'
+        f'<div class="propose-route-title">{title}</div>'
+        f'<div class="propose-route-copy">{copy}</div>'
+        f'</div>'
     )
 
 def render_platform_overview() -> None:
@@ -1258,7 +1348,6 @@ def render_platform_overview() -> None:
             "footer": t("platform_footer_civic", lang),
             "cta": t("platform_cta_civic", lang),
             "tab": "civil_society",
-            "href": "?route=civil_society#connect-hub",
         },
         {
             "key": "public",
@@ -1270,7 +1359,6 @@ def render_platform_overview() -> None:
             "footer": t("platform_footer_public", lang),
             "cta": t("platform_cta_public", lang),
             "tab": "institution",
-            "href": "?route=institution#connect-hub",
         },
         {
             "key": "political",
@@ -1282,7 +1370,6 @@ def render_platform_overview() -> None:
             "footer": t("platform_footer_political", lang),
             "cta": t("platform_cta_political", lang),
             "tab": "politician",
-            "href": "?route=politician#connect-hub",
         },
         {
             "key": "business",
@@ -1294,7 +1381,6 @@ def render_platform_overview() -> None:
             "footer": t("platform_footer_business", lang),
             "cta": t("platform_cta_business", lang),
             "tab": preferred_tab("company", "entrepreneur"),
-            "href": f"?route={preferred_tab('company', 'entrepreneur')}#connect-hub",
         },
         {
             "key": "academia",
@@ -1306,7 +1392,6 @@ def render_platform_overview() -> None:
             "footer": t("platform_footer_academia", lang),
             "cta": t("platform_cta_academia", lang),
             "tab": preferred_tab("researcher", "professor"),
-            "href": f"?route={preferred_tab('researcher', 'professor')}#connect-hub",
         },
         {
             "key": "beta",
@@ -1339,10 +1424,18 @@ def render_platform_overview() -> None:
                         card["tone"],
                         card["footer"],
                         card["cta"],
-                        card.get("href") or card["url"],
+                        card.get("url"),
                     ),
                     unsafe_allow_html=True,
                 )
+                if card.get("url"):
+                    st.link_button(card["cta"], card["url"], use_container_width=True)
+                else:
+                    if st.button(card["cta"], key=f"route_{card['key']}", use_container_width=True):
+                        st.session_state.directory_tab = card["tab"]
+                        st.session_state.search = ""
+                        st.session_state._directory_focus = card["tab"]
+                        st.session_state._pending_scroll = "connect-hub"
 
 def launchpad_html(next_course) -> str:
     if next_course is None:
@@ -1488,6 +1581,13 @@ def render_connect_directory() -> None:
         key="directory_tab",
         label_visibility="collapsed",
     ) or "all"
+
+    focus_tab = st.session_state.get("_directory_focus")
+    if focus_tab and focus_tab in tab_labels and active == focus_tab:
+        st.markdown(
+            f'<div class="directory-head-note">{t("connect_route_active", lang)}: {tab_labels[focus_tab]} · {t("connect_route_hint", lang)}</div>',
+            unsafe_allow_html=True,
+        )
 
     active_cls = tab_filter[active]
     subset = table if active_cls is None else table[table["actor_class"] == active_cls]
@@ -1823,6 +1923,9 @@ stat(c5, t("stat_age", lang), median_age, t("stat_yrs", lang))
 
 st.markdown('<div id="connect-hub"></div>', unsafe_allow_html=True)
 render_connect_directory()
+if st.session_state.get("_pending_scroll") == "connect-hub":
+    emit_scroll_script("connect-hub")
+    st.session_state._pending_scroll = None
 render_beta_banner()
 st.markdown('<div id="nodal-courses"></div>', unsafe_allow_html=True)
 render_courses_section()
@@ -2019,8 +2122,15 @@ with prop_r:
     st.markdown(f'<div class="intro">{t("sec_propose_intro", lang)}</div>', unsafe_allow_html=True)
     st.markdown(f'<div class="propose-forms-kicker">{t("prop_forms_kicker", lang)}</div>', unsafe_allow_html=True)
     st.markdown(f'<div class="propose-forms-note">{t("prop_forms_note", lang)}</div>', unsafe_allow_html=True)
+    st.markdown(
+        f'<div class="propose-route-grid">'
+        f'{propose_route_card_html(t("prop_route_people_kicker", lang), t("prop_expand", lang), t("prop_route_people_copy", lang))}'
+        f'{propose_route_card_html(t("prop_route_research_kicker", lang), t("prop_res_expand", lang), t("prop_route_research_copy", lang))}'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
 
-with st.expander(t("prop_expand", lang), expanded=False):
+with st.expander(t("prop_expand", lang), expanded=True):
     with st.form("propose_member", clear_on_submit=True):
         pc1, pc2 = st.columns(2)
         with pc1:
