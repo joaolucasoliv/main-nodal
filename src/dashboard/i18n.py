@@ -119,11 +119,15 @@ TRANSLATIONS = {
                             "this concentrates energy without excluding distributed members."},
 
     # Hero & intros
-    "hero_kicker": {"es": "Directorio vivo",  "en": "Living directory"},
-    "hero_lede":   {"es": "Encuentra a tus pares en América Latina. Filtra por ciudad, tema o tipo de actor; "
-                          "abre el perfil de cualquier organización para conocer su trabajo y conectarte.",
-                    "en": "Find your peers across Latin America. Filter by city, theme or actor type; "
-                          "open any organisation's profile to learn about their work and get in touch."},
+    "hero_kicker": {"es": "Comunidad urbana en construcción",  "en": "Urban community in the making"},
+    "hero_lede":   {"es": "NODAL — Nodos Urbanos de América Latina es una comunidad de urbanismo colaborativo para potenciar la nueva generación urbana en la región y mejorar nuestras ciudades y territorios.",
+                    "en": "NODAL — Urban Nodes of Latin America is a collaborative urbanism community built to empower a new urban generation across the region and improve our cities and territories."},
+    "hero_mission": {"es": "Conectamos changemakers, líderes públicos, políticos, empresas, academia y facultades en una sola plataforma para ampliar el impacto de sus acciones y programas.",
+                     "en": "We connect changemakers, public leaders, politicians, companies, academia, and faculties in one platform to expand the impact of their actions and programs."},
+    "hero_beta": {"es": "Estamos construyendo una comunidad viva de aprendizaje, recursos, redes y oportunidades. Este formulario nos ayuda a diseñar la Experiencia NODAL BETA contigo desde el inicio.",
+                  "en": "We are building a living community of learning, resources, networks, and opportunities. This form helps us design the NODAL BETA experience with you from day one."},
+    "hero_transparency": {"es": "En aras de la transparencia, al final del cuestionario puedes decidir hacerte miembro (tiene costo) o no. Completarlo ya nos ayuda muchísimo a darle forma a NODAL.",
+                          "en": "For transparency, at the end of the questionnaire you can decide whether to become a paid member or not. Completing it already helps us shape NODAL."},
     "sec_where_intro":   {"es": "Cada punto es una organización. Haz clic para abrir su perfil.",
                           "en": "Each point is an organisation. Click to open its profile."},
     "sec_who_intro":     {"es": "La composición actual del ecosistema.",
