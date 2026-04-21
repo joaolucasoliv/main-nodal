@@ -46,6 +46,12 @@ if "selected_org" not in st.session_state:
     st.session_state.selected_org = None
 if "search" not in st.session_state:
     st.session_state.search = ""
+if "_route_applied" not in st.session_state:
+    st.session_state._route_applied = None
+if "_pending_scroll" not in st.session_state:
+    st.session_state._pending_scroll = None
+if "_directory_focus" not in st.session_state:
+    st.session_state._directory_focus = None
 
 # ── CSS ──────────────────────────────────────────────────────────────────────
 st.markdown(f"""
@@ -55,8 +61,26 @@ st.markdown(f"""
     .stApp {{
         background-color: {PAPER};
     }}
+    [data-testid="stSidebar"],
     [data-testid="stSidebar"] > div:first-child {{
-        background-color: #F2ECEC !important;
+        background: linear-gradient(180deg, #F7F1E8 0%, #F2ECE3 100%) !important;
+        border-right: 1px solid #E9E0D4;
+    }}
+    [data-testid="stSidebar"] [data-testid="stSidebarUserContent"] {{
+        padding-top: 0.35rem;
+    }}
+    .sidebar-brand {{
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        padding: 0.15rem 0 0.5rem 0;
+        margin-bottom: 0.45rem;
+    }}
+    .sidebar-brand img {{
+        display: block;
+        width: min(220px, 100%);
+        height: auto;
+        margin: 0 auto;
     }}
     
     div[data-baseweb="input"] > div,
@@ -151,8 +175,6 @@ st.markdown(f"""
         padding: 0.25rem 0.8rem !important;
         font-size: 0.82rem !important; min-height: 0 !important; height: auto !important;
     }}
-
-    [data-testid="stSidebar"] {{ background: {PAPER}; border-right: 1px solid {SOFT}; }}
 
     .stPlotlyChart {{ border: none; }}
 
@@ -431,11 +453,24 @@ st.markdown(f"""
         box-shadow: 0 20px 45px -38px rgba(17, 17, 17, 0.38);
         position: relative;
         overflow: hidden;
+        cursor: pointer;
         transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
     }}
     .platform-card:hover {{
         transform: translateY(-3px);
         box-shadow: 0 28px 52px -40px rgba(17, 17, 17, 0.42);
+    }}
+    .platform-card-link {{
+        display: block;
+        height: 100%;
+        text-decoration: none !important;
+        color: inherit !important;
+        cursor: pointer;
+    }}
+    .platform-card-link:hover .platform-card {{
+        transform: translateY(-4px);
+        box-shadow: 0 30px 58px -40px rgba(17, 17, 17, 0.44);
+        border-color: rgba(111, 168, 61, 0.28);
     }}
     .platform-card.tone-civic {{
         background: linear-gradient(180deg, #F3F8EC 0%, #FFFFFF 100%);
@@ -504,12 +539,23 @@ st.markdown(f"""
         font-weight: 600;
         letter-spacing: 0.01em;
     }}
+    .platform-click {{
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        margin-top: 0.85rem;
+        color: {GREEN_DARK};
+        font-size: 0.88rem;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+    }}
     .platform-card.tone-beta .platform-kicker,
     .platform-card.tone-beta .platform-title,
     .platform-card.tone-beta .platform-desc,
     .platform-card.tone-beta .platform-meta,
     .platform-card.tone-beta .platform-meta strong,
-    .platform-card.tone-beta .platform-footer {{
+    .platform-card.tone-beta .platform-footer,
+    .platform-card.tone-beta .platform-click {{
         color: #FFFFFF;
     }}
     .platform-card.tone-beta .platform-meta {{
@@ -646,15 +692,19 @@ st.markdown(f"""
         padding-top: 0.15rem;
     }}
     .sidebar-panel {{
-        background: linear-gradient(180deg, #181818 0%, #292929 100%);
+        width: 100%;
+        box-sizing: border-box;
+        background: linear-gradient(180deg, rgba(255,255,255,0.78) 0%, rgba(247,241,241,0.96) 100%);
+        border: 1px solid rgba(111, 168, 61, 0.16);
         border-radius: 22px;
         padding: 1.1rem 1rem 1rem 1rem;
-        color: white;
-        box-shadow: 0 22px 44px -36px rgba(17, 17, 17, 0.6);
+        color: {INK};
+        box-shadow: 0 18px 38px -34px rgba(17, 17, 17, 0.18);
+        overflow: hidden;
         margin-bottom: 1rem;
     }}
     .sidebar-panel-kicker {{
-        color: rgba(255,255,255,0.68);
+        color: {GREEN_DARK};
         font-size: 0.72rem;
         text-transform: uppercase;
         letter-spacing: 0.18em;
@@ -662,7 +712,7 @@ st.markdown(f"""
         margin-bottom: 0.45rem;
     }}
     .sidebar-panel-title {{
-        color: white;
+        color: {INK};
         font-family: 'Fraunces', Georgia, serif;
         font-size: 1.45rem;
         line-height: 1.08;
@@ -670,26 +720,26 @@ st.markdown(f"""
         margin-bottom: 0.6rem;
     }}
     .sidebar-panel-copy {{
-        color: rgba(255,255,255,0.8);
+        color: {MUTED};
         font-size: 0.9rem;
         line-height: 1.55;
         margin-bottom: 0.9rem;
     }}
     .sidebar-metrics {{
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
         gap: 0.55rem;
         margin-bottom: 0.95rem;
     }}
     .sidebar-metric {{
-        background: rgba(255,255,255,0.08);
-        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(255,255,255,0.72);
+        border: 1px solid rgba(17,17,17,0.06);
         border-radius: 16px;
         padding: 0.7rem 0.6rem;
         text-align: center;
     }}
     .sidebar-metric-value {{
-        color: white;
+        color: {INK};
         font-family: 'Fraunces', Georgia, serif;
         font-size: 1.28rem;
         font-weight: 700;
@@ -697,12 +747,12 @@ st.markdown(f"""
         margin-bottom: 0.2rem;
     }}
     .sidebar-metric-label {{
-        color: rgba(255,255,255,0.72);
+        color: {MUTED};
         font-size: 0.72rem;
         line-height: 1.3;
     }}
     .sidebar-routes-label {{
-        color: rgba(255,255,255,0.74);
+        color: {MUTED};
         font-size: 0.74rem;
         text-transform: uppercase;
         letter-spacing: 0.15em;
@@ -714,21 +764,32 @@ st.markdown(f"""
         gap: 0.5rem;
     }}
     .sidebar-route {{
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         padding: 0.72rem 0.85rem;
         border-radius: 999px;
-        background: rgba(255,255,255,0.08);
-        border: 1px solid rgba(255,255,255,0.12);
-        color: white !important;
+        background: rgba(111,168,61,0.08);
+        border: 1px solid rgba(111,168,61,0.16);
+        color: {INK} !important;
         text-decoration: none !important;
         font-size: 0.88rem;
         font-weight: 600;
         transition: transform .16s ease, background .16s ease, border-color .16s ease;
     }}
+    .sidebar-route-strong {{
+        background: linear-gradient(180deg, rgba(111,168,61,0.18) 0%, rgba(111,168,61,0.1) 100%);
+        border-color: rgba(111,168,61,0.28);
+        box-shadow: 0 14px 28px -26px rgba(79, 127, 40, 0.48);
+    }}
     .sidebar-route:hover {{
         transform: translateY(-1px);
-        background: rgba(255,255,255,0.14);
-        border-color: rgba(255,255,255,0.24);
+        background: rgba(111,168,61,0.14);
+        border-color: rgba(111,168,61,0.24);
+    }}
+    .sidebar-route-strong:hover {{
+        background: linear-gradient(180deg, rgba(111,168,61,0.22) 0%, rgba(111,168,61,0.14) 100%);
+        border-color: rgba(111,168,61,0.34);
     }}
     .sidebar-note {{
         color: {MUTED};
@@ -846,12 +907,53 @@ st.markdown(f"""
         line-height: 1.55;
         margin-bottom: 0.9rem;
     }}
+    .propose-route-grid {{
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.9rem;
+        margin: 0.25rem 0 1.1rem 0;
+    }}
+    .propose-route-card {{
+        background: linear-gradient(180deg, #FFFFFF 0%, #FAF7F0 100%);
+        border: 1px solid #E8E1D3;
+        border-radius: 22px;
+        padding: 1rem 1.05rem;
+        box-shadow: 0 18px 40px -42px rgba(17,17,17,0.38);
+    }}
+    .propose-route-kicker {{
+        color: {GREEN_DARK};
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-weight: 700;
+        margin-bottom: 0.45rem;
+    }}
+    .propose-route-title {{
+        color: {INK};
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1.18rem;
+        line-height: 1.1;
+        font-weight: 700;
+        margin-bottom: 0.45rem;
+    }}
+    .propose-route-copy {{
+        color: {MUTED};
+        font-size: 0.88rem;
+        line-height: 1.5;
+    }}
     [data-testid="stExpander"] details {{
         border: 1px solid #E8E1D3 !important;
         border-radius: 20px !important;
         background: white !important;
         box-shadow: 0 18px 42px -42px rgba(17,17,17,0.52);
         overflow: hidden;
+    }}
+    [data-testid="stExpander"] details[open] {{
+        border-color: rgba(111,168,61,0.26) !important;
+        box-shadow: 0 26px 48px -34px rgba(79,127,40,0.22);
+    }}
+    [data-testid="stExpander"] details[open] summary {{
+        background: linear-gradient(180deg, #F4F8EC 0%, #FFFFFF 100%);
     }}
     [data-testid="stExpander"] summary {{
         padding: 0.25rem 0.3rem !important;
@@ -895,6 +997,9 @@ st.markdown(f"""
             min-height: 0;
         }}
         .sidebar-metrics {{
+            grid-template-columns: 1fr;
+        }}
+        .propose-route-grid {{
             grid-template-columns: 1fr;
         }}
     }}
@@ -1002,7 +1107,10 @@ with st.sidebar:
     if LOGO_PATH.exists():
         with open(LOGO_PATH, "rb") as f:
             b64 = base64.b64encode(f.read()).decode()
-        st.markdown(f'<img src="data:image/png;base64,{b64}" width="220" style="margin-left:-0.5rem; margin-top:-1rem; margin-bottom:1rem;">', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="sidebar-brand"><img src="data:image/png;base64,{b64}" alt="NODAL"></div>',
+            unsafe_allow_html=True,
+        )
     else:
         st.markdown(f'<div style="font-weight:800; font-size:1.3rem; color:{INK};">'
                     f'<span style="color:{GREEN_DARK};">●</span>&nbsp; NODAL</div>',
@@ -1063,13 +1171,13 @@ with st.sidebar:
         f'<div class="sidebar-routes-label">{t("sb_quick_routes", lang)}</div>'
         f'<div class="sidebar-routes">'
         f'<a class="sidebar-route" href="#connect-hub" target="_self">{t("sb_link_explore", lang)} →</a>'
+        f'<a class="sidebar-route sidebar-route-strong" href="{sidebar_course_url}" target="_blank" rel="noopener">{t("sb_link_courses", lang)} →</a>'
         f'<a class="sidebar-route" href="#join-network" target="_self">{t("sb_link_join", lang)} →</a>'
         f'<a class="sidebar-route" href="#research-hub" target="_self">{t("sb_link_research", lang)} →</a>'
         f'</div>'
         f'</div>',
         unsafe_allow_html=True,
     )
-    st.link_button(t("sb_link_courses", lang), sidebar_course_url, use_container_width=True)
     st.markdown(f'<div class="sidebar-note">{t("sb_note", lang)}</div>', unsafe_allow_html=True)
 
 # Apply search on top of filters
@@ -1105,6 +1213,16 @@ if (
     if target:
         st.session_state.selected_org = target
         st.session_state._deep_linked = True
+
+_qp_route_raw = st.query_params.get("route")
+_qp_route = _qp_route_raw[0] if isinstance(_qp_route_raw, list) else _qp_route_raw
+if _qp_route in {"all", "institution", "civil_society", "politician", "entrepreneur", "company", "professor", "researcher"}:
+    if st.session_state._route_applied != _qp_route:
+        st.session_state.directory_tab = _qp_route
+        st.session_state.search = ""
+        st.session_state._route_applied = _qp_route
+else:
+    st.session_state._route_applied = None
 
 # Class-badge helper
 CLASS_KEYS = ["institution", "civil_society", "politician", "entrepreneur", "company", "professor", "researcher"]
@@ -1157,15 +1275,61 @@ def preferred_tab(*classes: str) -> str:
     counts = {cls: actor_count(df_f, cls) for cls in classes}
     return max(counts, key=counts.get) if counts else "all"
 
-def platform_card_html(kicker: str, title: str, desc: str, meta: str, tone: str, footer: str) -> str:
-    return (
+def emit_scroll_script(target_id: str) -> None:
+    components.html(
+        f"""
+        <script>
+          (function() {{
+            const targetId = {target_id!r};
+            const parentDoc = window.parent.document;
+            let tries = 0;
+            const timer = setInterval(() => {{
+              const target = parentDoc.getElementById(targetId);
+              if (target) {{
+                target.scrollIntoView({{ behavior: "smooth", block: "start" }});
+                clearInterval(timer);
+              }}
+              tries += 1;
+              if (tries > 40) clearInterval(timer);
+            }}, 80);
+          }})();
+        </script>
+        """,
+        height=0,
+    )
+
+def platform_card_html(
+    kicker: str,
+    title: str,
+    desc: str,
+    meta: str,
+    tone: str,
+    footer: str,
+    cta: str,
+    href: str | None = None,
+) -> str:
+    body = (
         f'<div class="platform-card tone-{tone}">'
         f'<div class="platform-kicker">{kicker}</div>'
         f'<div class="platform-title">{title}</div>'
         f'<div class="platform-desc">{desc}</div>'
         f'<div class="platform-meta">{meta}</div>'
         f'<div class="platform-footer">{footer}</div>'
-        "</div>"
+        f'<div class="platform-click">{cta} →</div>'
+        f'</div>'
+    )
+    if href:
+        link_attrs = 'target="_blank" rel="noopener"' if href.startswith("http") else 'target="_self"'
+        return f'<a class="platform-card-link" href="{href}" {link_attrs}>{body}</a>'
+    return body
+
+def propose_route_card_html(kicker: str, title: str, copy: str) -> str:
+    return (
+        f'<div class="propose-route-card">'
+        f'<div class="propose-route-kicker">{kicker}</div>'
+        f'<div class="propose-route-title">{title}</div>'
+        f'<div class="propose-route-copy">{copy}</div>'
+        f'</div>'
     )
 
 def render_platform_overview() -> None:
@@ -1259,6 +1423,8 @@ def render_platform_overview() -> None:
                         card["meta"],
                         card["tone"],
                         card["footer"],
+                        card["cta"],
+                        card.get("url"),
                     ),
                     unsafe_allow_html=True,
                 )
@@ -1268,7 +1434,8 @@ def render_platform_overview() -> None:
                     if st.button(card["cta"], key=f"route_{card['key']}", use_container_width=True):
                         st.session_state.directory_tab = card["tab"]
                         st.session_state.search = ""
-                        st.rerun()
+                        st.session_state._directory_focus = card["tab"]
+                        st.session_state._pending_scroll = "connect-hub"
 
 def launchpad_html(next_course) -> str:
     if next_course is None:
@@ -1322,6 +1489,15 @@ def render_leader_card(row: pd.Series, active: str) -> None:
         unsafe_allow_html=True,
     )
 
+    btn_cols = st.columns(2 if website else 1, gap="small")
+    with btn_cols[0]:
+        if st.button(t("dir_open_profile", lang), key=f"org_{active}_{row['name']}", type="primary", use_container_width=True):
+            st.session_state.selected_org = row["name"]
+            st.rerun()
+    if website:
+        with btn_cols[1]:
+            st.link_button(t("p_visit", lang), website, use_container_width=True)
+
 def propose_item_html(text: str) -> str:
     return (
         '<div class="propose-item">'
@@ -1349,15 +1525,6 @@ def render_beta_banner() -> None:
             f'<div style="padding-top:1.25rem; display:grid; gap:0.75rem;">{join_link}{courses_link}</div>',
             unsafe_allow_html=True,
         )
-
-    btn_cols = st.columns(2 if website else 1, gap="small")
-    with btn_cols[0]:
-        if st.button(t("dir_open_profile", lang), key=f"org_{active}_{row['name']}", type="primary", use_container_width=True):
-            st.session_state.selected_org = row["name"]
-            st.rerun()
-    if website:
-        with btn_cols[1]:
-            st.link_button(t("p_visit", lang), website, use_container_width=True)
 
 def render_connect_directory() -> None:
     next_course = upcoming.iloc[0] if not upcoming.empty else None
@@ -1414,6 +1581,13 @@ def render_connect_directory() -> None:
         key="directory_tab",
         label_visibility="collapsed",
     ) or "all"
+
+    focus_tab = st.session_state.get("_directory_focus")
+    if focus_tab and focus_tab in tab_labels and active == focus_tab:
+        st.markdown(
+            f'<div class="directory-head-note">{t("connect_route_active", lang)}: {tab_labels[focus_tab]} · {t("connect_route_hint", lang)}</div>',
+            unsafe_allow_html=True,
+        )
 
     active_cls = tab_filter[active]
     subset = table if active_cls is None else table[table["actor_class"] == active_cls]
@@ -1749,6 +1923,9 @@ stat(c5, t("stat_age", lang), median_age, t("stat_yrs", lang))
 
 st.markdown('<div id="connect-hub"></div>', unsafe_allow_html=True)
 render_connect_directory()
+if st.session_state.get("_pending_scroll") == "connect-hub":
+    emit_scroll_script("connect-hub")
+    st.session_state._pending_scroll = None
 render_beta_banner()
 st.markdown('<div id="nodal-courses"></div>', unsafe_allow_html=True)
 render_courses_section()
@@ -1945,8 +2122,15 @@ with prop_r:
     st.markdown(f'<div class="intro">{t("sec_propose_intro", lang)}</div>', unsafe_allow_html=True)
     st.markdown(f'<div class="propose-forms-kicker">{t("prop_forms_kicker", lang)}</div>', unsafe_allow_html=True)
     st.markdown(f'<div class="propose-forms-note">{t("prop_forms_note", lang)}</div>', unsafe_allow_html=True)
+    st.markdown(
+        f'<div class="propose-route-grid">'
+        f'{propose_route_card_html(t("prop_route_people_kicker", lang), t("prop_expand", lang), t("prop_route_people_copy", lang))}'
+        f'{propose_route_card_html(t("prop_route_research_kicker", lang), t("prop_res_expand", lang), t("prop_route_research_copy", lang))}'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
 
-with st.expander(t("prop_expand", lang), expanded=False):
+with st.expander(t("prop_expand", lang), expanded=True):
     with st.form("propose_member", clear_on_submit=True):
         pc1, pc2 = st.columns(2)
         with pc1:
