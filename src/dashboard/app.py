@@ -23,6 +23,9 @@ from src.pipeline import segment as seg
 from src.analysis.insights import generate
 from src.analysis.peers import peers_of
 from src.dashboard.i18n import t
+import sys, importlib
+if "src.dashboard.i18n" in sys.modules:
+    importlib.reload(sys.modules["src.dashboard.i18n"])
 
 st.set_page_config(
     page_title="Nodal",
@@ -57,6 +60,31 @@ if "_directory_focus" not in st.session_state:
 st.markdown(f"""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:wght@600;700;800&display=swap');
+
+    /* CSS Magic Overlay for Clickable Cards */
+    div[data-testid="stVerticalBlock"]:has(.magic-click) {{
+        cursor: pointer !important;
+    }}
+    
+    /* Make the .stButton totally invisible but functionally active in the DOM */
+    div[data-testid="stVerticalBlock"]:has(.magic-click) > div.element-container .stButton button,
+    div[data-testid="stVerticalBlock"]:has(.magic-click) > div[data-testid="stVerticalBlock"] > div.element-container .stButton button[kind="primary"] {{
+        opacity: 0.01 !important;
+        position: absolute !important;
+        width: 1px !important;
+        height: 1px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        z-index: -10 !important;
+        overflow: hidden !important;
+    }}
+
+    /* Keep Visit Website button visually normal and clickable */
+    div[data-testid="stVerticalBlock"]:has(.magic-click) div.visit-btn div[data-testid="stLinkButton"] {{
+        position: relative !important;
+        opacity: 1 !important;
+        z-index: 20 !important;
+    }}
 
     .stApp {{
         background-color: {PAPER};
@@ -1221,6 +1249,7 @@ if _qp_route in {"all", "institution", "civil_society", "politician", "entrepren
         st.session_state.directory_tab = _qp_route
         st.session_state.search = ""
         st.session_state._route_applied = _qp_route
+        st.session_state._pending_scroll = "connect-hub"
 else:
     st.session_state._route_applied = None
 
@@ -1276,27 +1305,29 @@ def preferred_tab(*classes: str) -> str:
     return max(counts, key=counts.get) if counts else "all"
 
 def emit_scroll_script(target_id: str) -> None:
-    components.html(
-        f"""
-        <script>
-          (function() {{
-            const targetId = {target_id!r};
-            const parentDoc = window.parent.document;
-            let tries = 0;
-            const timer = setInterval(() => {{
-              const target = parentDoc.getElementById(targetId);
-              if (target) {{
-                target.scrollIntoView({{ behavior: "smooth", block: "start" }});
+    st.markdown(
+        f"""<img src="x" onerror="
+        const targetId = '{target_id}';
+        const parentDoc = window.parent.document;
+        let tries = 0;
+        const timer = setInterval(() => {{
+            const target = parentDoc.getElementById(targetId);
+            if (target) {{
+                target.scrollIntoView({{ behavior: 'smooth', block: 'start' }});
                 clearInterval(timer);
-              }}
-              tries += 1;
-              if (tries > 40) clearInterval(timer);
-            }}, 80);
-          }})();
-        </script>
-        """,
-        height=0,
+            }}
+            tries += 1;
+            if (tries > 40) clearInterval(timer);
+        }}, 80);
+        this.remove();
+        " style="display:none;">""",
+        unsafe_allow_html=True,
     )
+
+st.markdown(
+    """<img src="x" onerror="if (!window.parent.document.nodalCardListener) { window.parent.document.nodalCardListener = true; const pDoc = window.parent.document; pDoc.addEventListener('click', function(e) { if (e.target.closest('.visit-btn') || e.target.closest('a')) return; let container = e.target.closest('div[data-testid=\\'stVerticalBlock\\']'); if (container && container.querySelector('.magic-click')) { let btn = container.querySelector('.stButton button'); if (btn) btn.click(); } }); } this.remove();" style="display:none;">""",
+    unsafe_allow_html=True,
+)
 
 def platform_card_html(
     kicker: str,
@@ -1315,7 +1346,7 @@ def platform_card_html(
         f'<div class="platform-desc">{desc}</div>'
         f'<div class="platform-meta">{meta}</div>'
         f'<div class="platform-footer">{footer}</div>'
-        f'<div class="platform-click">{cta} →</div>'
+        f'<div class="platform-click">{cta} &rarr;</div>'
         f'</div>'
     )
     if href:
@@ -1415,27 +1446,29 @@ def render_platform_overview() -> None:
         cols = st.columns(3, gap="large")
         for col, card in zip(cols, row):
             with col:
-                st.markdown(
-                    platform_card_html(
-                        card["kicker"],
-                        card["title"],
-                        card["desc"],
-                        card["meta"],
-                        card["tone"],
-                        card["footer"],
-                        card["cta"],
-                        card.get("url"),
-                    ),
-                    unsafe_allow_html=True,
-                )
-                if card.get("url"):
-                    st.link_button(card["cta"], card["url"], use_container_width=True)
-                else:
-                    if st.button(card["cta"], key=f"route_{card['key']}", use_container_width=True):
-                        st.session_state.directory_tab = card["tab"]
-                        st.session_state.search = ""
-                        st.session_state._directory_focus = card["tab"]
-                        st.session_state._pending_scroll = "connect-hub"
+                with st.container():
+                    st.markdown('<div class="magic-click"></div>', unsafe_allow_html=True)
+                    st.markdown(
+                        platform_card_html(
+                            card["kicker"],
+                            card["title"],
+                            card["desc"],
+                            card["meta"],
+                            card["tone"],
+                            card["footer"],
+                            card["cta"],
+                            card.get("url"),
+                        ),
+                        unsafe_allow_html=True,
+                    )
+                    if card.get("url"):
+                        st.link_button(card["cta"], card["url"], use_container_width=True)
+                    else:
+                        if st.button(card["cta"], key=f"route_{card['key']}", use_container_width=True):
+                            st.session_state.directory_tab = card["tab"]
+                            st.session_state.search = ""
+                            st.session_state._directory_focus = card["tab"]
+                            st.session_state._pending_scroll = "connect-hub"
 
 def launchpad_html(next_course) -> str:
     if next_course is None:
@@ -1475,28 +1508,33 @@ def render_leader_card(row: pd.Series, active: str) -> None:
     desc = truncate_text(row.get("description", ""), max_chars=190)
     website = str(row.get("website")).strip() if pd.notna(row.get("website")) else ""
 
-    st.markdown(
-        f'<div class="leader-card" style="border-top: 4px solid {tone};">'
-        f'<div class="leader-card-top">'
-        f'<div class="leader-card-kicker">{kicker}</div>'
-        f'{class_badge_html(actor_class, lang)}'
-        f'</div>'
-        f'<div class="leader-card-name">{row["name"]}</div>'
-        f'<div class="leader-card-meta">{row["city"]}, {row["country"]}</div>'
-        f'<div class="leader-card-desc">{desc}</div>'
-        f'<div class="leader-focus-row">{focus_html}</div>'
-        f'</div>',
-        unsafe_allow_html=True,
-    )
+    with st.container():
+        st.markdown('<div class="magic-click"></div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="leader-card" style="border-top: 4px solid {tone};">'
+            f'<div class="leader-card-top">'
+            f'<div class="leader-card-kicker">{kicker}</div>'
+            f'{class_badge_html(actor_class, lang)}'
+            f'</div>'
+            f'<div class="leader-card-name">{row["name"]}</div>'
+            f'<div class="leader-card-meta">{row["city"]}, {row["country"]}</div>'
+            f'<div class="leader-card-desc">{desc}</div>'
+            f'<div class="leader-focus-row">{focus_html}</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
 
-    btn_cols = st.columns(2 if website else 1, gap="small")
-    with btn_cols[0]:
-        if st.button(t("dir_open_profile", lang), key=f"org_{active}_{row['name']}", type="primary", use_container_width=True):
-            st.session_state.selected_org = row["name"]
-            st.rerun()
-    if website:
-        with btn_cols[1]:
-            st.link_button(t("p_visit", lang), website, use_container_width=True)
+        btn_cols = st.columns(2 if website else 1, gap="small")
+        with btn_cols[0]:
+            if st.button(t("dir_open_profile", lang), key=f"org_{active}_{row['name']}", type="primary", use_container_width=True):
+                st.session_state.selected_org = row["name"]
+                st.rerun()
+        if website:
+            with btn_cols[1]:
+                # Wrap the visit link button in a custom HTML div class so CSS knows to bring it to Z-index 20
+                st.markdown('<div class="visit-btn" style="position:relative; z-index:20;">', unsafe_allow_html=True)
+                st.link_button(t("p_visit", lang), website, use_container_width=True)
+                st.markdown('</div>', unsafe_allow_html=True)
 
 def propose_item_html(text: str) -> str:
     return (
