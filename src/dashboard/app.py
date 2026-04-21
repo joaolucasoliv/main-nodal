@@ -479,26 +479,6 @@ st.markdown(f"""
         min-height: 220px;
         background: linear-gradient(180deg, #FFFFFF 0%, #F9F9F6 100%);
         box-shadow: 0 20px 45px -38px rgba(17, 17, 17, 0.38);
-        position: relative;
-        overflow: hidden;
-        cursor: pointer;
-        transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-    }}
-    .platform-card:hover {{
-        transform: translateY(-3px);
-        box-shadow: 0 28px 52px -40px rgba(17, 17, 17, 0.42);
-    }}
-    .platform-card-link {{
-        display: block;
-        height: 100%;
-        text-decoration: none !important;
-        color: inherit !important;
-        cursor: pointer;
-    }}
-    .platform-card-link:hover .platform-card {{
-        transform: translateY(-4px);
-        box-shadow: 0 30px 58px -40px rgba(17, 17, 17, 0.44);
-        border-color: rgba(111, 168, 61, 0.28);
     }}
     .platform-card.tone-civic {{
         background: linear-gradient(180deg, #F3F8EC 0%, #FFFFFF 100%);
@@ -558,462 +538,15 @@ st.markdown(f"""
         font-weight: 700;
         margin-right: 0.15rem;
     }}
-    .platform-footer {{
-        margin-top: 1rem;
-        padding-top: 0.9rem;
-        border-top: 1px solid rgba(17, 17, 17, 0.08);
-        color: {INK};
-        font-size: 0.86rem;
-        font-weight: 600;
-        letter-spacing: 0.01em;
-    }}
-    .platform-click {{
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        margin-top: 0.85rem;
-        color: {GREEN_DARK};
-        font-size: 0.88rem;
-        font-weight: 700;
-        letter-spacing: 0.01em;
-    }}
     .platform-card.tone-beta .platform-kicker,
     .platform-card.tone-beta .platform-title,
     .platform-card.tone-beta .platform-desc,
     .platform-card.tone-beta .platform-meta,
-    .platform-card.tone-beta .platform-meta strong,
-    .platform-card.tone-beta .platform-footer,
-    .platform-card.tone-beta .platform-click {{
+    .platform-card.tone-beta .platform-meta strong {{
         color: #FFFFFF;
     }}
     .platform-card.tone-beta .platform-meta {{
         color: rgba(255, 255, 255, 0.78);
-    }}
-    .platform-card.tone-beta .platform-footer {{
-        border-top-color: rgba(255, 255, 255, 0.14);
-    }}
-    .launchpad-card {{
-        background: linear-gradient(135deg, #171717 0%, #2B2B2B 100%);
-        border-radius: 24px;
-        padding: 1.3rem 1.35rem;
-        color: white;
-        box-shadow: 0 22px 46px -34px rgba(17, 17, 17, 0.62);
-        margin-bottom: 0.65rem;
-    }}
-    .launchpad-kicker {{
-        color: rgba(255, 255, 255, 0.72);
-        font-size: 0.72rem;
-        text-transform: uppercase;
-        letter-spacing: 0.18em;
-        font-weight: 700;
-        margin-bottom: 0.55rem;
-    }}
-    .launchpad-title {{
-        color: white;
-        font-family: 'Fraunces', Georgia, serif;
-        font-size: 1.55rem;
-        line-height: 1.08;
-        margin-bottom: 0.7rem;
-        font-weight: 700;
-    }}
-    .launchpad-copy {{
-        color: rgba(255, 255, 255, 0.82);
-        font-size: 0.95rem;
-        line-height: 1.55;
-        margin-bottom: 0.95rem;
-    }}
-    .launchpad-course {{
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 18px;
-        padding: 0.95rem 1rem;
-    }}
-    .launchpad-course-kicker {{
-        color: rgba(255, 255, 255, 0.66);
-        font-size: 0.72rem;
-        text-transform: uppercase;
-        letter-spacing: 0.16em;
-        font-weight: 700;
-        margin-bottom: 0.45rem;
-    }}
-    .launchpad-course-title {{
-        color: white;
-        font-size: 1.08rem;
-        line-height: 1.35;
-        font-weight: 600;
-        margin-bottom: 0.35rem;
-    }}
-    .launchpad-course-meta {{
-        color: rgba(255, 255, 255, 0.78);
-        font-size: 0.87rem;
-        line-height: 1.45;
-    }}
-    .leader-card {{
-        background: linear-gradient(180deg, #FFFFFF 0%, #FBFBF7 100%);
-        border: 1px solid {SOFT};
-        border-radius: 22px;
-        padding: 1.2rem 1.2rem 1rem 1.2rem;
-        margin-bottom: 0.7rem;
-        box-shadow: 0 18px 40px -38px rgba(17, 17, 17, 0.48);
-        transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
-    }}
-    .leader-card:hover {{
-        transform: translateY(-2px);
-        box-shadow: 0 24px 44px -36px rgba(17, 17, 17, 0.42);
-    }}
-    .leader-card-top {{
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.55rem;
-        margin-bottom: 0.55rem;
-    }}
-    .leader-card-kicker {{
-        color: {MUTED};
-        font-size: 0.72rem;
-        text-transform: uppercase;
-        letter-spacing: 0.14em;
-        font-weight: 700;
-    }}
-    .leader-card-name {{
-        color: {INK};
-        font-family: 'Fraunces', Georgia, serif;
-        font-size: 1.5rem;
-        line-height: 1.08;
-        margin-bottom: 0.45rem;
-        font-weight: 700;
-    }}
-    .leader-card-meta {{
-        color: {INK};
-        font-size: 0.92rem;
-        line-height: 1.45;
-        margin-bottom: 0.65rem;
-    }}
-    .leader-card-desc {{
-        color: {MUTED};
-        font-size: 0.94rem;
-        line-height: 1.6;
-        margin-bottom: 0.85rem;
-        min-height: 4.6rem;
-    }}
-    .leader-focus-row {{
-        margin-bottom: 0.1rem;
-    }}
-    .directory-head-note {{
-        color: {GREEN_DARK};
-        font-size: 0.9rem;
-        font-weight: 600;
-        margin-top: 0.2rem;
-    }}
-    .directory-toolbar {{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
-        margin: 0.35rem 0 0.35rem 0;
-    }}
-    .toolbar-count {{
-        color: {MUTED};
-        font-size: 0.9rem;
-        font-weight: 600;
-        padding-top: 0.15rem;
-    }}
-    .sidebar-panel {{
-        width: 100%;
-        box-sizing: border-box;
-        background: linear-gradient(180deg, rgba(255,255,255,0.78) 0%, rgba(247,241,241,0.96) 100%);
-        border: 1px solid rgba(111, 168, 61, 0.16);
-        border-radius: 22px;
-        padding: 1.1rem 1rem 1rem 1rem;
-        color: {INK};
-        box-shadow: 0 18px 38px -34px rgba(17, 17, 17, 0.18);
-        overflow: hidden;
-        margin-bottom: 1rem;
-    }}
-    .sidebar-panel-kicker {{
-        color: {GREEN_DARK};
-        font-size: 0.72rem;
-        text-transform: uppercase;
-        letter-spacing: 0.18em;
-        font-weight: 700;
-        margin-bottom: 0.45rem;
-    }}
-    .sidebar-panel-title {{
-        color: {INK};
-        font-family: 'Fraunces', Georgia, serif;
-        font-size: 1.45rem;
-        line-height: 1.08;
-        font-weight: 700;
-        margin-bottom: 0.6rem;
-    }}
-    .sidebar-panel-copy {{
-        color: {MUTED};
-        font-size: 0.9rem;
-        line-height: 1.55;
-        margin-bottom: 0.9rem;
-    }}
-    .sidebar-metrics {{
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
-        gap: 0.55rem;
-        margin-bottom: 0.95rem;
-    }}
-    .sidebar-metric {{
-        background: rgba(255,255,255,0.72);
-        border: 1px solid rgba(17,17,17,0.06);
-        border-radius: 16px;
-        padding: 0.7rem 0.6rem;
-        text-align: center;
-    }}
-    .sidebar-metric-value {{
-        color: {INK};
-        font-family: 'Fraunces', Georgia, serif;
-        font-size: 1.28rem;
-        font-weight: 700;
-        line-height: 1;
-        margin-bottom: 0.2rem;
-    }}
-    .sidebar-metric-label {{
-        color: {MUTED};
-        font-size: 0.72rem;
-        line-height: 1.3;
-    }}
-    .sidebar-routes-label {{
-        color: {MUTED};
-        font-size: 0.74rem;
-        text-transform: uppercase;
-        letter-spacing: 0.15em;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-    }}
-    .sidebar-routes {{
-        display: grid;
-        gap: 0.5rem;
-    }}
-    .sidebar-route {{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0.72rem 0.85rem;
-        border-radius: 999px;
-        background: rgba(111,168,61,0.08);
-        border: 1px solid rgba(111,168,61,0.16);
-        color: {INK} !important;
-        text-decoration: none !important;
-        font-size: 0.88rem;
-        font-weight: 600;
-        transition: transform .16s ease, background .16s ease, border-color .16s ease;
-    }}
-    .sidebar-route-strong {{
-        background: linear-gradient(180deg, rgba(111,168,61,0.18) 0%, rgba(111,168,61,0.1) 100%);
-        border-color: rgba(111,168,61,0.28);
-        box-shadow: 0 14px 28px -26px rgba(79, 127, 40, 0.48);
-    }}
-    .sidebar-route:hover {{
-        transform: translateY(-1px);
-        background: rgba(111,168,61,0.14);
-        border-color: rgba(111,168,61,0.24);
-    }}
-    .sidebar-route-strong:hover {{
-        background: linear-gradient(180deg, rgba(111,168,61,0.22) 0%, rgba(111,168,61,0.14) 100%);
-        border-color: rgba(111,168,61,0.34);
-    }}
-    .sidebar-note {{
-        color: {MUTED};
-        font-size: 0.82rem;
-        line-height: 1.45;
-        margin: 0.7rem 0 0.95rem 0;
-    }}
-    .beta-banner {{
-        background: linear-gradient(135deg, #F4E9D1 0%, #FFFFFF 100%);
-        border: 1px solid #EADAB8;
-        border-radius: 28px;
-        padding: 1.25rem 1.35rem;
-        margin: 1rem 0 1.4rem 0;
-        box-shadow: 0 20px 46px -40px rgba(17,17,17,0.46);
-    }}
-    .beta-banner-kicker {{
-        color: {GREEN_DARK};
-        font-size: 0.72rem;
-        text-transform: uppercase;
-        letter-spacing: 0.18em;
-        font-weight: 700;
-        margin-bottom: 0.45rem;
-    }}
-    .beta-banner-title {{
-        color: {INK};
-        font-family: 'Fraunces', Georgia, serif;
-        font-size: 1.75rem;
-        line-height: 1.05;
-        font-weight: 700;
-        margin-bottom: 0.6rem;
-        max-width: 14ch;
-    }}
-    .beta-banner-copy {{
-        color: {INK};
-        font-size: 1rem;
-        line-height: 1.6;
-        max-width: 60ch;
-    }}
-    .propose-shell {{
-        background: linear-gradient(180deg, #F7F4EC 0%, #FFFFFF 100%);
-        border: 1px solid #ECE4D4;
-        border-radius: 28px;
-        padding: 1.4rem 1.45rem 1.2rem 1.45rem;
-        margin: 1rem 0 2rem 0;
-        box-shadow: 0 24px 52px -42px rgba(17,17,17,0.42);
-    }}
-    .propose-hero {{
-        background: linear-gradient(135deg, #181818 0%, #2C2C2C 100%);
-        border-radius: 24px;
-        padding: 1.2rem 1.2rem 1.15rem 1.2rem;
-        color: white;
-        height: 100%;
-    }}
-    .propose-kicker {{
-        color: rgba(255,255,255,0.66);
-        font-size: 0.72rem;
-        text-transform: uppercase;
-        letter-spacing: 0.16em;
-        font-weight: 700;
-        margin-bottom: 0.45rem;
-    }}
-    .propose-title {{
-        color: white;
-        font-family: 'Fraunces', Georgia, serif;
-        font-size: 2rem;
-        line-height: 1.02;
-        font-weight: 700;
-        margin-bottom: 0.7rem;
-    }}
-    .propose-copy {{
-        color: rgba(255,255,255,0.8);
-        font-size: 0.95rem;
-        line-height: 1.6;
-        margin-bottom: 0.95rem;
-    }}
-    .propose-list {{
-        display: grid;
-        gap: 0.7rem;
-        margin-bottom: 1rem;
-    }}
-    .propose-item {{
-        display: flex;
-        gap: 0.7rem;
-        align-items: flex-start;
-        color: white;
-        font-size: 0.92rem;
-        line-height: 1.5;
-    }}
-    .propose-item-dot {{
-        width: 0.7rem;
-        height: 0.7rem;
-        border-radius: 999px;
-        background: linear-gradient(180deg, #FFFFFF 0%, #CFCFCF 100%);
-        flex: 0 0 0.7rem;
-        margin-top: 0.32rem;
-    }}
-    .propose-trust {{
-        color: rgba(255,255,255,0.64);
-        font-size: 0.8rem;
-        line-height: 1.5;
-        padding-top: 0.85rem;
-        border-top: 1px solid rgba(255,255,255,0.12);
-    }}
-    .propose-forms-kicker {{
-        color: {GREEN_DARK};
-        font-size: 0.72rem;
-        text-transform: uppercase;
-        letter-spacing: 0.16em;
-        font-weight: 700;
-        margin-bottom: 0.45rem;
-    }}
-    .propose-forms-note {{
-        color: {MUTED};
-        font-size: 0.92rem;
-        line-height: 1.55;
-        margin-bottom: 0.9rem;
-    }}
-    .propose-route-grid {{
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 0.9rem;
-        margin: 0.25rem 0 1.1rem 0;
-    }}
-    .propose-route-card {{
-        background: linear-gradient(180deg, #FFFFFF 0%, #FAF7F0 100%);
-        border: 1px solid #E8E1D3;
-        border-radius: 22px;
-        padding: 1rem 1.05rem;
-        box-shadow: 0 18px 40px -42px rgba(17,17,17,0.38);
-    }}
-    .propose-route-kicker {{
-        color: {GREEN_DARK};
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 0.16em;
-        font-weight: 700;
-        margin-bottom: 0.45rem;
-    }}
-    .propose-route-title {{
-        color: {INK};
-        font-family: 'Fraunces', Georgia, serif;
-        font-size: 1.18rem;
-        line-height: 1.1;
-        font-weight: 700;
-        margin-bottom: 0.45rem;
-    }}
-    .propose-route-copy {{
-        color: {MUTED};
-        font-size: 0.88rem;
-        line-height: 1.5;
-    }}
-    [data-testid="stExpander"] details {{
-        border: 1px solid #E8E1D3 !important;
-        border-radius: 20px !important;
-        background: white !important;
-        box-shadow: 0 18px 42px -42px rgba(17,17,17,0.52);
-        overflow: hidden;
-    }}
-    [data-testid="stExpander"] details[open] {{
-        border-color: rgba(111,168,61,0.26) !important;
-        box-shadow: 0 26px 48px -34px rgba(79,127,40,0.22);
-    }}
-    [data-testid="stExpander"] details[open] summary {{
-        background: linear-gradient(180deg, #F4F8EC 0%, #FFFFFF 100%);
-    }}
-    [data-testid="stExpander"] summary {{
-        padding: 0.25rem 0.3rem !important;
-    }}
-    [data-testid="stExpander"] summary p {{
-        font-size: 1.05rem !important;
-        font-weight: 600 !important;
-        color: {INK} !important;
-    }}
-    .inline-anchor {{
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0.72rem 1rem;
-        border-radius: 999px;
-        text-decoration: none !important;
-        font-weight: 600;
-        font-size: 0.9rem;
-        transition: transform .16s ease, background .16s ease, border-color .16s ease;
-    }}
-    .inline-anchor:hover {{
-        transform: translateY(-1px);
-    }}
-    .anchor-dark {{
-        background: {INK};
-        color: white !important;
-        border: 1px solid {INK};
-    }}
-    .anchor-light {{
-        background: white;
-        color: {INK} !important;
-        border: 1px solid #E8E1D3;
     }}
 
     @media (max-width: 980px) {{
@@ -1291,77 +824,35 @@ def hero_point_html(text: str) -> str:
         "</div>"
     )
 
-def class_tone(actor_class: str) -> str:
-    return CLASS_TONES.get(actor_class, GREEN_DARK)
-
-def truncate_text(text: str, max_chars: int = 185) -> str:
-    text = " ".join(str(text).split())
-    if len(text) <= max_chars:
-        return text
-    return text[: max_chars - 1].rsplit(" ", 1)[0] + "…"
-
-def preferred_tab(*classes: str) -> str:
-    counts = {cls: actor_count(df_f, cls) for cls in classes}
-    return max(counts, key=counts.get) if counts else "all"
-
-def emit_scroll_script(target_id: str) -> None:
-    st.markdown(
-        f"""<img src="x" onerror="
-        const targetId = '{target_id}';
-        const parentDoc = window.parent.document;
-        let tries = 0;
-        const timer = setInterval(() => {{
-            const target = parentDoc.getElementById(targetId);
-            if (target) {{
-                target.scrollIntoView({{ behavior: 'smooth', block: 'start' }});
-                clearInterval(timer);
-            }}
-            tries += 1;
-            if (tries > 40) clearInterval(timer);
-        }}, 80);
-        this.remove();
-        " style="display:none;">""",
-        unsafe_allow_html=True,
-    )
-
-st.markdown(
-    """<img src="x" onerror="if (!window.parent.document.nodalCardListener) { window.parent.document.nodalCardListener = true; const pDoc = window.parent.document; pDoc.addEventListener('click', function(e) { if (e.target.closest('.visit-btn') || e.target.closest('a')) return; let container = e.target.closest('div[data-testid=\\'stVerticalBlock\\']'); if (container && container.querySelector('.magic-click')) { let btn = container.querySelector('.stButton button'); if (btn) btn.click(); } }); } this.remove();" style="display:none;">""",
-    unsafe_allow_html=True,
-)
-
-def platform_card_html(
-    kicker: str,
-    title: str,
-    desc: str,
-    meta: str,
-    tone: str,
-    footer: str,
-    cta: str,
-    href: str | None = None,
-) -> str:
-    body = (
+def platform_card_html(kicker: str, title: str, desc: str, meta: str, tone: str) -> str:
+    return (
         f'<div class="platform-card tone-{tone}">'
         f'<div class="platform-kicker">{kicker}</div>'
         f'<div class="platform-title">{title}</div>'
         f'<div class="platform-desc">{desc}</div>'
         f'<div class="platform-meta">{meta}</div>'
-        f'<div class="platform-footer">{footer}</div>'
-        f'<div class="platform-click">{cta} &rarr;</div>'
-        f'</div>'
+        "</div>"
     )
-    if href:
-        link_attrs = 'target="_blank" rel="noopener"' if href.startswith("http") else 'target="_self"'
-        return f'<a class="platform-card-link" href="{href}" {link_attrs}>{body}</a>'
-    return body
 
-def propose_route_card_html(kicker: str, title: str, copy: str) -> str:
-    return (
-        f'<div class="propose-route-card">'
-        f'<div class="propose-route-kicker">{kicker}</div>'
-        f'<div class="propose-route-title">{title}</div>'
-        f'<div class="propose-route-copy">{copy}</div>'
-        f'</div>'
-    )
+def render_beta_banner() -> None:
+    st.markdown('<div id="beta-banner"></div>', unsafe_allow_html=True)
+    banner_l, banner_r = st.columns([1.35, 0.9], gap="large")
+    with banner_l:
+        st.markdown(
+            f'<div class="beta-banner">'
+            f'<div class="beta-banner-kicker">{t("beta_banner_kicker", lang)}</div>'
+            f'<div class="beta-banner-title">{t("beta_banner_title", lang)}</div>'
+            f'<div class="beta-banner-copy">{t("beta_banner_copy", lang)}</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+    with banner_r:
+        join_link = f'<a class="inline-anchor anchor-dark" href="#join-network" target="_self">{t("beta_banner_join", lang)}</a>'
+        courses_link = f'<a class="inline-anchor anchor-light" href="{COURSE_HUB_URL}" target="_blank" rel="noopener">{t("beta_banner_courses", lang)}</a>'
+        st.markdown(
+            f'<div style="padding-top:1.25rem; display:grid; gap:0.75rem;">{join_link}{courses_link}</div>',
+            unsafe_allow_html=True,
+        )
 
 def render_platform_overview() -> None:
     st.markdown(f"## {t('sec_platform', lang)}")
@@ -1446,29 +937,24 @@ def render_platform_overview() -> None:
         cols = st.columns(3, gap="large")
         for col, card in zip(cols, row):
             with col:
-                with st.container():
-                    st.markdown('<div class="magic-click"></div>', unsafe_allow_html=True)
-                    st.markdown(
-                        platform_card_html(
-                            card["kicker"],
-                            card["title"],
-                            card["desc"],
-                            card["meta"],
-                            card["tone"],
-                            card["footer"],
-                            card["cta"],
-                            card.get("url"),
-                        ),
-                        unsafe_allow_html=True,
-                    )
-                    if card.get("url"):
-                        st.link_button(card["cta"], card["url"], use_container_width=True)
-                    else:
-                        if st.button(card["cta"], key=f"route_{card['key']}", use_container_width=True):
-                            st.session_state.directory_tab = card["tab"]
-                            st.session_state.search = ""
-                            st.session_state._directory_focus = card["tab"]
-                            st.session_state._pending_scroll = "connect-hub"
+                st.markdown(
+                    platform_card_html(
+                        card["kicker"],
+                        card["title"],
+                        card["desc"],
+                        card["meta"],
+                        card["tone"],
+                        card["footer"],
+                    ),
+                    unsafe_allow_html=True,
+                )
+                if card.get("url"):
+                    st.link_button(card["cta"], card["url"], use_container_width=True)
+                else:
+                    if st.button(card["cta"], key=f"route_{card['key']}", use_container_width=True):
+                        st.session_state.directory_tab = card["tab"]
+                        st.session_state.search = ""
+                        st.rerun()
 
 def launchpad_html(next_course) -> str:
     if next_course is None:
@@ -1508,61 +994,28 @@ def render_leader_card(row: pd.Series, active: str) -> None:
     desc = truncate_text(row.get("description", ""), max_chars=190)
     website = str(row.get("website")).strip() if pd.notna(row.get("website")) else ""
 
-    with st.container():
-        st.markdown('<div class="magic-click"></div>', unsafe_allow_html=True)
-        st.markdown(
-            f'<div class="leader-card" style="border-top: 4px solid {tone};">'
-            f'<div class="leader-card-top">'
-            f'<div class="leader-card-kicker">{kicker}</div>'
-            f'{class_badge_html(actor_class, lang)}'
-            f'</div>'
-            f'<div class="leader-card-name">{row["name"]}</div>'
-            f'<div class="leader-card-meta">{row["city"]}, {row["country"]}</div>'
-            f'<div class="leader-card-desc">{desc}</div>'
-            f'<div class="leader-focus-row">{focus_html}</div>'
-            f'</div>',
-            unsafe_allow_html=True,
-        )
-
-        btn_cols = st.columns(2 if website else 1, gap="small")
-        with btn_cols[0]:
-            if st.button(t("dir_open_profile", lang), key=f"org_{active}_{row['name']}", type="primary", use_container_width=True):
-                st.session_state.selected_org = row["name"]
-                st.rerun()
-        if website:
-            with btn_cols[1]:
-                # Wrap the visit link button in a custom HTML div class so CSS knows to bring it to Z-index 20
-                st.markdown('<div class="visit-btn" style="position:relative; z-index:20;">', unsafe_allow_html=True)
-                st.link_button(t("p_visit", lang), website, use_container_width=True)
-                st.markdown('</div>', unsafe_allow_html=True)
-
-def propose_item_html(text: str) -> str:
-    return (
-        '<div class="propose-item">'
-        '<span class="propose-item-dot"></span>'
-        f"<span>{text}</span>"
-        "</div>"
+    st.markdown(
+        f'<div class="leader-card" style="border-top: 4px solid {tone};">'
+        f'<div class="leader-card-top">'
+        f'<div class="leader-card-kicker">{kicker}</div>'
+        f'{class_badge_html(actor_class, lang)}'
+        f'</div>'
+        f'<div class="leader-card-name">{row["name"]}</div>'
+        f'<div class="leader-card-meta">{row["city"]}, {row["country"]}</div>'
+        f'<div class="leader-card-desc">{desc}</div>'
+        f'<div class="leader-focus-row">{focus_html}</div>'
+        f'</div>',
+        unsafe_allow_html=True,
     )
 
-def render_beta_banner() -> None:
-    st.markdown('<div id="beta-banner"></div>', unsafe_allow_html=True)
-    banner_l, banner_r = st.columns([1.35, 0.9], gap="large")
-    with banner_l:
-        st.markdown(
-            f'<div class="beta-banner">'
-            f'<div class="beta-banner-kicker">{t("beta_banner_kicker", lang)}</div>'
-            f'<div class="beta-banner-title">{t("beta_banner_title", lang)}</div>'
-            f'<div class="beta-banner-copy">{t("beta_banner_copy", lang)}</div>'
-            f'</div>',
-            unsafe_allow_html=True,
-        )
-    with banner_r:
-        join_link = f'<a class="inline-anchor anchor-dark" href="#join-network" target="_self">{t("beta_banner_join", lang)}</a>'
-        courses_link = f'<a class="inline-anchor anchor-light" href="{COURSE_HUB_URL}" target="_blank" rel="noopener">{t("beta_banner_courses", lang)}</a>'
-        st.markdown(
-            f'<div style="padding-top:1.25rem; display:grid; gap:0.75rem;">{join_link}{courses_link}</div>',
-            unsafe_allow_html=True,
-        )
+    btn_cols = st.columns(2 if website else 1, gap="small")
+    with btn_cols[0]:
+        if st.button(t("dir_open_profile", lang), key=f"org_{active}_{row['name']}", type="primary", use_container_width=True):
+            st.session_state.selected_org = row["name"]
+            st.rerun()
+    if website:
+        with btn_cols[1]:
+            st.link_button(t("p_visit", lang), website, use_container_width=True)
 
 def render_connect_directory() -> None:
     next_course = upcoming.iloc[0] if not upcoming.empty else None
@@ -1961,14 +1414,8 @@ stat(c5, t("stat_age", lang), median_age, t("stat_yrs", lang))
 
 st.markdown('<div id="connect-hub"></div>', unsafe_allow_html=True)
 render_connect_directory()
-if st.session_state.get("_pending_scroll") == "connect-hub":
-    emit_scroll_script("connect-hub")
-    st.session_state._pending_scroll = None
-render_beta_banner()
-st.markdown('<div id="nodal-courses"></div>', unsafe_allow_html=True)
-render_courses_section()
-st.markdown('<div id="research-hub"></div>', unsafe_allow_html=True)
 render_research_hub()
+render_courses_section()
 
 st.markdown('<hr class="thick">', unsafe_allow_html=True)
 st.markdown(f"## {t('sec_intelligence', lang)}")
