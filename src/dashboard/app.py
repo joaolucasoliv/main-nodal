@@ -266,6 +266,7 @@ st.markdown(f"""
     .cb-entrepreneur  {{ background: #FFF2D6; color: #7A541A; }}
     .cb-company       {{ background: #ECECEC; color: #2E2E2E; }}
     .cb-professor     {{ background: #EAE6F8; color: #4F388B; }}
+    .cb-researcher    {{ background: #E6F5F3; color: #1F6B63; }}
 
     /* Contact block inside profile */
     .contact-row {{
@@ -344,6 +345,169 @@ st.markdown(f"""
         opacity: 0.55;
         margin-top: 0.7rem;
     }}
+
+    .hero-panel {{
+        background: linear-gradient(180deg, #F6F2E8 0%, #FFFFFF 100%);
+        border: 1px solid #E8E1D3;
+        border-radius: 24px;
+        padding: 1.3rem 1.35rem;
+        box-shadow: 0 18px 45px -34px rgba(17, 17, 17, 0.45);
+    }}
+    .hero-panel-kicker {{
+        color: {GREEN_DARK};
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }}
+    .hero-panel-title {{
+        color: {INK};
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1.55rem;
+        font-weight: 700;
+        line-height: 1.15;
+        margin-bottom: 0.9rem;
+    }}
+    .hero-points {{
+        display: grid;
+        gap: 0.75rem;
+    }}
+    .hero-point {{
+        display: flex;
+        gap: 0.7rem;
+        align-items: flex-start;
+        color: {INK};
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }}
+    .hero-point-dot {{
+        width: 0.65rem;
+        height: 0.65rem;
+        border-radius: 999px;
+        background: linear-gradient(180deg, {GREEN} 0%, {GREEN_DARK} 100%);
+        flex: 0 0 0.65rem;
+        margin-top: 0.32rem;
+        box-shadow: 0 0 0 4px rgba(111, 168, 61, 0.12);
+    }}
+    .hero-metrics {{
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.75rem;
+        margin-top: 1rem;
+    }}
+    .hero-metric {{
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid {SOFT};
+        border-radius: 16px;
+        padding: 0.8rem 0.9rem;
+    }}
+    .hero-metric-value {{
+        color: {INK};
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1.55rem;
+        font-weight: 700;
+        line-height: 1;
+        margin-bottom: 0.3rem;
+    }}
+    .hero-metric-label {{
+        color: {MUTED};
+        font-size: 0.78rem;
+        line-height: 1.35;
+    }}
+    .platform-grid {{
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 1rem;
+        margin: 1rem 0 0.5rem 0;
+    }}
+    .platform-card {{
+        grid-column: span 4;
+        border-radius: 22px;
+        border: 1px solid {SOFT};
+        padding: 1.2rem 1.2rem 1.15rem 1.2rem;
+        min-height: 220px;
+        background: linear-gradient(180deg, #FFFFFF 0%, #F9F9F6 100%);
+        box-shadow: 0 20px 45px -38px rgba(17, 17, 17, 0.38);
+    }}
+    .platform-card.tone-civic {{
+        background: linear-gradient(180deg, #F3F8EC 0%, #FFFFFF 100%);
+        border-color: #DAE7C8;
+    }}
+    .platform-card.tone-public {{
+        background: linear-gradient(180deg, #EEF3FB 0%, #FFFFFF 100%);
+        border-color: #DCE5F3;
+    }}
+    .platform-card.tone-political {{
+        background: linear-gradient(180deg, #F9EEF2 0%, #FFFFFF 100%);
+        border-color: #EBDCE1;
+    }}
+    .platform-card.tone-business {{
+        background: linear-gradient(180deg, #FFF5E3 0%, #FFFFFF 100%);
+        border-color: #F0E0BC;
+    }}
+    .platform-card.tone-academia {{
+        background: linear-gradient(180deg, #F1EEFB 0%, #FFFFFF 100%);
+        border-color: #E1DAF3;
+    }}
+    .platform-card.tone-beta {{
+        background: linear-gradient(180deg, #1A1A1A 0%, #2C2C2C 100%);
+        border-color: #2A2A2A;
+    }}
+    .platform-kicker {{
+        color: {GREEN_DARK};
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        font-weight: 700;
+        margin-bottom: 0.55rem;
+    }}
+    .platform-title {{
+        color: {INK};
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1.45rem;
+        font-weight: 700;
+        line-height: 1.12;
+        margin-bottom: 0.65rem;
+    }}
+    .platform-desc {{
+        color: {INK};
+        font-size: 0.96rem;
+        line-height: 1.55;
+        margin-bottom: 1.05rem;
+    }}
+    .platform-meta {{
+        color: {MUTED};
+        font-size: 0.86rem;
+        line-height: 1.45;
+    }}
+    .platform-meta strong {{
+        color: {INK};
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-right: 0.15rem;
+    }}
+    .platform-card.tone-beta .platform-kicker,
+    .platform-card.tone-beta .platform-title,
+    .platform-card.tone-beta .platform-desc,
+    .platform-card.tone-beta .platform-meta,
+    .platform-card.tone-beta .platform-meta strong {{
+        color: #FFFFFF;
+    }}
+    .platform-card.tone-beta .platform-meta {{
+        color: rgba(255, 255, 255, 0.78);
+    }}
+
+    @media (max-width: 980px) {{
+        .hero-metrics {{
+            grid-template-columns: 1fr;
+        }}
+        .platform-card {{
+            grid-column: 1 / -1;
+            min-height: 0;
+        }}
+    }}
 </style>
 """, unsafe_allow_html=True)
 
@@ -383,6 +547,52 @@ def get_data(source: str, sheet_id: str = "", uploaded=None) -> pd.DataFrame:
     else:
         raw = load_csv(SAMPLE_PATH)
     return explode_multivalued(clean(raw))
+
+PAPERS_PATH = Path(__file__).parent.parent.parent / "data" / "papers_database.csv"
+COURSES_PATH = Path(__file__).parent.parent.parent / "data" / "courses_2026.csv"
+
+@st.cache_data(show_spinner=False)
+def load_papers(path: Path) -> pd.DataFrame:
+    if not path.exists():
+        return pd.DataFrame()
+    p = pd.read_csv(path)
+    if "focus_areas" in p.columns:
+        p["focus_areas"] = p["focus_areas"].fillna("").apply(
+            lambda s: [x.strip() for x in str(s).split(";") if x.strip()]
+        )
+    return p
+
+@st.cache_data(show_spinner=False)
+def load_courses(path: Path) -> pd.DataFrame:
+    if not path.exists():
+        return pd.DataFrame()
+    c = pd.read_csv(path)
+    for date_col in ("start_date", "end_date"):
+        if date_col in c.columns:
+            c[date_col] = pd.to_datetime(c[date_col], errors="coerce")
+    for col in ("instructors", "focus_areas", "includes"):
+        if col in c.columns:
+            c[col] = c[col].fillna("").apply(
+                lambda s: [x.strip() for x in str(s).split(";") if x.strip()]
+            )
+        else:
+            c[col] = [[] for _ in range(len(c))]
+    return c
+
+MONTHS_ES = ["enero", "febrero", "marzo", "abril", "mayo", "junio",
+             "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
+
+def fmt_date_range(start, end, lang: str) -> str:
+    if pd.isna(start) or pd.isna(end):
+        return ""
+    if lang == "es":
+        if start.month == end.month and start.year == end.year:
+            return f"{start.day}–{end.day} de {MONTHS_ES[start.month-1]} {start.year}"
+        return (f"{start.day} {MONTHS_ES[start.month-1]} – "
+                f"{end.day} {MONTHS_ES[end.month-1]} {start.year}")
+    if start.month == end.month and start.year == end.year:
+        return f"{start.strftime('%b')} {start.day}–{end.day}, {start.year}"
+    return f"{start.strftime('%b')} {start.day} – {end.strftime('%b')} {end.day}, {start.year}"
 
 # ── Sidebar ──────────────────────────────────────────────────────────────────
 with st.sidebar:
@@ -479,6 +689,177 @@ CLASS_KEYS = ["institution", "civil_society", "politician", "entrepreneur", "com
 def class_badge_html(actor_class: str, lang: str) -> str:
     label = t(f"cls_{actor_class}", lang) if actor_class in CLASS_KEYS else actor_class
     return f'<span class="class-badge cb-{actor_class}">{label}</span>'
+
+papers = load_papers(PAPERS_PATH)
+courses = load_courses(COURSES_PATH)
+today = pd.Timestamp.today().normalize()
+upcoming = (
+    courses[courses["end_date"] >= today].sort_values("start_date")
+    if not courses.empty else pd.DataFrame()
+)
+
+def actor_count(frame: pd.DataFrame, *classes: str) -> int:
+    if frame.empty or "actor_class" not in frame.columns:
+        return 0
+    return int(frame["actor_class"].isin(classes).sum())
+
+def hero_point_html(text: str) -> str:
+    return (
+        '<div class="hero-point">'
+        '<span class="hero-point-dot"></span>'
+        f"<span>{text}</span>"
+        "</div>"
+    )
+
+def platform_card_html(kicker: str, title: str, desc: str, meta: str, tone: str) -> str:
+    return (
+        f'<div class="platform-card tone-{tone}">'
+        f'<div class="platform-kicker">{kicker}</div>'
+        f'<div class="platform-title">{title}</div>'
+        f'<div class="platform-desc">{desc}</div>'
+        f'<div class="platform-meta">{meta}</div>'
+        "</div>"
+    )
+
+def render_connect_directory() -> None:
+    st.markdown(f"## {t('sec_connect', lang)}")
+    st.markdown(f'<div class="intro">{t("sec_connect_intro", lang)}</div>', unsafe_allow_html=True)
+
+    sort_options = [t("sort_name", lang), t("sort_new", lang),
+                    t("sort_old", lang), t("sort_country", lang)]
+
+    sc_sort, _ = st.columns([1, 2])
+    with sc_sort:
+        sort_by = st.selectbox(t("sort_label", lang), sort_options, label_visibility="collapsed")
+
+    if sort_by == t("sort_name", lang):
+        table = df_f.sort_values("name")
+    elif sort_by == t("sort_new", lang):
+        table = df_f.sort_values("founded_year", ascending=False, na_position="last")
+    elif sort_by == t("sort_old", lang):
+        table = df_f.sort_values("founded_year", ascending=True, na_position="last")
+    else:
+        table = df_f.sort_values(["country", "name"])
+
+    tab_defs = [
+        ("all",            t("tab_all",          lang), None),
+        ("institution",    t("tab_institution",  lang), "institution"),
+        ("civil_society",  t("tab_civil",        lang), "civil_society"),
+        ("politician",     t("tab_politician",   lang), "politician"),
+        ("entrepreneur",   t("tab_entrepreneur", lang), "entrepreneur"),
+        ("company",        t("tab_company",      lang), "company"),
+        ("professor",      t("tab_professor",    lang), "professor"),
+        ("researcher",     t("tab_researcher",   lang), "researcher"),
+    ]
+    tab_keys = [k for k, _, _ in tab_defs]
+    tab_labels = {k: lbl for k, lbl, _ in tab_defs}
+    tab_filter = {k: cls for k, _, cls in tab_defs}
+
+    active = st.segmented_control(
+        " ",
+        options=tab_keys,
+        format_func=lambda k: tab_labels[k],
+        default="all",
+        key="directory_tab",
+        label_visibility="collapsed",
+    ) or "all"
+
+    active_cls = tab_filter[active]
+    subset = table if active_cls is None else table[table["actor_class"] == active_cls]
+
+    if len(table) == 0:
+        st.markdown(f'<div class="note">{t("search_empty", lang)}</div>', unsafe_allow_html=True)
+        return
+    if len(subset) == 0:
+        st.markdown(f'<div class="note">{t("tab_empty", lang)}</div>', unsafe_allow_html=True)
+        return
+
+    for _, row in subset.iterrows():
+        focus_str = " · ".join(row["focus_areas"])
+        founded = f' · {int(row["founded_year"])}' if pd.notna(row["founded_year"]) else ""
+        cls_label = t(f"cls_{row.get('actor_class','institution')}", lang)
+        label = (
+            f'{row["name"]}  ·  {cls_label}\n'
+            f'{row["type"]} · {row["city"]}, {row["country"]}{founded}\n'
+            f'{row["description"]}\n'
+            f'{focus_str} ›'
+        )
+        if st.button(label, key=f"org_{active}_{row['name']}",
+                     type="tertiary", use_container_width=True):
+            st.session_state.selected_org = row["name"]
+            st.rerun()
+
+def render_research_hub() -> None:
+    st.markdown(f"## {t('sec_research', lang)}")
+    st.markdown(f'<div class="intro">{t("sec_research_intro", lang)}</div>', unsafe_allow_html=True)
+
+    st.markdown(f"### {t('sub_research_topics', lang)}")
+    focus_labels = sorted({f for lst in df["focus_areas"] for f in lst})
+    topics_html = " ".join(
+        f'<span class="pill" style="font-size: 0.85rem; padding: 0.4rem 1rem; margin: 0 0.5rem 0.6rem 0;">{f}</span>'
+        for f in focus_labels
+    )
+    st.markdown(f'<div style="margin-bottom: 2rem;">{topics_html}</div>', unsafe_allow_html=True)
+
+    st.markdown(f"### {t('sub_research_database', lang)}")
+    if papers.empty:
+        st.info("No research papers in database.")
+        return
+
+    cols = st.columns(2)
+    for i, (_, p) in enumerate(papers.iterrows()):
+        col = cols[i % 2]
+        pills = " ".join(f'<span class="pill-muted">{f}</span>' for f in p.get("focus_areas", []))
+        col.markdown(
+            f'<div class="course-card" style="border-left: 4px solid {MUTED}; padding: 1.2rem; margin-bottom: 0.8rem; height: 95%; display: flex; flex-direction: column;">'
+            f'<div class="course-title" style="font-size: 1.25rem; line-height: 1.25; margin-bottom: 0.4rem;">{p["title"]}</div>'
+            f'<div class="course-meta">{t("paper_authors", lang)}: {p["authors"]} &nbsp;·&nbsp; {p["year"]}</div>'
+            f'<div style="margin:0.25rem 0 0.5rem 0;">{pills}</div>'
+            f'<div class="course-desc" style="font-size: 0.9rem; max-width: 100%; flex-grow: 1;">{p["abstract"]}</div>'
+            f'<div style="margin-top:auto;">'
+            f'<a class="course-cta" style="background: {INK}; padding: 0.4rem 1rem; align-self: flex-start; margin-top: 0.8rem;" href="{p["link"]}" target="_blank" rel="noopener">'
+            f'{t("paper_read", lang)}</a></div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+
+def render_courses_section() -> None:
+    if upcoming.empty:
+        return
+
+    st.markdown(f"## {t('sec_courses', lang)}")
+    st.markdown(f'<div class="intro">{t("sec_courses_intro", lang)}</div>',
+                unsafe_allow_html=True)
+
+    for _, c in upcoming.iterrows():
+        date_str = fmt_date_range(c["start_date"], c["end_date"], lang)
+        n_sessions = int(c["sessions"]) if pd.notna(c.get("sessions")) else 0
+        n_hours = int(c["hours_per_session"]) if pd.notna(c.get("hours_per_session")) else 0
+        sessions_str = t("c_sessions", lang, n=n_sessions, h=n_hours)
+        desc_col = f"description_{lang}"
+        desc = (c.get(desc_col) if pd.notna(c.get(desc_col)) else None) \
+               or c.get("description_es") or ""
+        pills = " ".join(f'<span class="pill">{f}</span>' for f in c["focus_areas"])
+        instructors_str = " · ".join(c["instructors"])
+        includes_str = " · ".join(c["includes"])
+        register_url = c["register_url"] if pd.notna(c.get("register_url")) else "#"
+
+        st.markdown(
+            f'<div class="course-card">'
+            f'<div class="eyebrow">{c["program"]} · {c["level"]} · {c["modality"]}</div>'
+            f'<div class="course-title">{c["name"]}</div>'
+            f'<div class="course-meta">{date_str} · {sessions_str} · {c["timezone"]}</div>'
+            f'<div style="margin:0.35rem 0 0.2rem 0;">{pills}</div>'
+            f'<div class="course-desc">{desc}</div>'
+            f'<div class="course-kv"><span class="k">{t("c_instructors", lang)}</span>'
+            f'{instructors_str}</div>'
+            f'<div class="course-kv"><span class="k">{t("c_includes", lang)}</span>'
+            f'{includes_str}</div>'
+            f'<a class="course-cta" href="{register_url}" target="_blank" rel="noopener">'
+            f'{t("c_register", lang)} →</a>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
 
 # ── Profile dialog ───────────────────────────────────────────────────────────
 @st.dialog("·", width="large")
@@ -647,12 +1028,34 @@ if st.session_state.selected_org:
     st.session_state.selected_org = None
 
 # ── Hero ─────────────────────────────────────────────────────────────────────
-st.markdown(f'<div class="eyebrow">{t("hero_kicker", lang)}</div>', unsafe_allow_html=True)
-st.markdown(f"# {t('title', lang)}")
-st.markdown(f'<div class="lede">{t("hero_lede", lang)}</div>', unsafe_allow_html=True)
-st.markdown(f'<div class="intro">{t("hero_mission", lang)}</div>', unsafe_allow_html=True)
-st.markdown(f'<div class="intro">{t("hero_beta", lang)}</div>', unsafe_allow_html=True)
-st.markdown(f'<div class="note">{t("hero_transparency", lang)}</div>', unsafe_allow_html=True)
+hero_l, hero_r = st.columns([1.45, 1], gap="large")
+with hero_l:
+    st.markdown(f'<div class="eyebrow">{t("hero_kicker", lang)}</div>', unsafe_allow_html=True)
+    st.markdown(f"# {t('title', lang)}")
+    st.markdown(f'<div class="lede">{t("hero_lede", lang)}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="intro">{t("hero_mission", lang)}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="intro">{t("hero_beta", lang)}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="note">{t("hero_transparency", lang)}</div>', unsafe_allow_html=True)
+with hero_r:
+    hero_points = "".join([
+        hero_point_html(t("hero_panel_point_1", lang)),
+        hero_point_html(t("hero_panel_point_2", lang)),
+        hero_point_html(t("hero_panel_point_3", lang)),
+        hero_point_html(t("hero_panel_point_4", lang)),
+    ])
+    st.markdown(
+        f'<div class="hero-panel">'
+        f'<div class="hero-panel-kicker">{t("hero_panel_kicker", lang)}</div>'
+        f'<div class="hero-panel-title">{t("hero_panel_title", lang)}</div>'
+        f'<div class="hero-points">{hero_points}</div>'
+        f'<div class="hero-metrics">'
+        f'<div class="hero-metric"><div class="hero-metric-value">{len(df_f)}</div><div class="hero-metric-label">{t("hero_panel_stat_profiles", lang)}</div></div>'
+        f'<div class="hero-metric"><div class="hero-metric-value">{len(papers)}</div><div class="hero-metric-label">{t("hero_panel_stat_research", lang)}</div></div>'
+        f'<div class="hero-metric"><div class="hero-metric-value">{len(upcoming)}</div><div class="hero-metric-label">{t("hero_panel_stat_courses", lang)}</div></div>'
+        f'</div>'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
 
 st.markdown('<hr class="thick">', unsafe_allow_html=True)
 
@@ -672,6 +1075,56 @@ with sc2:
         f'</div>',
         unsafe_allow_html=True,
     )
+
+# ── Platform overview ────────────────────────────────────────────────────────
+st.markdown(f"## {t('sec_platform', lang)}")
+st.markdown(f'<div class="intro">{t("sec_platform_intro", lang)}</div>', unsafe_allow_html=True)
+
+platform_cards = [
+    platform_card_html(
+        t("platform_civic_kicker", lang),
+        t("platform_civic_title", lang),
+        t("platform_civic_desc", lang),
+        t("platform_meta_profiles", lang, n=actor_count(df_f, "civil_society")),
+        "civic",
+    ),
+    platform_card_html(
+        t("platform_public_kicker", lang),
+        t("platform_public_title", lang),
+        t("platform_public_desc", lang),
+        t("platform_meta_profiles", lang, n=actor_count(df_f, "institution")),
+        "public",
+    ),
+    platform_card_html(
+        t("platform_political_kicker", lang),
+        t("platform_political_title", lang),
+        t("platform_political_desc", lang),
+        t("platform_meta_profiles", lang, n=actor_count(df_f, "politician")),
+        "political",
+    ),
+    platform_card_html(
+        t("platform_business_kicker", lang),
+        t("platform_business_title", lang),
+        t("platform_business_desc", lang),
+        t("platform_meta_profiles", lang, n=actor_count(df_f, "company", "entrepreneur")),
+        "business",
+    ),
+    platform_card_html(
+        t("platform_academia_kicker", lang),
+        t("platform_academia_title", lang),
+        t("platform_academia_desc", lang),
+        t("platform_meta_academia", lang, n=actor_count(df_f, "professor", "researcher"), m=len(papers)),
+        "academia",
+    ),
+    platform_card_html(
+        t("platform_beta_kicker", lang),
+        t("platform_beta_title", lang),
+        t("platform_beta_desc", lang),
+        t("platform_meta_beta", lang, n=len(upcoming)),
+        "beta",
+    ),
+]
+st.markdown(f'<div class="platform-grid">{"".join(platform_cards)}</div>', unsafe_allow_html=True)
 
 # ── Stats ────────────────────────────────────────────────────────────────────
 def stat(col, label, value, unit=""):
@@ -693,6 +1146,14 @@ stat(c4, t("stat_focus", lang), df_f["focus_areas"].explode().nunique())
 _median = df_f["age_years"].replace(0, pd.NA).median() if len(df_f) else pd.NA
 median_age = int(_median) if pd.notna(_median) else 0
 stat(c5, t("stat_age", lang), median_age, t("stat_yrs", lang))
+
+render_connect_directory()
+render_research_hub()
+render_courses_section()
+
+st.markdown('<hr class="thick">', unsafe_allow_html=True)
+st.markdown(f"## {t('sec_intelligence', lang)}")
+st.markdown(f'<div class="intro">{t("sec_intelligence_intro", lang)}</div>', unsafe_allow_html=True)
 
 # ── Map ──────────────────────────────────────────────────────────────────────
 st.markdown(f"## {t('sec_where', lang)}")
@@ -819,124 +1280,6 @@ if len(df_f) > 0:
             f'</div>',
             unsafe_allow_html=True,
         )
-
-# ── Research Hub ─────────────────────────────────────────────────────────────
-PAPERS_PATH = Path(__file__).parent.parent.parent / "data" / "papers_database.csv"
-
-@st.cache_data(show_spinner=False)
-def load_papers(path: Path) -> pd.DataFrame:
-    if not path.exists():
-        return pd.DataFrame()
-    p = pd.read_csv(path)
-    if "focus_areas" in p.columns:
-        p["focus_areas"] = p["focus_areas"].fillna("").apply(
-            lambda s: [x.strip() for x in str(s).split(";") if x.strip()]
-        )
-    return p
-
-st.markdown(f"## {t('sec_research', lang)}")
-st.markdown(f'<div class="intro">{t("sec_research_intro", lang)}</div>', unsafe_allow_html=True)
-
-st.markdown(f"### {t('sub_research_topics', lang)}")
-all_focus = sorted({f for lst in df["focus_areas"] for f in lst})
-topics_html = " ".join(f'<span class="pill" style="font-size: 0.85rem; padding: 0.4rem 1rem; margin: 0 0.5rem 0.6rem 0;">{f}</span>' for f in all_focus)
-st.markdown(f'<div style="margin-bottom: 2rem;">{topics_html}</div>', unsafe_allow_html=True)
-
-st.markdown(f"### {t('sub_research_database', lang)}")
-papers = load_papers(PAPERS_PATH)
-if papers.empty:
-     st.info("No research papers in database.")
-else:
-    cols = st.columns(2)
-    for i, (_, p) in enumerate(papers.iterrows()):
-        col = cols[i % 2]
-        pills = " ".join(f'<span class="pill-muted">{f}</span>' for f in p.get("focus_areas", []))
-        col.markdown(
-            f'<div class="course-card" style="border-left: 4px solid {MUTED}; padding: 1.2rem; margin-bottom: 0.8rem; height: 95%; display: flex; flex-direction: column;">'
-            f'<div class="course-title" style="font-size: 1.25rem; line-height: 1.25; margin-bottom: 0.4rem;">{p["title"]}</div>'
-            f'<div class="course-meta">{t("paper_authors", lang)}: {p["authors"]} &nbsp;·&nbsp; {p["year"]}</div>'
-            f'<div style="margin:0.25rem 0 0.5rem 0;">{pills}</div>'
-            f'<div class="course-desc" style="font-size: 0.9rem; max-width: 100%; flex-grow: 1;">{p["abstract"]}</div>'
-            f'<div style="margin-top:auto;">'
-            f'<a class="course-cta" style="background: {INK}; padding: 0.4rem 1rem; align-self: flex-start; margin-top: 0.8rem;" href="{p["link"]}" target="_blank" rel="noopener">'
-            f'{t("paper_read", lang)}</a></div>'
-            f'</div>',
-            unsafe_allow_html=True,
-        )
-
-# ── Próximos cursos ──────────────────────────────────────────────────────────
-COURSES_PATH = Path(__file__).parent.parent.parent / "data" / "courses_2026.csv"
-
-@st.cache_data(show_spinner=False)
-def load_courses(path: Path) -> pd.DataFrame:
-    if not path.exists():
-        return pd.DataFrame()
-    c = pd.read_csv(path)
-    for date_col in ("start_date", "end_date"):
-        if date_col in c.columns:
-            c[date_col] = pd.to_datetime(c[date_col], errors="coerce")
-    for col in ("instructors", "focus_areas", "includes"):
-        if col in c.columns:
-            c[col] = c[col].fillna("").apply(
-                lambda s: [x.strip() for x in str(s).split(";") if x.strip()]
-            )
-        else:
-            c[col] = [[] for _ in range(len(c))]
-    return c
-
-MONTHS_ES = ["enero", "febrero", "marzo", "abril", "mayo", "junio",
-             "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
-
-def fmt_date_range(start, end, lang: str) -> str:
-    if pd.isna(start) or pd.isna(end):
-        return ""
-    if lang == "es":
-        if start.month == end.month and start.year == end.year:
-            return f"{start.day}–{end.day} de {MONTHS_ES[start.month-1]} {start.year}"
-        return (f"{start.day} {MONTHS_ES[start.month-1]} – "
-                f"{end.day} {MONTHS_ES[end.month-1]} {start.year}")
-    if start.month == end.month and start.year == end.year:
-        return f"{start.strftime('%b')} {start.day}–{end.day}, {start.year}"
-    return f"{start.strftime('%b')} {start.day} – {end.strftime('%b')} {end.day}, {start.year}"
-
-courses = load_courses(COURSES_PATH)
-if not courses.empty:
-    today = pd.Timestamp.today().normalize()
-    upcoming = courses[courses["end_date"] >= today].sort_values("start_date")
-    if len(upcoming) > 0:
-        st.markdown(f"## {t('sec_courses', lang)}")
-        st.markdown(f'<div class="intro">{t("sec_courses_intro", lang)}</div>',
-                    unsafe_allow_html=True)
-
-        for _, c in upcoming.iterrows():
-            date_str = fmt_date_range(c["start_date"], c["end_date"], lang)
-            n_sessions = int(c["sessions"]) if pd.notna(c.get("sessions")) else 0
-            n_hours    = int(c["hours_per_session"]) if pd.notna(c.get("hours_per_session")) else 0
-            sessions_str = t("c_sessions", lang, n=n_sessions, h=n_hours)
-            desc_col = f"description_{lang}"
-            desc = (c.get(desc_col) if pd.notna(c.get(desc_col)) else None) \
-                   or c.get("description_es") or ""
-            pills = " ".join(f'<span class="pill">{f}</span>' for f in c["focus_areas"])
-            instructors_str = " · ".join(c["instructors"])
-            includes_str = " · ".join(c["includes"])
-            register_url = c["register_url"] if pd.notna(c.get("register_url")) else "#"
-
-            st.markdown(
-                f'<div class="course-card">'
-                f'<div class="eyebrow">{c["program"]} · {c["level"]} · {c["modality"]}</div>'
-                f'<div class="course-title">{c["name"]}</div>'
-                f'<div class="course-meta">{date_str} · {sessions_str} · {c["timezone"]}</div>'
-                f'<div style="margin:0.35rem 0 0.2rem 0;">{pills}</div>'
-                f'<div class="course-desc">{desc}</div>'
-                f'<div class="course-kv"><span class="k">{t("c_instructors", lang)}</span>'
-                f'{instructors_str}</div>'
-                f'<div class="course-kv"><span class="k">{t("c_includes", lang)}</span>'
-                f'{includes_str}</div>'
-                f'<a class="course-cta" href="{register_url}" target="_blank" rel="noopener">'
-                f'{t("c_register", lang)} →</a>'
-                f'</div>',
-                unsafe_allow_html=True,
-            )
 
 # ── Propose a member — crowdsourced submissions ──────────────────────────────
 SUBMISSIONS_PATH = Path(__file__).parent.parent.parent / "data" / "submissions.csv"
@@ -1090,70 +1433,3 @@ with st.expander(t("prop_res_expand", lang), expanded=False):
                 st.success(t("prop_res_success", lang, name=r_title.strip()))
             except Exception as e:
                 st.error(t("prop_error", lang, err=str(e)))
-
-# ── Connect with leaders — tabbed actor navigation ───────────────────────────
-st.markdown(f"## {t('sec_connect', lang)}")
-st.markdown(f'<div class="intro">{t("sec_connect_intro", lang)}</div>', unsafe_allow_html=True)
-
-sort_options = [t("sort_name", lang), t("sort_new", lang),
-                t("sort_old", lang), t("sort_country", lang)]
-
-sc_sort, _ = st.columns([1, 2])
-with sc_sort:
-    sort_by = st.selectbox(t("sort_label", lang), sort_options, label_visibility="collapsed")
-
-if sort_by == t("sort_name", lang):
-    table = df_f.sort_values("name")
-elif sort_by == t("sort_new", lang):
-    table = df_f.sort_values("founded_year", ascending=False, na_position="last")
-elif sort_by == t("sort_old", lang):
-    table = df_f.sort_values("founded_year", ascending=True, na_position="last")
-else:
-    table = df_f.sort_values(["country", "name"])
-
-# Actor-class navigation via segmented control (persists across reruns)
-tab_defs = [
-    ("all",            t("tab_all",          lang), None),
-    ("institution",    t("tab_institution",  lang), "institution"),
-    ("civil_society",  t("tab_civil",        lang), "civil_society"),
-    ("politician",     t("tab_politician",   lang), "politician"),
-    ("entrepreneur",   t("tab_entrepreneur", lang), "entrepreneur"),
-    ("company",        t("tab_company",      lang), "company"),
-    ("professor",      t("tab_professor",    lang), "professor"),
-    ("researcher",     t("tab_researcher",   lang), "researcher"),
-]
-tab_keys   = [k   for k, _, _ in tab_defs]
-tab_labels = {k: lbl for k, lbl, _ in tab_defs}
-tab_filter = {k: cls for k, _, cls in tab_defs}
-
-active = st.segmented_control(
-    " ",
-    options=tab_keys,
-    format_func=lambda k: tab_labels[k],
-    default="all",
-    key="directory_tab",
-    label_visibility="collapsed",
-) or "all"
-
-active_cls = tab_filter[active]
-subset = table if active_cls is None else table[table["actor_class"] == active_cls]
-
-if len(table) == 0:
-    st.markdown(f'<div class="note">{t("search_empty", lang)}</div>', unsafe_allow_html=True)
-elif len(subset) == 0:
-    st.markdown(f'<div class="note">{t("tab_empty", lang)}</div>', unsafe_allow_html=True)
-
-for _, row in subset.iterrows():
-    focus_str = " · ".join(row["focus_areas"])
-    founded = f' · {int(row["founded_year"])}' if pd.notna(row["founded_year"]) else ""
-    cls_label = t(f"cls_{row.get('actor_class','institution')}", lang)
-    label = (
-        f'{row["name"]}  ·  {cls_label}\n'
-        f'{row["type"]} · {row["city"]}, {row["country"]}{founded}\n'
-        f'{row["description"]}\n'
-        f'{focus_str} ›'
-    )
-    if st.button(label, key=f"org_{active}_{row['name']}",
-                 type="tertiary", use_container_width=True):
-        st.session_state.selected_org = row["name"]
-        st.rerun()
