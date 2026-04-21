@@ -429,6 +429,13 @@ st.markdown(f"""
         min-height: 220px;
         background: linear-gradient(180deg, #FFFFFF 0%, #F9F9F6 100%);
         box-shadow: 0 20px 45px -38px rgba(17, 17, 17, 0.38);
+        position: relative;
+        overflow: hidden;
+        transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }}
+    .platform-card:hover {{
+        transform: translateY(-3px);
+        box-shadow: 0 28px 52px -40px rgba(17, 17, 17, 0.42);
     }}
     .platform-card.tone-civic {{
         background: linear-gradient(180deg, #F3F8EC 0%, #FFFFFF 100%);
@@ -488,15 +495,395 @@ st.markdown(f"""
         font-weight: 700;
         margin-right: 0.15rem;
     }}
+    .platform-footer {{
+        margin-top: 1rem;
+        padding-top: 0.9rem;
+        border-top: 1px solid rgba(17, 17, 17, 0.08);
+        color: {INK};
+        font-size: 0.86rem;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+    }}
     .platform-card.tone-beta .platform-kicker,
     .platform-card.tone-beta .platform-title,
     .platform-card.tone-beta .platform-desc,
     .platform-card.tone-beta .platform-meta,
-    .platform-card.tone-beta .platform-meta strong {{
+    .platform-card.tone-beta .platform-meta strong,
+    .platform-card.tone-beta .platform-footer {{
         color: #FFFFFF;
     }}
     .platform-card.tone-beta .platform-meta {{
         color: rgba(255, 255, 255, 0.78);
+    }}
+    .platform-card.tone-beta .platform-footer {{
+        border-top-color: rgba(255, 255, 255, 0.14);
+    }}
+    .launchpad-card {{
+        background: linear-gradient(135deg, #171717 0%, #2B2B2B 100%);
+        border-radius: 24px;
+        padding: 1.3rem 1.35rem;
+        color: white;
+        box-shadow: 0 22px 46px -34px rgba(17, 17, 17, 0.62);
+        margin-bottom: 0.65rem;
+    }}
+    .launchpad-kicker {{
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-weight: 700;
+        margin-bottom: 0.55rem;
+    }}
+    .launchpad-title {{
+        color: white;
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1.55rem;
+        line-height: 1.08;
+        margin-bottom: 0.7rem;
+        font-weight: 700;
+    }}
+    .launchpad-copy {{
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 0.95rem;
+        line-height: 1.55;
+        margin-bottom: 0.95rem;
+    }}
+    .launchpad-course {{
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 18px;
+        padding: 0.95rem 1rem;
+    }}
+    .launchpad-course-kicker {{
+        color: rgba(255, 255, 255, 0.66);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-weight: 700;
+        margin-bottom: 0.45rem;
+    }}
+    .launchpad-course-title {{
+        color: white;
+        font-size: 1.08rem;
+        line-height: 1.35;
+        font-weight: 600;
+        margin-bottom: 0.35rem;
+    }}
+    .launchpad-course-meta {{
+        color: rgba(255, 255, 255, 0.78);
+        font-size: 0.87rem;
+        line-height: 1.45;
+    }}
+    .leader-card {{
+        background: linear-gradient(180deg, #FFFFFF 0%, #FBFBF7 100%);
+        border: 1px solid {SOFT};
+        border-radius: 22px;
+        padding: 1.2rem 1.2rem 1rem 1.2rem;
+        margin-bottom: 0.7rem;
+        box-shadow: 0 18px 40px -38px rgba(17, 17, 17, 0.48);
+        transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+    }}
+    .leader-card:hover {{
+        transform: translateY(-2px);
+        box-shadow: 0 24px 44px -36px rgba(17, 17, 17, 0.42);
+    }}
+    .leader-card-top {{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.55rem;
+        margin-bottom: 0.55rem;
+    }}
+    .leader-card-kicker {{
+        color: {MUTED};
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-weight: 700;
+    }}
+    .leader-card-name {{
+        color: {INK};
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1.5rem;
+        line-height: 1.08;
+        margin-bottom: 0.45rem;
+        font-weight: 700;
+    }}
+    .leader-card-meta {{
+        color: {INK};
+        font-size: 0.92rem;
+        line-height: 1.45;
+        margin-bottom: 0.65rem;
+    }}
+    .leader-card-desc {{
+        color: {MUTED};
+        font-size: 0.94rem;
+        line-height: 1.6;
+        margin-bottom: 0.85rem;
+        min-height: 4.6rem;
+    }}
+    .leader-focus-row {{
+        margin-bottom: 0.1rem;
+    }}
+    .directory-head-note {{
+        color: {GREEN_DARK};
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-top: 0.2rem;
+    }}
+    .directory-toolbar {{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin: 0.35rem 0 0.35rem 0;
+    }}
+    .toolbar-count {{
+        color: {MUTED};
+        font-size: 0.9rem;
+        font-weight: 600;
+        padding-top: 0.15rem;
+    }}
+    .sidebar-panel {{
+        background: linear-gradient(180deg, #181818 0%, #292929 100%);
+        border-radius: 22px;
+        padding: 1.1rem 1rem 1rem 1rem;
+        color: white;
+        box-shadow: 0 22px 44px -36px rgba(17, 17, 17, 0.6);
+        margin-bottom: 1rem;
+    }}
+    .sidebar-panel-kicker {{
+        color: rgba(255,255,255,0.68);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-weight: 700;
+        margin-bottom: 0.45rem;
+    }}
+    .sidebar-panel-title {{
+        color: white;
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1.45rem;
+        line-height: 1.08;
+        font-weight: 700;
+        margin-bottom: 0.6rem;
+    }}
+    .sidebar-panel-copy {{
+        color: rgba(255,255,255,0.8);
+        font-size: 0.9rem;
+        line-height: 1.55;
+        margin-bottom: 0.9rem;
+    }}
+    .sidebar-metrics {{
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.55rem;
+        margin-bottom: 0.95rem;
+    }}
+    .sidebar-metric {{
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 16px;
+        padding: 0.7rem 0.6rem;
+        text-align: center;
+    }}
+    .sidebar-metric-value {{
+        color: white;
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1.28rem;
+        font-weight: 700;
+        line-height: 1;
+        margin-bottom: 0.2rem;
+    }}
+    .sidebar-metric-label {{
+        color: rgba(255,255,255,0.72);
+        font-size: 0.72rem;
+        line-height: 1.3;
+    }}
+    .sidebar-routes-label {{
+        color: rgba(255,255,255,0.74);
+        font-size: 0.74rem;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }}
+    .sidebar-routes {{
+        display: grid;
+        gap: 0.5rem;
+    }}
+    .sidebar-route {{
+        display: block;
+        padding: 0.72rem 0.85rem;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.12);
+        color: white !important;
+        text-decoration: none !important;
+        font-size: 0.88rem;
+        font-weight: 600;
+        transition: transform .16s ease, background .16s ease, border-color .16s ease;
+    }}
+    .sidebar-route:hover {{
+        transform: translateY(-1px);
+        background: rgba(255,255,255,0.14);
+        border-color: rgba(255,255,255,0.24);
+    }}
+    .sidebar-note {{
+        color: {MUTED};
+        font-size: 0.82rem;
+        line-height: 1.45;
+        margin: 0.7rem 0 0.95rem 0;
+    }}
+    .beta-banner {{
+        background: linear-gradient(135deg, #F4E9D1 0%, #FFFFFF 100%);
+        border: 1px solid #EADAB8;
+        border-radius: 28px;
+        padding: 1.25rem 1.35rem;
+        margin: 1rem 0 1.4rem 0;
+        box-shadow: 0 20px 46px -40px rgba(17,17,17,0.46);
+    }}
+    .beta-banner-kicker {{
+        color: {GREEN_DARK};
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-weight: 700;
+        margin-bottom: 0.45rem;
+    }}
+    .beta-banner-title {{
+        color: {INK};
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1.75rem;
+        line-height: 1.05;
+        font-weight: 700;
+        margin-bottom: 0.6rem;
+        max-width: 14ch;
+    }}
+    .beta-banner-copy {{
+        color: {INK};
+        font-size: 1rem;
+        line-height: 1.6;
+        max-width: 60ch;
+    }}
+    .propose-shell {{
+        background: linear-gradient(180deg, #F7F4EC 0%, #FFFFFF 100%);
+        border: 1px solid #ECE4D4;
+        border-radius: 28px;
+        padding: 1.4rem 1.45rem 1.2rem 1.45rem;
+        margin: 1rem 0 2rem 0;
+        box-shadow: 0 24px 52px -42px rgba(17,17,17,0.42);
+    }}
+    .propose-hero {{
+        background: linear-gradient(135deg, #181818 0%, #2C2C2C 100%);
+        border-radius: 24px;
+        padding: 1.2rem 1.2rem 1.15rem 1.2rem;
+        color: white;
+        height: 100%;
+    }}
+    .propose-kicker {{
+        color: rgba(255,255,255,0.66);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-weight: 700;
+        margin-bottom: 0.45rem;
+    }}
+    .propose-title {{
+        color: white;
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 2rem;
+        line-height: 1.02;
+        font-weight: 700;
+        margin-bottom: 0.7rem;
+    }}
+    .propose-copy {{
+        color: rgba(255,255,255,0.8);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 0.95rem;
+    }}
+    .propose-list {{
+        display: grid;
+        gap: 0.7rem;
+        margin-bottom: 1rem;
+    }}
+    .propose-item {{
+        display: flex;
+        gap: 0.7rem;
+        align-items: flex-start;
+        color: white;
+        font-size: 0.92rem;
+        line-height: 1.5;
+    }}
+    .propose-item-dot {{
+        width: 0.7rem;
+        height: 0.7rem;
+        border-radius: 999px;
+        background: linear-gradient(180deg, #FFFFFF 0%, #CFCFCF 100%);
+        flex: 0 0 0.7rem;
+        margin-top: 0.32rem;
+    }}
+    .propose-trust {{
+        color: rgba(255,255,255,0.64);
+        font-size: 0.8rem;
+        line-height: 1.5;
+        padding-top: 0.85rem;
+        border-top: 1px solid rgba(255,255,255,0.12);
+    }}
+    .propose-forms-kicker {{
+        color: {GREEN_DARK};
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-weight: 700;
+        margin-bottom: 0.45rem;
+    }}
+    .propose-forms-note {{
+        color: {MUTED};
+        font-size: 0.92rem;
+        line-height: 1.55;
+        margin-bottom: 0.9rem;
+    }}
+    [data-testid="stExpander"] details {{
+        border: 1px solid #E8E1D3 !important;
+        border-radius: 20px !important;
+        background: white !important;
+        box-shadow: 0 18px 42px -42px rgba(17,17,17,0.52);
+        overflow: hidden;
+    }}
+    [data-testid="stExpander"] summary {{
+        padding: 0.25rem 0.3rem !important;
+    }}
+    [data-testid="stExpander"] summary p {{
+        font-size: 1.05rem !important;
+        font-weight: 600 !important;
+        color: {INK} !important;
+    }}
+    .inline-anchor {{
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.72rem 1rem;
+        border-radius: 999px;
+        text-decoration: none !important;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: transform .16s ease, background .16s ease, border-color .16s ease;
+    }}
+    .inline-anchor:hover {{
+        transform: translateY(-1px);
+    }}
+    .anchor-dark {{
+        background: {INK};
+        color: white !important;
+        border: 1px solid {INK};
+    }}
+    .anchor-light {{
+        background: white;
+        color: {INK} !important;
+        border: 1px solid #E8E1D3;
     }}
 
     @media (max-width: 980px) {{
@@ -506,6 +893,9 @@ st.markdown(f"""
         .platform-card {{
             grid-column: 1 / -1;
             min-height: 0;
+        }}
+        .sidebar-metrics {{
+            grid-template-columns: 1fr;
         }}
     }}
 </style>
@@ -550,6 +940,7 @@ def get_data(source: str, sheet_id: str = "", uploaded=None) -> pd.DataFrame:
 
 PAPERS_PATH = Path(__file__).parent.parent.parent / "data" / "papers_database.csv"
 COURSES_PATH = Path(__file__).parent.parent.parent / "data" / "courses_2026.csv"
+COURSE_HUB_URL = "https://sistemaurbano.org/nodal"
 
 @st.cache_data(show_spinner=False)
 def load_papers(path: Path) -> pd.DataFrame:
@@ -596,6 +987,17 @@ def fmt_date_range(start, end, lang: str) -> str:
 
 # ── Sidebar ──────────────────────────────────────────────────────────────────
 with st.sidebar:
+    sidebar_courses = load_courses(COURSES_PATH)
+    sidebar_today = pd.Timestamp.today().normalize()
+    sidebar_upcoming = (
+        sidebar_courses[sidebar_courses["end_date"] >= sidebar_today].sort_values("start_date")
+        if not sidebar_courses.empty else pd.DataFrame()
+    )
+    sidebar_course_url = (
+        str(sidebar_upcoming.iloc[0].get("register_url")).strip()
+        if not sidebar_upcoming.empty and pd.notna(sidebar_upcoming.iloc[0].get("register_url"))
+        else COURSE_HUB_URL
+    )
     LOGO_PATH = Path(__file__).parent.parent / "assets" / "logo.png"
     if LOGO_PATH.exists():
         with open(LOGO_PATH, "rb") as f:
@@ -606,7 +1008,6 @@ with st.sidebar:
                     f'<span style="color:{GREEN_DARK};">●</span>&nbsp; NODAL</div>',
                     unsafe_allow_html=True)
     st.caption(t("sb_tag", lang))
-    st.markdown("")
 
     st.markdown(f"### {t('sb_source', lang)}")
     source_label_map = {
@@ -649,6 +1050,28 @@ with st.sidebar:
         focus_ok = True
     df_base = df[type_ok & country_ok & focus_ok]
 
+    st.markdown(
+        f'<div class="sidebar-panel">'
+        f'<div class="sidebar-panel-kicker">{t("sb_panel_kicker", lang)}</div>'
+        f'<div class="sidebar-panel-title">{t("sb_panel_title", lang)}</div>'
+        f'<div class="sidebar-panel-copy">{t("sb_panel_copy", lang)}</div>'
+        f'<div class="sidebar-metrics">'
+        f'<div class="sidebar-metric"><div class="sidebar-metric-value">{len(df_base)}</div><div class="sidebar-metric-label">{t("sb_metric_profiles", lang)}</div></div>'
+        f'<div class="sidebar-metric"><div class="sidebar-metric-value">{df_base["country"].nunique()}</div><div class="sidebar-metric-label">{t("sb_metric_countries", lang)}</div></div>'
+        f'<div class="sidebar-metric"><div class="sidebar-metric-value">{len(sidebar_upcoming)}</div><div class="sidebar-metric-label">{t("sb_metric_courses", lang)}</div></div>'
+        f'</div>'
+        f'<div class="sidebar-routes-label">{t("sb_quick_routes", lang)}</div>'
+        f'<div class="sidebar-routes">'
+        f'<a class="sidebar-route" href="#connect-hub" target="_self">{t("sb_link_explore", lang)} →</a>'
+        f'<a class="sidebar-route" href="#join-network" target="_self">{t("sb_link_join", lang)} →</a>'
+        f'<a class="sidebar-route" href="#research-hub" target="_self">{t("sb_link_research", lang)} →</a>'
+        f'</div>'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+    st.link_button(t("sb_link_courses", lang), sidebar_course_url, use_container_width=True)
+    st.markdown(f'<div class="sidebar-note">{t("sb_note", lang)}</div>', unsafe_allow_html=True)
+
 # Apply search on top of filters
 search_term = st.session_state.search.strip().lower()
 if search_term:
@@ -690,6 +1113,16 @@ def class_badge_html(actor_class: str, lang: str) -> str:
     label = t(f"cls_{actor_class}", lang) if actor_class in CLASS_KEYS else actor_class
     return f'<span class="class-badge cb-{actor_class}">{label}</span>'
 
+CLASS_TONES = {
+    "institution": "#2F4A7A",
+    "civil_society": GREEN_DARK,
+    "politician": "#8A2B50",
+    "entrepreneur": "#7A541A",
+    "company": "#2E2E2E",
+    "professor": "#4F388B",
+    "researcher": "#1F6B63",
+}
+
 papers = load_papers(PAPERS_PATH)
 courses = load_courses(COURSES_PATH)
 today = pd.Timestamp.today().normalize()
@@ -711,24 +1144,242 @@ def hero_point_html(text: str) -> str:
         "</div>"
     )
 
-def platform_card_html(kicker: str, title: str, desc: str, meta: str, tone: str) -> str:
+def class_tone(actor_class: str) -> str:
+    return CLASS_TONES.get(actor_class, GREEN_DARK)
+
+def truncate_text(text: str, max_chars: int = 185) -> str:
+    text = " ".join(str(text).split())
+    if len(text) <= max_chars:
+        return text
+    return text[: max_chars - 1].rsplit(" ", 1)[0] + "…"
+
+def preferred_tab(*classes: str) -> str:
+    counts = {cls: actor_count(df_f, cls) for cls in classes}
+    return max(counts, key=counts.get) if counts else "all"
+
+def platform_card_html(kicker: str, title: str, desc: str, meta: str, tone: str, footer: str) -> str:
     return (
         f'<div class="platform-card tone-{tone}">'
         f'<div class="platform-kicker">{kicker}</div>'
         f'<div class="platform-title">{title}</div>'
         f'<div class="platform-desc">{desc}</div>'
         f'<div class="platform-meta">{meta}</div>'
+        f'<div class="platform-footer">{footer}</div>'
         "</div>"
     )
 
+def render_platform_overview() -> None:
+    st.markdown(f"## {t('sec_platform', lang)}")
+    st.markdown(f'<div class="intro">{t("sec_platform_intro", lang)}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="directory-head-note">{t("platform_actions_hint", lang)}</div>', unsafe_allow_html=True)
+
+    cards = [
+        {
+            "key": "civic",
+            "tone": "civic",
+            "kicker": t("platform_civic_kicker", lang),
+            "title": t("platform_civic_title", lang),
+            "desc": t("platform_civic_desc", lang),
+            "meta": t("platform_meta_profiles", lang, n=actor_count(df_f, "civil_society")),
+            "footer": t("platform_footer_civic", lang),
+            "cta": t("platform_cta_civic", lang),
+            "tab": "civil_society",
+        },
+        {
+            "key": "public",
+            "tone": "public",
+            "kicker": t("platform_public_kicker", lang),
+            "title": t("platform_public_title", lang),
+            "desc": t("platform_public_desc", lang),
+            "meta": t("platform_meta_profiles", lang, n=actor_count(df_f, "institution")),
+            "footer": t("platform_footer_public", lang),
+            "cta": t("platform_cta_public", lang),
+            "tab": "institution",
+        },
+        {
+            "key": "political",
+            "tone": "political",
+            "kicker": t("platform_political_kicker", lang),
+            "title": t("platform_political_title", lang),
+            "desc": t("platform_political_desc", lang),
+            "meta": t("platform_meta_profiles", lang, n=actor_count(df_f, "politician")),
+            "footer": t("platform_footer_political", lang),
+            "cta": t("platform_cta_political", lang),
+            "tab": "politician",
+        },
+        {
+            "key": "business",
+            "tone": "business",
+            "kicker": t("platform_business_kicker", lang),
+            "title": t("platform_business_title", lang),
+            "desc": t("platform_business_desc", lang),
+            "meta": t("platform_meta_profiles", lang, n=actor_count(df_f, "company", "entrepreneur")),
+            "footer": t("platform_footer_business", lang),
+            "cta": t("platform_cta_business", lang),
+            "tab": preferred_tab("company", "entrepreneur"),
+        },
+        {
+            "key": "academia",
+            "tone": "academia",
+            "kicker": t("platform_academia_kicker", lang),
+            "title": t("platform_academia_title", lang),
+            "desc": t("platform_academia_desc", lang),
+            "meta": t("platform_meta_academia", lang, n=actor_count(df_f, "professor", "researcher"), m=len(papers)),
+            "footer": t("platform_footer_academia", lang),
+            "cta": t("platform_cta_academia", lang),
+            "tab": preferred_tab("researcher", "professor"),
+        },
+        {
+            "key": "beta",
+            "tone": "beta",
+            "kicker": t("platform_beta_kicker", lang),
+            "title": t("platform_beta_title", lang),
+            "desc": t("platform_beta_desc", lang),
+            "meta": t("platform_meta_beta", lang, n=len(upcoming)),
+            "footer": t("platform_footer_beta", lang),
+            "cta": t("platform_cta_beta", lang),
+            "url": (
+                str(upcoming.iloc[0].get("register_url")).strip()
+                if not upcoming.empty and pd.notna(upcoming.iloc[0].get("register_url"))
+                else "https://sistemaurbano.org/nodal"
+            ),
+        },
+    ]
+
+    for start in range(0, len(cards), 3):
+        row = cards[start:start + 3]
+        cols = st.columns(3, gap="large")
+        for col, card in zip(cols, row):
+            with col:
+                st.markdown(
+                    platform_card_html(
+                        card["kicker"],
+                        card["title"],
+                        card["desc"],
+                        card["meta"],
+                        card["tone"],
+                        card["footer"],
+                    ),
+                    unsafe_allow_html=True,
+                )
+                if card.get("url"):
+                    st.link_button(card["cta"], card["url"], use_container_width=True)
+                else:
+                    if st.button(card["cta"], key=f"route_{card['key']}", use_container_width=True):
+                        st.session_state.directory_tab = card["tab"]
+                        st.session_state.search = ""
+                        st.rerun()
+
+def launchpad_html(next_course) -> str:
+    if next_course is None:
+        course_html = (
+            f'<div class="launchpad-course">'
+            f'<div class="launchpad-course-kicker">{t("connect_launch_course", lang)}</div>'
+            f'<div class="launchpad-course-meta">{t("connect_launch_empty", lang)}</div>'
+            f'</div>'
+        )
+    else:
+        course_html = (
+            f'<div class="launchpad-course">'
+            f'<div class="launchpad-course-kicker">{t("connect_launch_course", lang)}</div>'
+            f'<div class="launchpad-course-title">{next_course["name"]}</div>'
+            f'<div class="launchpad-course-meta">'
+            f'{fmt_date_range(next_course["start_date"], next_course["end_date"], lang)} · {next_course["modality"]}<br>'
+            f'{t("connect_launch_course_site", lang)}: sistemaurbano.org/nodal'
+            f'</div>'
+            f'</div>'
+        )
+    return (
+        f'<div class="launchpad-card">'
+        f'<div class="launchpad-kicker">{t("connect_launch_kicker", lang)}</div>'
+        f'<div class="launchpad-title">{t("connect_launch_title", lang)}</div>'
+        f'<div class="launchpad-copy">{t("connect_launch_copy", lang)}</div>'
+        f'{course_html}'
+        f'</div>'
+    )
+
+def render_leader_card(row: pd.Series, active: str) -> None:
+    actor_class = row.get("actor_class", "institution")
+    tone = class_tone(actor_class)
+    focus_items = row.get("focus_areas") or []
+    focus_html = "".join(f'<span class="pill">{f}</span>' for f in focus_items[:3])
+    founded = f' · {int(row["founded_year"])}' if pd.notna(row.get("founded_year")) else ""
+    kicker = f'{row["type"]} · {row["city"]}, {row["country"]}{founded}'
+    desc = truncate_text(row.get("description", ""), max_chars=190)
+    website = str(row.get("website")).strip() if pd.notna(row.get("website")) else ""
+
+    st.markdown(
+        f'<div class="leader-card" style="border-top: 4px solid {tone};">'
+        f'<div class="leader-card-top">'
+        f'<div class="leader-card-kicker">{kicker}</div>'
+        f'{class_badge_html(actor_class, lang)}'
+        f'</div>'
+        f'<div class="leader-card-name">{row["name"]}</div>'
+        f'<div class="leader-card-meta">{row["city"]}, {row["country"]}</div>'
+        f'<div class="leader-card-desc">{desc}</div>'
+        f'<div class="leader-focus-row">{focus_html}</div>'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+
+def propose_item_html(text: str) -> str:
+    return (
+        '<div class="propose-item">'
+        '<span class="propose-item-dot"></span>'
+        f"<span>{text}</span>"
+        "</div>"
+    )
+
+def render_beta_banner() -> None:
+    st.markdown('<div id="beta-banner"></div>', unsafe_allow_html=True)
+    banner_l, banner_r = st.columns([1.35, 0.9], gap="large")
+    with banner_l:
+        st.markdown(
+            f'<div class="beta-banner">'
+            f'<div class="beta-banner-kicker">{t("beta_banner_kicker", lang)}</div>'
+            f'<div class="beta-banner-title">{t("beta_banner_title", lang)}</div>'
+            f'<div class="beta-banner-copy">{t("beta_banner_copy", lang)}</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+    with banner_r:
+        join_link = f'<a class="inline-anchor anchor-dark" href="#join-network" target="_self">{t("beta_banner_join", lang)}</a>'
+        courses_link = f'<a class="inline-anchor anchor-light" href="{COURSE_HUB_URL}" target="_blank" rel="noopener">{t("beta_banner_courses", lang)}</a>'
+        st.markdown(
+            f'<div style="padding-top:1.25rem; display:grid; gap:0.75rem;">{join_link}{courses_link}</div>',
+            unsafe_allow_html=True,
+        )
+
+    btn_cols = st.columns(2 if website else 1, gap="small")
+    with btn_cols[0]:
+        if st.button(t("dir_open_profile", lang), key=f"org_{active}_{row['name']}", type="primary", use_container_width=True):
+            st.session_state.selected_org = row["name"]
+            st.rerun()
+    if website:
+        with btn_cols[1]:
+            st.link_button(t("p_visit", lang), website, use_container_width=True)
+
 def render_connect_directory() -> None:
-    st.markdown(f"## {t('sec_connect', lang)}")
-    st.markdown(f'<div class="intro">{t("sec_connect_intro", lang)}</div>', unsafe_allow_html=True)
+    next_course = upcoming.iloc[0] if not upcoming.empty else None
+    course_url = (
+        str(next_course.get("register_url")).strip()
+        if next_course is not None and pd.notna(next_course.get("register_url"))
+        else "https://sistemaurbano.org/nodal"
+    )
+
+    head_l, head_r = st.columns([1.35, 0.95], gap="large")
+    with head_l:
+        st.markdown(f"## {t('sec_connect', lang)}")
+        st.markdown(f'<div class="intro">{t("sec_connect_intro", lang)}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="directory-head-note">{t("sec_connect_hint", lang)}</div>', unsafe_allow_html=True)
+    with head_r:
+        st.markdown(launchpad_html(next_course), unsafe_allow_html=True)
+        st.link_button(t("connect_launch_site_cta", lang), course_url, use_container_width=True)
 
     sort_options = [t("sort_name", lang), t("sort_new", lang),
                     t("sort_old", lang), t("sort_country", lang)]
 
-    sc_sort, _ = st.columns([1, 2])
+    sc_sort, sc_count = st.columns([1, 1.3])
     with sc_sort:
         sort_by = st.selectbox(t("sort_label", lang), sort_options, label_visibility="collapsed")
 
@@ -767,6 +1418,12 @@ def render_connect_directory() -> None:
     active_cls = tab_filter[active]
     subset = table if active_cls is None else table[table["actor_class"] == active_cls]
 
+    with sc_count:
+        st.markdown(
+            f'<div class="toolbar-count">{t("connect_visible", lang, n=len(subset))}</div>',
+            unsafe_allow_html=True,
+        )
+
     if len(table) == 0:
         st.markdown(f'<div class="note">{t("search_empty", lang)}</div>', unsafe_allow_html=True)
         return
@@ -774,20 +1431,10 @@ def render_connect_directory() -> None:
         st.markdown(f'<div class="note">{t("tab_empty", lang)}</div>', unsafe_allow_html=True)
         return
 
-    for _, row in subset.iterrows():
-        focus_str = " · ".join(row["focus_areas"])
-        founded = f' · {int(row["founded_year"])}' if pd.notna(row["founded_year"]) else ""
-        cls_label = t(f"cls_{row.get('actor_class','institution')}", lang)
-        label = (
-            f'{row["name"]}  ·  {cls_label}\n'
-            f'{row["type"]} · {row["city"]}, {row["country"]}{founded}\n'
-            f'{row["description"]}\n'
-            f'{focus_str} ›'
-        )
-        if st.button(label, key=f"org_{active}_{row['name']}",
-                     type="tertiary", use_container_width=True):
-            st.session_state.selected_org = row["name"]
-            st.rerun()
+    grid_cols = st.columns(2, gap="large")
+    for idx, (_, row) in enumerate(subset.iterrows()):
+        with grid_cols[idx % 2]:
+            render_leader_card(row, active)
 
 def render_research_hub() -> None:
     st.markdown(f"## {t('sec_research', lang)}")
@@ -1077,54 +1724,7 @@ with sc2:
     )
 
 # ── Platform overview ────────────────────────────────────────────────────────
-st.markdown(f"## {t('sec_platform', lang)}")
-st.markdown(f'<div class="intro">{t("sec_platform_intro", lang)}</div>', unsafe_allow_html=True)
-
-platform_cards = [
-    platform_card_html(
-        t("platform_civic_kicker", lang),
-        t("platform_civic_title", lang),
-        t("platform_civic_desc", lang),
-        t("platform_meta_profiles", lang, n=actor_count(df_f, "civil_society")),
-        "civic",
-    ),
-    platform_card_html(
-        t("platform_public_kicker", lang),
-        t("platform_public_title", lang),
-        t("platform_public_desc", lang),
-        t("platform_meta_profiles", lang, n=actor_count(df_f, "institution")),
-        "public",
-    ),
-    platform_card_html(
-        t("platform_political_kicker", lang),
-        t("platform_political_title", lang),
-        t("platform_political_desc", lang),
-        t("platform_meta_profiles", lang, n=actor_count(df_f, "politician")),
-        "political",
-    ),
-    platform_card_html(
-        t("platform_business_kicker", lang),
-        t("platform_business_title", lang),
-        t("platform_business_desc", lang),
-        t("platform_meta_profiles", lang, n=actor_count(df_f, "company", "entrepreneur")),
-        "business",
-    ),
-    platform_card_html(
-        t("platform_academia_kicker", lang),
-        t("platform_academia_title", lang),
-        t("platform_academia_desc", lang),
-        t("platform_meta_academia", lang, n=actor_count(df_f, "professor", "researcher"), m=len(papers)),
-        "academia",
-    ),
-    platform_card_html(
-        t("platform_beta_kicker", lang),
-        t("platform_beta_title", lang),
-        t("platform_beta_desc", lang),
-        t("platform_meta_beta", lang, n=len(upcoming)),
-        "beta",
-    ),
-]
-st.markdown(f'<div class="platform-grid">{"".join(platform_cards)}</div>', unsafe_allow_html=True)
+render_platform_overview()
 
 # ── Stats ────────────────────────────────────────────────────────────────────
 def stat(col, label, value, unit=""):
@@ -1147,9 +1747,13 @@ _median = df_f["age_years"].replace(0, pd.NA).median() if len(df_f) else pd.NA
 median_age = int(_median) if pd.notna(_median) else 0
 stat(c5, t("stat_age", lang), median_age, t("stat_yrs", lang))
 
+st.markdown('<div id="connect-hub"></div>', unsafe_allow_html=True)
 render_connect_directory()
-render_research_hub()
+render_beta_banner()
+st.markdown('<div id="nodal-courses"></div>', unsafe_allow_html=True)
 render_courses_section()
+st.markdown('<div id="research-hub"></div>', unsafe_allow_html=True)
+render_research_hub()
 
 st.markdown('<hr class="thick">', unsafe_allow_html=True)
 st.markdown(f"## {t('sec_intelligence', lang)}")
@@ -1317,8 +1921,30 @@ CLASS_OPTIONS = [
 _class_label_to_key = {lbl: key for key, lbl in CLASS_OPTIONS}
 _known_focus = sorted({f for lst in df["focus_areas"] for f in lst})
 
-st.markdown(f"## {t('sec_propose', lang)}")
-st.markdown(f'<div class="intro">{t("sec_propose_intro", lang)}</div>', unsafe_allow_html=True)
+st.markdown('<div id="join-network"></div>', unsafe_allow_html=True)
+prop_l, prop_r = st.columns([0.95, 1.2], gap="large")
+with prop_l:
+    propose_points = "".join([
+        propose_item_html(t("prop_panel_point_1", lang)),
+        propose_item_html(t("prop_panel_point_2", lang)),
+        propose_item_html(t("prop_panel_point_3", lang)),
+    ])
+    st.markdown(
+        f'<div class="propose-hero">'
+        f'<div class="propose-kicker">{t("prop_panel_kicker", lang)}</div>'
+        f'<div class="propose-title">{t("prop_panel_title", lang)}</div>'
+        f'<div class="propose-copy">{t("prop_panel_copy", lang)}</div>'
+        f'<div class="propose-list">{propose_points}</div>'
+        f'<div class="propose-trust">{t("prop_panel_trust", lang)}</div>'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+    st.link_button(t("beta_banner_courses", lang), COURSE_HUB_URL, use_container_width=True)
+with prop_r:
+    st.markdown(f"## {t('sec_propose', lang)}")
+    st.markdown(f'<div class="intro">{t("sec_propose_intro", lang)}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="propose-forms-kicker">{t("prop_forms_kicker", lang)}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="propose-forms-note">{t("prop_forms_note", lang)}</div>', unsafe_allow_html=True)
 
 with st.expander(t("prop_expand", lang), expanded=False):
     with st.form("propose_member", clear_on_submit=True):
