@@ -55,6 +55,8 @@ if "_pending_scroll" not in st.session_state:
     st.session_state._pending_scroll = None
 if "_directory_focus" not in st.session_state:
     st.session_state._directory_focus = None
+if "route" not in st.session_state:
+    st.session_state.route = "network"
 
 # ── CSS ──────────────────────────────────────────────────────────────────────
 st.markdown(f"""
@@ -927,6 +929,109 @@ st.markdown(f"""
         line-height: 1.45;
     }}
 
+    /* ── App-shell sidebar nav ──────────────────────────────────────────── */
+    .sidebar-section-label {{
+        color: var(--muted);
+        font-size: 0.66rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-weight: 700;
+        margin: 0.4rem 0 0.55rem 0;
+    }}
+    .sidebar-nav-sub {{
+        color: var(--muted);
+        font-size: 0.78rem;
+        line-height: 1.35;
+        margin: -0.15rem 0 0.55rem 0.15rem;
+        padding-left: 0.05rem;
+    }}
+    .sidebar-divider {{
+        border: none;
+        border-top: 1px solid var(--surface-warm-edge);
+        margin: 0.85rem 0 0.95rem 0;
+    }}
+    /* Sidebar nav buttons — flat, left-aligned, distinct active state */
+    [data-testid="stSidebar"] div[data-testid="stButton"] button {{
+        text-align: left !important;
+        justify-content: flex-start !important;
+        font-weight: 600 !important;
+        letter-spacing: 0 !important;
+        border-radius: 12px !important;
+        border: 1px solid transparent !important;
+        padding: 0.5rem 0.85rem !important;
+        font-size: 0.95rem !important;
+        background: transparent !important;
+        color: var(--ink) !important;
+        text-transform: none !important;
+        transition: background .15s ease, border-color .15s ease, color .15s ease !important;
+    }}
+    [data-testid="stSidebar"] div[data-testid="stButton"] button:hover {{
+        background: rgba(255, 255, 255, 0.6) !important;
+        border-color: var(--surface-warm-edge) !important;
+    }}
+    [data-testid="stSidebar"] div[data-testid="stButton"] button[kind="primary"] {{
+        background: var(--ink) !important;
+        color: var(--paper) !important;
+        border-color: var(--ink) !important;
+    }}
+    [data-testid="stSidebar"] div[data-testid="stButton"] button[kind="primary"]:hover {{
+        background: var(--ink) !important;
+    }}
+
+    /* Page header used at the top of each route */
+    .page-header {{
+        margin: 0.4rem 0 1.6rem 0;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--soft);
+    }}
+    .page-header-eyebrow {{
+        color: var(--green-dark);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-weight: 700;
+        margin-bottom: 0.45rem;
+    }}
+    .page-header-title {{
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 2.2rem;
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: -0.01em;
+        color: var(--ink);
+        margin-bottom: 0.4rem;
+    }}
+    .page-header-subtitle {{
+        color: var(--muted);
+        font-size: 1rem;
+        line-height: 1.55;
+        max-width: 720px;
+    }}
+
+    /* Sticky search/toolbar inside the Network route */
+    .network-toolbar {{
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        background: var(--paper);
+        padding: 0.6rem 0 0.55rem 0;
+        margin: 0 0 0.9rem 0;
+        border-bottom: 1px solid var(--soft);
+    }}
+    /* Map column on Network route — keep the LEFT column sticky to top while the
+       RIGHT column scrolls. Targeting the column itself (not just the inner div)
+       avoids the "hole" of empty whitespace under the map. */
+    [data-testid="stHorizontalBlock"]:has(.network-map-sticky) > [data-testid="stColumn"]:first-child {{
+        position: sticky;
+        top: 4.5rem;
+        align-self: flex-start;
+        height: fit-content;
+        z-index: 2;
+    }}
+    .network-map-sticky {{
+        /* class is just a marker for the :has() selector above */
+    }}
+
     /* ── Vision close (PDF §9) ──────────────────────────────────────────── */
     .vision-block {{
         background: linear-gradient(135deg, var(--vision-from) 0%, var(--vision-to) 100%);
@@ -1121,6 +1226,33 @@ with st.sidebar:
                     unsafe_allow_html=True)
     st.caption(t("sb_tag", lang))
 
+    # ── Route navigation ────────────────────────────────────────────────────
+    ROUTES = [
+        ("network",      "route_network",      "route_network_sub"),
+        ("research",     "route_research",     "route_research_sub"),
+        ("courses",      "route_courses",      "route_courses_sub"),
+        ("intelligence", "route_intel",        "route_intel_sub"),
+        ("about",        "route_about",        "route_about_sub"),
+    ]
+    st.markdown(f'<div class="sidebar-section-label">{t("nav_section", lang)}</div>',
+                unsafe_allow_html=True)
+    for route_key, label_key, sub_key in ROUTES:
+        is_active = st.session_state.route == route_key
+        cls = "sidebar-nav-item" + (" sidebar-nav-active" if is_active else "")
+        if st.button(t(label_key, lang),
+                     key=f"nav_{route_key}",
+                     use_container_width=True,
+                     type="primary" if is_active else "secondary"):
+            st.session_state.route = route_key
+            st.rerun()
+        st.markdown(
+            f'<div class="sidebar-nav-sub">{t(sub_key, lang)}</div>',
+            unsafe_allow_html=True,
+        )
+
+    st.markdown('<hr class="sidebar-divider">', unsafe_allow_html=True)
+
+    # ── Data source (always available) ──────────────────────────────────────
     st.markdown(f"### {t('sb_source', lang)}")
     source_label_map = {
         t("sb_curated", lang): "curated",
@@ -1140,15 +1272,21 @@ with st.sidebar:
     else:
         df = get_data("Curated")
 
-    st.markdown(f"### {t('sb_filters', lang)}")
-    sel_types = st.multiselect(t("sb_type", lang),
-                               sorted(df["type"].dropna().unique()),
-                               default=sorted(df["type"].dropna().unique()))
-    sel_countries = st.multiselect(t("sb_country", lang),
-                                   sorted(df["country"].dropna().unique()),
-                                   default=sorted(df["country"].dropna().unique()))
-    all_focus = sorted({f for lst in df["focus_areas"] for f in lst})
-    sel_focus = st.multiselect(t("sb_focus", lang), all_focus, default=all_focus)
+    # ── Filters: only relevant on Network and Intelligence routes ───────────
+    if st.session_state.route in ("network", "intelligence"):
+        st.markdown(f"### {t('sb_filters', lang)}")
+        sel_types = st.multiselect(t("sb_type", lang),
+                                   sorted(df["type"].dropna().unique()),
+                                   default=sorted(df["type"].dropna().unique()))
+        sel_countries = st.multiselect(t("sb_country", lang),
+                                       sorted(df["country"].dropna().unique()),
+                                       default=sorted(df["country"].dropna().unique()))
+        all_focus = sorted({f for lst in df["focus_areas"] for f in lst})
+        sel_focus = st.multiselect(t("sb_focus", lang), all_focus, default=all_focus)
+    else:
+        sel_types = sorted(df["type"].dropna().unique())
+        sel_countries = sorted(df["country"].dropna().unique())
+        sel_focus = sorted({f for lst in df["focus_areas"] for f in lst})
 
     # An empty multiselect means "no filter" rather than "match nothing" —
     # otherwise clearing a chip wipes the whole dashboard.
@@ -1166,23 +1304,14 @@ with st.sidebar:
         f'<div class="sidebar-panel">'
         f'<div class="sidebar-panel-kicker">{t("sb_panel_kicker", lang)}</div>'
         f'<div class="sidebar-panel-title">{t("sb_panel_title", lang)}</div>'
-        f'<div class="sidebar-panel-copy">{t("sb_panel_copy", lang)}</div>'
         f'<div class="sidebar-metrics">'
         f'<div class="sidebar-metric"><div class="sidebar-metric-value">{len(df_base)}</div><div class="sidebar-metric-label">{t("sb_metric_profiles", lang)}</div></div>'
         f'<div class="sidebar-metric"><div class="sidebar-metric-value">{df_base["country"].nunique()}</div><div class="sidebar-metric-label">{t("sb_metric_countries", lang)}</div></div>'
         f'<div class="sidebar-metric"><div class="sidebar-metric-value">{len(sidebar_upcoming)}</div><div class="sidebar-metric-label">{t("sb_metric_courses", lang)}</div></div>'
         f'</div>'
-        f'<div class="sidebar-routes-label">{t("sb_quick_routes", lang)}</div>'
-        f'<div class="sidebar-routes">'
-        f'<a class="sidebar-route" href="#connect-hub" target="_self">{t("sb_link_explore", lang)} →</a>'
-        f'<a class="sidebar-route sidebar-route-strong" href="{sidebar_course_url}" target="_blank" rel="noopener">{t("sb_link_courses", lang)} →</a>'
-        f'<a class="sidebar-route" href="#join-network" target="_self">{t("sb_link_join", lang)} →</a>'
-        f'<a class="sidebar-route" href="#research-hub" target="_self">{t("sb_link_research", lang)} →</a>'
-        f'</div>'
         f'</div>',
         unsafe_allow_html=True,
     )
-    st.markdown(f'<div class="sidebar-note">{t("sb_note", lang)}</div>', unsafe_allow_html=True)
 
 # Apply search on top of filters
 search_term = st.session_state.search.strip().lower()
@@ -1796,6 +1925,201 @@ def render_courses_section() -> None:
             unsafe_allow_html=True,
         )
 
+# ── Route renderers (app shell) ──────────────────────────────────────────────
+def page_header(eyebrow_key: str, title_key: str, subtitle_key: str, **kwargs) -> None:
+    st.markdown(
+        f'<div class="page-header">'
+        f'<div class="page-header-eyebrow">{t(eyebrow_key, lang)}</div>'
+        f'<div class="page-header-title">{t(title_key, lang)}</div>'
+        f'<div class="page-header-subtitle">{t(subtitle_key, lang, **kwargs)}</div>'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+
+def render_directory_grid_single() -> None:
+    """Sortable, tabbed leader cards rendered as a single column (used inside Network split view)."""
+    sort_options = [t("sort_name", lang), t("sort_new", lang),
+                    t("sort_old", lang), t("sort_country", lang)]
+    sort_by = st.selectbox(t("sort_label", lang), sort_options, label_visibility="collapsed",
+                           key="network_sort")
+
+    if sort_by == t("sort_name", lang):
+        table = df_f.sort_values("name")
+    elif sort_by == t("sort_new", lang):
+        table = df_f.sort_values("founded_year", ascending=False, na_position="last")
+    elif sort_by == t("sort_old", lang):
+        table = df_f.sort_values("founded_year", ascending=True, na_position="last")
+    else:
+        table = df_f.sort_values(["country", "name"])
+
+    tab_defs = [
+        ("all",            t("tab_all",          lang), None),
+        ("institution",    t("tab_institution",  lang), "institution"),
+        ("civil_society",  t("tab_civil",        lang), "civil_society"),
+        ("politician",     t("tab_politician",   lang), "politician"),
+        ("entrepreneur",   t("tab_entrepreneur", lang), "entrepreneur"),
+        ("company",        t("tab_company",      lang), "company"),
+        ("professor",      t("tab_professor",    lang), "professor"),
+        ("researcher",     t("tab_researcher",   lang), "researcher"),
+    ]
+    tab_keys = [k for k, _, _ in tab_defs]
+    tab_labels = {k: lbl for k, lbl, _ in tab_defs}
+    tab_filter = {k: cls for k, _, cls in tab_defs}
+
+    active = st.segmented_control(
+        " ", options=tab_keys,
+        format_func=lambda k: tab_labels[k],
+        default="all", key="directory_tab",
+        label_visibility="collapsed",
+    ) or "all"
+
+    active_cls = tab_filter[active]
+    subset = table if active_cls is None else table[table["actor_class"] == active_cls]
+
+    st.markdown(
+        f'<div class="toolbar-count">{t("connect_visible", lang, n=len(subset))}</div>',
+        unsafe_allow_html=True,
+    )
+
+    if len(table) == 0:
+        st.markdown(f'<div class="note">{t("search_empty", lang)}</div>', unsafe_allow_html=True)
+        return
+    if len(subset) == 0:
+        st.markdown(f'<div class="note">{t("tab_empty", lang)}</div>', unsafe_allow_html=True)
+        return
+
+    for _, row in subset.iterrows():
+        render_leader_card(row, active)
+
+def render_route_network() -> None:
+    page_header("route_network", "network_header", "network_subtitle",
+                n=len(df_f), c=df_f["country"].nunique())
+
+    # Sticky toolbar with search
+    st.markdown('<div class="network-toolbar">', unsafe_allow_html=True)
+    sc1, sc2 = st.columns([3, 1])
+    with sc1:
+        st.session_state.search = st.text_input(
+            t("search_label", lang),
+            value=st.session_state.search,
+            label_visibility="collapsed",
+            placeholder=t("search_label", lang),
+            key="network_search",
+        )
+    with sc2:
+        st.markdown(
+            f'<div style="text-align:right; padding-top:0.55rem; color:var(--muted); font-size:0.9rem;">'
+            f'{t("search_result", lang, n=len(df_f))}</div>',
+            unsafe_allow_html=True,
+        )
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    map_col, list_col = st.columns([5, 7], gap="medium")
+    with map_col:
+        st.markdown('<div class="network-map-sticky">', unsafe_allow_html=True)
+        if len(df_f) == 0:
+            st.info(t("search_empty", lang))
+        else:
+            map_df = df_f.copy()
+            map_df["primary_focus"] = map_df["focus_areas"].apply(
+                lambda lst: lst[0] if lst else "Other"
+            )
+            fig_map = px.scatter_map(
+                map_df, lat="lat", lon="lon",
+                hover_name="name",
+                hover_data={"city": True, "country": True, "type": True,
+                            "lat": False, "lon": False, "primary_focus": False},
+                zoom=2.2, center={"lat": -12, "lon": -62},
+                height=620, map_style="carto-positron",
+            )
+            fig_map.update_traces(marker=dict(size=13, color=GREEN, opacity=0.85))
+            fig_map.update_layout(margin=dict(t=0, b=0, l=0, r=0),
+                                  paper_bgcolor=PAPER, showlegend=False)
+            event = st.plotly_chart(fig_map, use_container_width=True,
+                                    on_select="rerun", selection_mode=["points"],
+                                    key="map_chart_network")
+            if event and event.get("selection") and event["selection"].get("points"):
+                pt = event["selection"]["points"][0]
+                cd = pt.get("customdata") or [None]
+                clicked_name = pt.get("hovertext") or (cd[0] if cd else None)
+                if clicked_name:
+                    st.session_state.selected_org = clicked_name
+                    st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with list_col:
+        render_directory_grid_single()
+
+def render_route_research() -> None:
+    page_header("route_research", "sec_research", "route_research_sub")
+    if papers.empty:
+        st.info(t("no_research_yet", lang))
+        return
+    render_research_hub()
+
+def render_route_courses() -> None:
+    page_header("route_courses", "sec_courses", "route_courses_sub")
+    if upcoming.empty:
+        st.info(t("connect_launch_empty", lang))
+        return
+    render_courses_section()
+
+def render_route_intelligence() -> None:
+    page_header("route_intel", "intel_header", "intel_subtitle")
+
+    if len(df_f) == 0:
+        st.info(t("search_empty", lang))
+        return
+
+    # Stats strip
+    c1, c2, c3, c4, c5 = st.columns(5)
+    def _stat(col, label, value, unit=""):
+        unit_html = f'<div class="stat-unit">{unit}</div>' if unit else ""
+        col.markdown(
+            f'<div class="stat">'
+            f'<div class="stat-label">{label}</div>'
+            f'<div class="stat-value">{value}</div>'
+            f'{unit_html}</div>',
+            unsafe_allow_html=True,
+        )
+    _stat(c1, t("stat_orgs", lang),    len(df_f))
+    _stat(c2, t("stat_country", lang), df_f["country"].nunique())
+    _stat(c3, t("stat_cities", lang),  df_f["city"].nunique())
+    _stat(c4, t("stat_focus", lang),   df_f["focus_areas"].explode().nunique())
+    _median = df_f["age_years"].replace(0, pd.NA).median()
+    _stat(c5, t("stat_age", lang),
+          int(_median) if pd.notna(_median) else 0,
+          t("stat_yrs", lang))
+
+    st.markdown('<hr class="thick">', unsafe_allow_html=True)
+
+    # Composition · Topics · Matrix · Insights — reuse the existing inline blocks
+    # via a callable helper (defined below at module level)
+    render_intelligence_charts()
+
+def render_route_about() -> None:
+    page_header("route_about", "about_header", "about_subtitle")
+
+    # Hero block (slimmed — no metric card on the right; just the lede)
+    st.markdown(f'<div class="eyebrow">{t("hero_kicker", lang)}</div>', unsafe_allow_html=True)
+    st.markdown(f"# {t('title', lang)}")
+    st.markdown(f'<div class="lede">{t("hero_lede", lang)}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="intro">{t("hero_mission", lang)}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="intro">{t("hero_beta", lang)}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="note">{t("hero_transparency", lang)}</div>', unsafe_allow_html=True)
+
+    st.markdown('<hr class="thick">', unsafe_allow_html=True)
+    render_audience_strip()
+    render_partners_strip()
+    st.markdown('<hr class="thick">', unsafe_allow_html=True)
+    render_products()
+    render_gap_insight()
+    render_traction_block()
+    st.markdown('<hr class="thick">', unsafe_allow_html=True)
+    render_propose_section()
+    render_vision_close()
+
+
 # ── Profile dialog ───────────────────────────────────────────────────────────
 @st.dialog("·", width="large")
 def show_profile(name: str):
@@ -1962,145 +2286,7 @@ if st.session_state.selected_org:
     show_profile(st.session_state.selected_org)
     st.session_state.selected_org = None
 
-# ── Hero ─────────────────────────────────────────────────────────────────────
-hero_l, hero_r = st.columns([1.45, 1], gap="large")
-with hero_l:
-    st.markdown(f'<div class="eyebrow">{t("hero_kicker", lang)}</div>', unsafe_allow_html=True)
-    st.markdown(f"# {t('title', lang)}")
-    st.markdown(f'<div class="lede">{t("hero_lede", lang)}</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="intro">{t("hero_mission", lang)}</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="intro">{t("hero_beta", lang)}</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="note">{t("hero_transparency", lang)}</div>', unsafe_allow_html=True)
-with hero_r:
-    hero_points = "".join([
-        hero_point_html(t("hero_panel_point_1", lang)),
-        hero_point_html(t("hero_panel_point_2", lang)),
-        hero_point_html(t("hero_panel_point_3", lang)),
-        hero_point_html(t("hero_panel_point_4", lang)),
-    ])
-    st.markdown(
-        f'<div class="hero-panel">'
-        f'<div class="hero-panel-kicker">{t("hero_panel_kicker", lang)}</div>'
-        f'<div class="hero-panel-title">{t("hero_panel_title", lang)}</div>'
-        f'<div class="hero-points">{hero_points}</div>'
-        f'<div class="hero-metrics">'
-        f'<div class="hero-metric"><div class="hero-metric-value">{len(df_f)}</div><div class="hero-metric-label">{t("hero_panel_stat_profiles", lang)}</div></div>'
-        f'<div class="hero-metric"><div class="hero-metric-value">{len(papers)}</div><div class="hero-metric-label">{t("hero_panel_stat_research", lang)}</div></div>'
-        f'<div class="hero-metric"><div class="hero-metric-value">{len(upcoming)}</div><div class="hero-metric-label">{t("hero_panel_stat_courses", lang)}</div></div>'
-        f'</div>'
-        f'</div>',
-        unsafe_allow_html=True,
-    )
-
-st.markdown('<hr class="thick">', unsafe_allow_html=True)
-
-# ── Dual-audience entry strip ────────────────────────────────────────────────
-render_audience_strip()
-
-# ── Partners strip ───────────────────────────────────────────────────────────
-render_partners_strip()
-
-# Search bar
-sc1, sc2 = st.columns([3, 1])
-with sc1:
-    st.session_state.search = st.text_input(
-        t("search_label", lang),
-        value=st.session_state.search,
-        label_visibility="collapsed",
-        placeholder=t("search_label", lang),
-    )
-with sc2:
-    st.markdown(
-        f'<div style="text-align:right; padding-top:0.55rem; color:var(--muted); font-size:0.9rem;">'
-        f'{t("search_result", lang, n=len(df_f))}'
-        f'</div>',
-        unsafe_allow_html=True,
-    )
-
-# ── Products (PDF §6 — what NODAL delivers) ──────────────────────────────────
-render_products()
-
-# ── Platform overview (browse the network by actor type) ─────────────────────
-render_platform_overview()
-
-# ── Stats ────────────────────────────────────────────────────────────────────
-def stat(col, label, value, unit=""):
-    unit_html = f'<div class="stat-unit">{unit}</div>' if unit else ""
-    col.markdown(
-        f'<div class="stat">'
-        f'<div class="stat-label">{label}</div>'
-        f'<div class="stat-value">{value}</div>'
-        f'{unit_html}'
-        f'</div>',
-        unsafe_allow_html=True,
-    )
-
-c1, c2, c3, c4, c5 = st.columns(5)
-stat(c1, t("stat_orgs", lang), len(df_f))
-stat(c2, t("stat_country", lang), df_f["country"].nunique())
-stat(c3, t("stat_cities", lang), df_f["city"].nunique())
-stat(c4, t("stat_focus", lang), df_f["focus_areas"].explode().nunique())
-_median = df_f["age_years"].replace(0, pd.NA).median() if len(df_f) else pd.NA
-median_age = int(_median) if pd.notna(_median) else 0
-stat(c5, t("stat_age", lang), median_age, t("stat_yrs", lang))
-
-st.markdown('<div id="connect-hub"></div>', unsafe_allow_html=True)
-render_connect_directory()
-render_research_hub()
-render_courses_section()
-
-st.markdown('<hr class="thick">', unsafe_allow_html=True)
-
-# ── Talent gap insight ───────────────────────────────────────────────────────
-render_gap_insight()
-
-# ── Traction (revenue evidence) ──────────────────────────────────────────────
-render_traction_block()
-
-st.markdown('<hr class="thick">', unsafe_allow_html=True)
-st.markdown(f"## {t('sec_intelligence', lang)}")
-st.markdown(f'<div class="intro">{t("sec_intelligence_intro", lang)}</div>', unsafe_allow_html=True)
-
-# ── Map ──────────────────────────────────────────────────────────────────────
-st.markdown(f"## {t('sec_where', lang)}")
-st.markdown(f'<div class="intro">{t("sec_where_intro", lang)}</div>', unsafe_allow_html=True)
-
-if len(df_f) == 0:
-    st.info(t("search_empty", lang))
-else:
-    map_df = df_f.copy()
-    map_df["primary_focus"] = map_df["focus_areas"].apply(lambda lst: lst[0] if lst else "Other")
-
-    fig_map = px.scatter_map(
-        map_df,
-        lat="lat", lon="lon",
-        hover_name="name",
-        hover_data={"city": True, "country": True, "type": True,
-                    "lat": False, "lon": False, "primary_focus": False},
-        zoom=2.2, center={"lat": -12, "lon": -62},
-        height=540,
-        map_style="carto-positron",
-    )
-    fig_map.update_traces(marker=dict(size=13, color=GREEN, opacity=0.85))
-    fig_map.update_layout(margin=dict(t=0, b=0, l=0, r=0),
-                          paper_bgcolor=PAPER, showlegend=False)
-
-    # Enable point selection — clicking a dot opens the profile
-    event = st.plotly_chart(fig_map, use_container_width=True,
-                            on_select="rerun", selection_mode=["points"],
-                            key="map_chart")
-    if event and event.get("selection") and event["selection"].get("points"):
-        pt = event["selection"]["points"][0]
-        cd = pt.get("customdata") or [None]
-        clicked_name = pt.get("hovertext") or (cd[0] if cd else None)
-        if clicked_name:
-            st.session_state.selected_org = clicked_name
-            st.rerun()
-
-# ── Composition ──────────────────────────────────────────────────────────────
-st.markdown(f"## {t('sec_who', lang)}")
-st.markdown(f'<div class="intro">{t("sec_who_intro", lang)}</div>', unsafe_allow_html=True)
-
+# ── Module-level helpers (used inside multiple route renderers) ──────────────
 def clean_chart(fig, height=320):
     fig.update_layout(
         paper_bgcolor=PAPER, plot_bgcolor=PAPER,
@@ -2111,83 +2297,7 @@ def clean_chart(fig, height=320):
     fig.update_yaxes(showgrid=False, zeroline=False)
     return fig
 
-col_a, col_b = st.columns(2)
-with col_a:
-    st.markdown(f"### {t('sub_type', lang)}")
-    d = seg.by_type(df_f)
-    fig = px.bar(d, x="count", y="type", orientation="h",
-                 color_discrete_sequence=[GREEN], labels={"count": "", "type": ""})
-    fig.update_layout(yaxis={"categoryorder": "total ascending"})
-    st.plotly_chart(clean_chart(fig), use_container_width=True)
-
-with col_b:
-    st.markdown(f"### {t('sub_country', lang)}")
-    d = seg.by_country(df_f).head(10)
-    fig = px.bar(d, x="count", y="country", orientation="h",
-                 color_discrete_sequence=[GREEN], labels={"count": "", "country": ""})
-    fig.update_layout(yaxis={"categoryorder": "total ascending"})
-    st.plotly_chart(clean_chart(fig), use_container_width=True)
-
-# ── Topics ───────────────────────────────────────────────────────────────────
-st.markdown(f"## {t('sec_topics', lang)}")
-st.markdown(f'<div class="intro">{t("sec_topics_intro", lang)}</div>', unsafe_allow_html=True)
-
-col_c, col_d = st.columns([1.3, 1])
-with col_c:
-    st.markdown(f"### {t('sub_focus', lang)}")
-    focus_s = seg.by_focus(df_f).reset_index()
-    focus_s.columns = ["area", "count"]
-    fig = px.bar(focus_s, x="count", y="area", orientation="h",
-                 color_discrete_sequence=[GREEN], labels={"count": "", "area": ""})
-    fig.update_layout(yaxis={"categoryorder": "total ascending"})
-    st.plotly_chart(clean_chart(fig), use_container_width=True)
-
-with col_d:
-    st.markdown(f"### {t('sub_gen', lang)}")
-    if "generation" in df_f.columns:
-        gen_df = df_f["generation"].value_counts().reset_index()
-        gen_df.columns = ["generation", "count"]
-        gen_label_map = {
-            "Pre-2000 (foundational)":   t("gen_pre2000", lang),
-            "2000s (institutional)":     t("gen_2000s", lang),
-            "2010s (civic tech wave)":   t("gen_2010s", lang),
-            "2020s (new generation)":    t("gen_2020s", lang),
-        }
-        gen_df["generation"] = gen_df["generation"].astype(str).map(gen_label_map).fillna(gen_df["generation"])
-        fig = px.bar(gen_df, x="count", y="generation", orientation="h",
-                     color_discrete_sequence=[GREEN], labels={"count": "", "generation": ""})
-        st.plotly_chart(clean_chart(fig), use_container_width=True)
-
-# ── Matrix ───────────────────────────────────────────────────────────────────
-st.markdown(f"## {t('sec_matrix', lang)}")
-st.markdown(f'<div class="intro">{t("sec_matrix_intro", lang)}</div>', unsafe_allow_html=True)
-if len(df_f) > 0:
-    pivot = seg.cross_country_focus(df_f)
-    pivot = pivot.loc[pivot.sum(axis=1).sort_values(ascending=False).index]
-    fig = px.imshow(pivot, aspect="auto",
-                    color_continuous_scale=["white", GREEN_SOFT, GREEN, GREEN_DARK],
-                    labels={"color": ""}, text_auto=True)
-    fig.update_layout(paper_bgcolor="white", margin=dict(t=10, b=10, l=0, r=0),
-                      height=380, font=dict(family="Inter", size=11, color=INK),
-                      coloraxis_showscale=False)
-    st.plotly_chart(fig, use_container_width=True)
-
-# ── Insights ─────────────────────────────────────────────────────────────────
-st.markdown(f"## {t('sec_insights', lang)}")
-st.markdown(f'<div class="intro">{t("sec_insights_intro", lang)}</div>', unsafe_allow_html=True)
-
-if len(df_f) > 0:
-    for ins in generate(df_f, lang=lang):
-        st.markdown(
-            f'<div class="insight">'
-            f'<div class="insight-cat">{ins["category"]}</div>'
-            f'<div class="insight-find">{ins["finding"]}</div>'
-            f'<div class="insight-act">{ins["implication"]}</div>'
-            f'</div>',
-            unsafe_allow_html=True,
-        )
-
-# ── Propose a member — crowdsourced submissions ──────────────────────────────
+# ── Submission persistence (curator-gated; pending entries land in CSVs) ─────
 SUBMISSIONS_PATH = Path(__file__).parent.parent.parent / "data" / "submissions.csv"
 SUBMISSION_FIELDS = [
     "submitted_at", "submitter_name", "submitter_email",
@@ -2197,12 +2307,6 @@ SUBMISSION_FIELDS = [
 ]
 
 def append_submission(entry: dict) -> None:
-    """Append a new proposal to submissions.csv (creating it if needed).
-
-    Submissions land in a separate file so the curated directory stays
-    review-gated — nothing shows up in the main dataset until a curator
-    promotes it.
-    """
     SUBMISSIONS_PATH.parent.mkdir(parents=True, exist_ok=True)
     new_file = not SUBMISSIONS_PATH.exists()
     with SUBMISSIONS_PATH.open("a", newline="", encoding="utf-8") as f:
@@ -2210,6 +2314,17 @@ def append_submission(entry: dict) -> None:
         if new_file:
             w.writeheader()
         w.writerow({k: entry.get(k, "") for k in SUBMISSION_FIELDS})
+
+def append_research(entry: dict) -> None:
+    p = Path(__file__).parent.parent.parent / "data" / "research_submissions.csv"
+    p.parent.mkdir(parents=True, exist_ok=True)
+    new_file = not p.exists()
+    fields = ["submitted_at", "title", "authors", "year", "focus_areas", "link", "abstract"]
+    with p.open("a", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=fields)
+        if new_file:
+            w.writeheader()
+        w.writerow({k: entry.get(k, "") for k in fields})
 
 CLASS_OPTIONS = [
     ("institution",    t("cls_institution",   lang)),
@@ -2223,151 +2338,230 @@ CLASS_OPTIONS = [
 _class_label_to_key = {lbl: key for key, lbl in CLASS_OPTIONS}
 _known_focus = sorted({f for lst in df["focus_areas"] for f in lst})
 
-st.markdown('<div id="join-network"></div>', unsafe_allow_html=True)
-prop_l, prop_r = st.columns([0.95, 1.2], gap="large")
-with prop_l:
-    propose_points = "".join([
-        propose_item_html(t("prop_panel_point_1", lang)),
-        propose_item_html(t("prop_panel_point_2", lang)),
-        propose_item_html(t("prop_panel_point_3", lang)),
-    ])
-    st.markdown(
-        f'<div class="propose-hero">'
-        f'<div class="propose-kicker">{t("prop_panel_kicker", lang)}</div>'
-        f'<div class="propose-title">{t("prop_panel_title", lang)}</div>'
-        f'<div class="propose-copy">{t("prop_panel_copy", lang)}</div>'
-        f'<div class="propose-list">{propose_points}</div>'
-        f'<div class="propose-trust">{t("prop_panel_trust", lang)}</div>'
-        f'</div>',
-        unsafe_allow_html=True,
-    )
-    st.link_button(t("beta_banner_courses", lang), COURSE_HUB_URL, use_container_width=True)
-with prop_r:
-    st.markdown(f"## {t('sec_propose', lang)}")
-    st.markdown(f'<div class="intro">{t("sec_propose_intro", lang)}</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="propose-forms-kicker">{t("prop_forms_kicker", lang)}</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="propose-forms-note">{t("prop_forms_note", lang)}</div>', unsafe_allow_html=True)
-    st.markdown(
-        f'<div class="propose-route-grid">'
-        f'{propose_route_card_html(t("prop_route_people_kicker", lang), t("prop_expand", lang), t("prop_route_people_copy", lang))}'
-        f'{propose_route_card_html(t("prop_route_research_kicker", lang), t("prop_res_expand", lang), t("prop_route_research_copy", lang))}'
-        f'</div>',
-        unsafe_allow_html=True,
-    )
 
-with st.expander(t("prop_expand", lang), expanded=True):
-    with st.form("propose_member", clear_on_submit=True):
-        pc1, pc2 = st.columns(2)
-        with pc1:
-            f_name     = st.text_input(t("prop_name", lang))
-            f_class_lbl= st.selectbox(t("prop_class", lang),
-                                       [lbl for _, lbl in CLASS_OPTIONS])
-            f_type     = st.text_input(t("prop_type", lang),
-                                        help=t("prop_type_help", lang))
-            f_city     = st.text_input(t("prop_city", lang))
-            f_country  = st.text_input(t("prop_country", lang))
-            f_founded  = st.number_input(t("prop_founded", lang),
-                                          min_value=1800, max_value=2100,
-                                          value=2020, step=1)
-        with pc2:
-            f_focus    = st.multiselect(t("prop_focus", lang), _known_focus)
-            f_focus_other = st.text_input(t("prop_focus_other", lang),
-                                           help=t("prop_focus_other_help", lang))
-            f_website  = st.text_input(t("prop_website", lang))
-            f_email    = st.text_input(t("prop_email", lang))
-            f_desc     = st.text_area(t("prop_desc", lang), height=120)
+# ── Intelligence dashboards ──────────────────────────────────────────────────
+def render_intelligence_charts() -> None:
+    # Composition
+    st.markdown(f"## {t('sec_who', lang)}")
+    st.markdown(f'<div class="intro">{t("sec_who_intro", lang)}</div>', unsafe_allow_html=True)
 
-        st.markdown(f'<div class="note" style="margin-top:0.6rem;">{t("prop_who", lang)}</div>',
-                    unsafe_allow_html=True)
-        wc1, wc2 = st.columns(2)
-        with wc1:
-            f_sub_name = st.text_input(t("prop_your_name", lang))
-        with wc2:
-            f_sub_email= st.text_input(t("prop_your_email", lang))
+    col_a, col_b = st.columns(2)
+    with col_a:
+        st.markdown(f"### {t('sub_type', lang)}")
+        d = seg.by_type(df_f)
+        fig = px.bar(d, x="count", y="type", orientation="h",
+                     color_discrete_sequence=[GREEN], labels={"count": "", "type": ""})
+        fig.update_layout(yaxis={"categoryorder": "total ascending"})
+        st.plotly_chart(clean_chart(fig), use_container_width=True)
+    with col_b:
+        st.markdown(f"### {t('sub_country', lang)}")
+        d = seg.by_country(df_f).head(10)
+        fig = px.bar(d, x="count", y="country", orientation="h",
+                     color_discrete_sequence=[GREEN], labels={"count": "", "country": ""})
+        fig.update_layout(yaxis={"categoryorder": "total ascending"})
+        st.plotly_chart(clean_chart(fig), use_container_width=True)
 
-        submitted = st.form_submit_button(t("prop_submit", lang), type="primary")
-
-    if submitted:
-        # Minimal validation — required fields only.
-        missing = [k for k, v in {
-            "name": f_name, "city": f_city, "country": f_country,
-            "description": f_desc, "submitter_email": f_sub_email,
-        }.items() if not str(v).strip()]
-        if missing:
-            st.error(t("prop_missing", lang))
-        elif f_name.strip() in set(df["name"]):
-            st.warning(t("prop_duplicate", lang, name=f_name.strip()))
-        else:
-            focus_list = list(f_focus)
-            if f_focus_other.strip():
-                focus_list += [x.strip() for x in f_focus_other.split(",") if x.strip()]
-            entry = {
-                "submitted_at":    datetime.now(timezone.utc).isoformat(timespec="seconds"),
-                "submitter_name":  f_sub_name.strip(),
-                "submitter_email": f_sub_email.strip(),
-                "name":            f_name.strip(),
-                "actor_class":     _class_label_to_key.get(f_class_lbl, "institution"),
-                "type":            f_type.strip() or "Organization",
-                "city":            f_city.strip(),
-                "country":         f_country.strip(),
-                "focus_areas":     ";".join(focus_list),
-                "founded_year":    int(f_founded),
-                "description":     f_desc.strip(),
-                "website":         f_website.strip(),
-                "email":           f_email.strip(),
-                "source":          "community-submission",
-                "status":          "pending",
+    # Topics
+    st.markdown(f"## {t('sec_topics', lang)}")
+    st.markdown(f'<div class="intro">{t("sec_topics_intro", lang)}</div>', unsafe_allow_html=True)
+    col_c, col_d = st.columns([1.3, 1])
+    with col_c:
+        st.markdown(f"### {t('sub_focus', lang)}")
+        focus_s = seg.by_focus(df_f).reset_index()
+        focus_s.columns = ["area", "count"]
+        fig = px.bar(focus_s, x="count", y="area", orientation="h",
+                     color_discrete_sequence=[GREEN], labels={"count": "", "area": ""})
+        fig.update_layout(yaxis={"categoryorder": "total ascending"})
+        st.plotly_chart(clean_chart(fig), use_container_width=True)
+    with col_d:
+        st.markdown(f"### {t('sub_gen', lang)}")
+        if "generation" in df_f.columns:
+            gen_df = df_f["generation"].value_counts().reset_index()
+            gen_df.columns = ["generation", "count"]
+            gen_label_map = {
+                "Pre-2000 (foundational)":   t("gen_pre2000", lang),
+                "2000s (institutional)":     t("gen_2000s", lang),
+                "2010s (civic tech wave)":   t("gen_2010s", lang),
+                "2020s (new generation)":    t("gen_2020s", lang),
             }
-            try:
-                append_submission(entry)
-                st.success(t("prop_success", lang, name=entry["name"]))
-            except Exception as e:
-                st.error(t("prop_error", lang, err=str(e)))
+            gen_df["generation"] = gen_df["generation"].astype(str).map(gen_label_map).fillna(gen_df["generation"])
+            fig = px.bar(gen_df, x="count", y="generation", orientation="h",
+                         color_discrete_sequence=[GREEN], labels={"count": "", "generation": ""})
+            st.plotly_chart(clean_chart(fig), use_container_width=True)
 
-def append_research(entry: dict) -> None:
-    RESEARCH_SUBMISSIONS_PATH = Path(__file__).parent.parent.parent / "data" / "research_submissions.csv"
-    RESEARCH_SUBMISSIONS_PATH.parent.mkdir(parents=True, exist_ok=True)
-    new_file = not RESEARCH_SUBMISSIONS_PATH.exists()
-    fields = ["submitted_at", "title", "authors", "year", "focus_areas", "link", "abstract"]
-    with RESEARCH_SUBMISSIONS_PATH.open("a", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=fields)
-        if new_file:
-            w.writeheader()
-        w.writerow({k: entry.get(k, "") for k in fields})
+    # Matrix
+    st.markdown(f"## {t('sec_matrix', lang)}")
+    st.markdown(f'<div class="intro">{t("sec_matrix_intro", lang)}</div>', unsafe_allow_html=True)
+    pivot = seg.cross_country_focus(df_f)
+    pivot = pivot.loc[pivot.sum(axis=1).sort_values(ascending=False).index]
+    fig = px.imshow(pivot, aspect="auto",
+                    color_continuous_scale=["white", GREEN_SOFT, GREEN, GREEN_DARK],
+                    labels={"color": ""}, text_auto=True)
+    fig.update_layout(paper_bgcolor="white", margin=dict(t=10, b=10, l=0, r=0),
+                      height=380, font=dict(family="Inter", size=11, color=INK),
+                      coloraxis_showscale=False)
+    st.plotly_chart(fig, use_container_width=True)
 
-with st.expander(t("prop_res_expand", lang), expanded=False):
-    with st.form("propose_research", clear_on_submit=True):
-        r_c1, r_c2 = st.columns(2)
-        with r_c1:
-            r_title = st.text_input(t("prop_res_title", lang))
-            r_authors = st.text_input(t("prop_res_authors", lang))
-            r_year = st.number_input(t("prop_res_year", lang), min_value=1900, max_value=2100, value=2024, step=1)
-            r_link = st.text_input(t("prop_res_link", lang))
-        with r_c2:
-            r_focus = st.multiselect(t("prop_focus", lang), _known_focus)
-            r_abstract = st.text_area(t("prop_res_abstract", lang), height=180)
-            
-        r_submitted = st.form_submit_button(t("prop_submit", lang), type="primary")
+    # Insights
+    st.markdown(f"## {t('sec_insights', lang)}")
+    st.markdown(f'<div class="intro">{t("sec_insights_intro", lang)}</div>', unsafe_allow_html=True)
+    for ins in generate(df_f, lang=lang):
+        st.markdown(
+            f'<div class="insight">'
+            f'<div class="insight-cat">{ins["category"]}</div>'
+            f'<div class="insight-find">{ins["finding"]}</div>'
+            f'<div class="insight-act">{ins["implication"]}</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
 
-    if r_submitted:
-        missing = [k for k, v in {"title": r_title, "authors": r_authors, "link": r_link}.items() if not str(v).strip()]
-        if missing:
-            st.error(t("prop_missing", lang))
-        else:
-            entry = {
-                "submitted_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-                "title": r_title.strip(),
-                "authors": r_authors.strip(),
-                "year": int(r_year),
-                "focus_areas": ";".join(r_focus),
-                "link": r_link.strip(),
-                "abstract": r_abstract.strip()
-            }
-            try:
-                append_research(entry)
-                st.success(t("prop_res_success", lang, name=r_title.strip()))
-            except Exception as e:
-                st.error(t("prop_error", lang, err=str(e)))
 
-# ── Vision closing (PDF §9) ──────────────────────────────────────────────────
-render_vision_close()
+# ── Propose section (organisation + research forms) ──────────────────────────
+def render_propose_section() -> None:
+    st.markdown('<div id="join-network"></div>', unsafe_allow_html=True)
+    prop_l, prop_r = st.columns([0.95, 1.2], gap="large")
+    with prop_l:
+        propose_points = "".join([
+            propose_item_html(t("prop_panel_point_1", lang)),
+            propose_item_html(t("prop_panel_point_2", lang)),
+            propose_item_html(t("prop_panel_point_3", lang)),
+        ])
+        st.markdown(
+            f'<div class="propose-hero">'
+            f'<div class="propose-kicker">{t("prop_panel_kicker", lang)}</div>'
+            f'<div class="propose-title">{t("prop_panel_title", lang)}</div>'
+            f'<div class="propose-copy">{t("prop_panel_copy", lang)}</div>'
+            f'<div class="propose-list">{propose_points}</div>'
+            f'<div class="propose-trust">{t("prop_panel_trust", lang)}</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+        st.link_button(t("beta_banner_courses", lang), COURSE_HUB_URL, use_container_width=True)
+    with prop_r:
+        st.markdown(f"## {t('sec_propose', lang)}")
+        st.markdown(f'<div class="intro">{t("sec_propose_intro", lang)}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="propose-forms-kicker">{t("prop_forms_kicker", lang)}</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="propose-forms-note">{t("prop_forms_note", lang)}</div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="propose-route-grid">'
+            f'{propose_route_card_html(t("prop_route_people_kicker", lang), t("prop_expand", lang), t("prop_route_people_copy", lang))}'
+            f'{propose_route_card_html(t("prop_route_research_kicker", lang), t("prop_res_expand", lang), t("prop_route_research_copy", lang))}'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+
+    with st.expander(t("prop_expand", lang), expanded=True):
+        with st.form("propose_member", clear_on_submit=True):
+            pc1, pc2 = st.columns(2)
+            with pc1:
+                f_name     = st.text_input(t("prop_name", lang))
+                f_class_lbl= st.selectbox(t("prop_class", lang),
+                                          [lbl for _, lbl in CLASS_OPTIONS])
+                f_type     = st.text_input(t("prop_type", lang),
+                                           help=t("prop_type_help", lang))
+                f_city     = st.text_input(t("prop_city", lang))
+                f_country  = st.text_input(t("prop_country", lang))
+                f_founded  = st.number_input(t("prop_founded", lang),
+                                             min_value=1800, max_value=2100,
+                                             value=2020, step=1)
+            with pc2:
+                f_focus    = st.multiselect(t("prop_focus", lang), _known_focus)
+                f_focus_other = st.text_input(t("prop_focus_other", lang),
+                                              help=t("prop_focus_other_help", lang))
+                f_website  = st.text_input(t("prop_website", lang))
+                f_email    = st.text_input(t("prop_email", lang))
+                f_desc     = st.text_area(t("prop_desc", lang), height=120)
+            st.markdown(f'<div class="note" style="margin-top:0.6rem;">{t("prop_who", lang)}</div>',
+                        unsafe_allow_html=True)
+            wc1, wc2 = st.columns(2)
+            with wc1:
+                f_sub_name = st.text_input(t("prop_your_name", lang))
+            with wc2:
+                f_sub_email= st.text_input(t("prop_your_email", lang))
+            submitted = st.form_submit_button(t("prop_submit", lang), type="primary")
+        if submitted:
+            missing = [k for k, v in {
+                "name": f_name, "city": f_city, "country": f_country,
+                "description": f_desc, "submitter_email": f_sub_email,
+            }.items() if not str(v).strip()]
+            if missing:
+                st.error(t("prop_missing", lang))
+            elif f_name.strip() in set(df["name"]):
+                st.warning(t("prop_duplicate", lang, name=f_name.strip()))
+            else:
+                focus_list = list(f_focus)
+                if f_focus_other.strip():
+                    focus_list += [x.strip() for x in f_focus_other.split(",") if x.strip()]
+                entry = {
+                    "submitted_at":    datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                    "submitter_name":  f_sub_name.strip(),
+                    "submitter_email": f_sub_email.strip(),
+                    "name":            f_name.strip(),
+                    "actor_class":     _class_label_to_key.get(f_class_lbl, "institution"),
+                    "type":            f_type.strip() or "Organization",
+                    "city":            f_city.strip(),
+                    "country":         f_country.strip(),
+                    "focus_areas":     ";".join(focus_list),
+                    "founded_year":    int(f_founded),
+                    "description":     f_desc.strip(),
+                    "website":         f_website.strip(),
+                    "email":           f_email.strip(),
+                    "source":          "community-submission",
+                    "status":          "pending",
+                }
+                try:
+                    append_submission(entry)
+                    st.success(t("prop_success", lang, name=entry["name"]))
+                except Exception as e:
+                    st.error(t("prop_error", lang, err=str(e)))
+
+    with st.expander(t("prop_res_expand", lang), expanded=False):
+        with st.form("propose_research", clear_on_submit=True):
+            r_c1, r_c2 = st.columns(2)
+            with r_c1:
+                r_title = st.text_input(t("prop_res_title", lang))
+                r_authors = st.text_input(t("prop_res_authors", lang))
+                r_year = st.number_input(t("prop_res_year", lang),
+                                         min_value=1900, max_value=2100, value=2024, step=1)
+                r_link = st.text_input(t("prop_res_link", lang))
+            with r_c2:
+                r_focus = st.multiselect(t("prop_focus", lang), _known_focus)
+                r_abstract = st.text_area(t("prop_res_abstract", lang), height=180)
+            r_submitted = st.form_submit_button(t("prop_submit", lang), type="primary")
+        if r_submitted:
+            missing = [k for k, v in {"title": r_title, "authors": r_authors, "link": r_link}.items()
+                       if not str(v).strip()]
+            if missing:
+                st.error(t("prop_missing", lang))
+            else:
+                entry = {
+                    "submitted_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                    "title": r_title.strip(),
+                    "authors": r_authors.strip(),
+                    "year": int(r_year),
+                    "focus_areas": ";".join(r_focus),
+                    "link": r_link.strip(),
+                    "abstract": r_abstract.strip(),
+                }
+                try:
+                    append_research(entry)
+                    st.success(t("prop_res_success", lang, name=r_title.strip()))
+                except Exception as e:
+                    st.error(t("prop_error", lang, err=str(e)))
+
+
+# ── Route dispatch ───────────────────────────────────────────────────────────
+_route = st.session_state.route
+if _route == "network":
+    render_route_network()
+elif _route == "research":
+    render_route_research()
+elif _route == "courses":
+    render_route_courses()
+elif _route == "intelligence":
+    render_route_intelligence()
+elif _route == "about":
+    render_route_about()
+else:
+    st.session_state.route = "network"
+    st.rerun()
