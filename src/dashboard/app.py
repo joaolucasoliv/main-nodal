@@ -61,6 +61,55 @@ st.markdown(f"""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:wght@600;700;800&display=swap');
 
+    /* ── Theme tokens · light only ───────────────────────────────────────── */
+    :root {{
+        color-scheme: light only;
+        --ink: #111111;
+        --muted: #6B6B6B;
+        --soft: #EDEDED;
+        --paper: #FFFFFF;
+        --green: #6FA83D;
+        --green-dark: #4F7F28;
+        --green-soft: #E9F1DB;
+        --surface-warm: #FAF7F0;
+        --surface-warm-soft: #F2ECE3;
+        --surface-warm-edge: #ECE3D0;
+        --hero-panel-from: #F6F2E8;
+        --hero-panel-to: #FFFFFF;
+        --hero-panel-edge: #E8E1D3;
+        --card-from: #FFFFFF;
+        --card-to: #F9F9F6;
+        --tone-civic-from: #F3F8EC;
+        --tone-civic-edge: #DAE7C8;
+        --tone-public-from: #EEF3FB;
+        --tone-public-edge: #DCE5F3;
+        --tone-political-from: #F9EEF2;
+        --tone-political-edge: #EBDCE1;
+        --tone-business-from: #FFF5E3;
+        --tone-business-edge: #F0E0BC;
+        --tone-academia-from: #F1EEFB;
+        --tone-academia-edge: #E1DAF3;
+        --audience-inst-from: #14181F;
+        --audience-inst-to: #1F252F;
+        --audience-inst-text: #F5F1E6;
+        --audience-inst-kicker: #C9D7B5;
+        --gap-bg: #FFF7E5;
+        --gap-edge: #F1E0B8;
+        --gap-kicker: #7A541A;
+        --traction-from: #FFFFFF;
+        --traction-to: #F4F8EE;
+        --traction-edge: #DAE7C8;
+        --vision-from: #14181F;
+        --vision-to: #1F252F;
+        --vision-text: #F5F1E6;
+        --vision-kicker: #C9D7B5;
+        --pill-bg: var(--green-soft);
+        --pill-text: var(--green-dark);
+        --field-bg: rgba(255, 255, 255, 0.5);
+        --field-border: rgba(0, 0, 0, 0.08);
+        --shadow-card: 0 22px 50px -38px rgba(17, 17, 17, 0.4);
+    }}
+
     /* CSS Magic Overlay for Clickable Cards */
     div[data-testid="stVerticalBlock"]:has(.magic-click) {{
         cursor: pointer !important;
@@ -87,12 +136,12 @@ st.markdown(f"""
     }}
 
     .stApp {{
-        background-color: {PAPER};
+        background-color: var(--paper);
     }}
     [data-testid="stSidebar"],
     [data-testid="stSidebar"] > div:first-child {{
-        background: linear-gradient(180deg, #F7F1E8 0%, #F2ECE3 100%) !important;
-        border-right: 1px solid #E9E0D4;
+        background: #F1EFEC !important;
+        border-right: 1px solid var(--surface-warm-edge);
     }}
     [data-testid="stSidebar"] [data-testid="stSidebarUserContent"] {{
         padding-top: 0.35rem;
@@ -115,14 +164,14 @@ st.markdown(f"""
     div[data-baseweb="select"] > div,
     div[data-baseweb="base-input"] > div,
     div[data-baseweb="textarea"] > div {{
-        background-color: rgba(255, 255, 255, 0.5) !important;
-        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        background-color: var(--field-bg) !important;
+        border: 1px solid var(--field-border) !important;
         border-radius: 8px !important;
     }}
 
     [data-testid="stFileUploaderDropzone"] {{
-        background-color: rgba(255, 255, 255, 0.5) !important;
-        border: 1.5px dashed rgba(0, 0, 0, 0.18) !important;
+        background-color: var(--field-bg) !important;
+        border: 1.5px dashed var(--field-border) !important;
         border-radius: 8px !important;
     }}
 
@@ -133,44 +182,44 @@ st.markdown(f"""
     header[data-testid="stHeader"] {{ height: 0; background: transparent; }}
 
     h1 {{ font-family: 'Fraunces', Georgia, serif; font-size: 3.2rem; line-height: 1.02;
-          letter-spacing: -0.02em; font-weight: 800; color: {INK};
+          letter-spacing: -0.02em; font-weight: 800; color: var(--ink);
           margin: 0.2rem 0 0.4rem 0; }}
     h2 {{ font-family: 'Inter'; font-size: 1.15rem; margin-top: 3rem; margin-bottom: 0.3rem;
-          text-transform: uppercase; letter-spacing: 0.14em; font-weight: 700; color: {INK}; }}
+          text-transform: uppercase; letter-spacing: 0.14em; font-weight: 700; color: var(--ink); }}
     h3 {{ font-size: 0.82rem; margin: 0.5rem 0 0.5rem 0; font-weight: 600;
-          text-transform: uppercase; letter-spacing: 0.1em; color: {MUTED}; }}
+          text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }}
 
-    .lede {{ color: {INK}; font-size: 1.2rem; line-height: 1.5;
+    .lede {{ color: var(--ink); font-size: 1.2rem; line-height: 1.5;
              max-width: 680px; margin: 0.8rem 0 1.2rem 0; font-weight: 400; }}
-    .eyebrow {{ color: {GREEN_DARK}; font-size: 0.78rem; text-transform: uppercase;
+    .eyebrow {{ color: var(--green-dark); font-size: 0.78rem; text-transform: uppercase;
                 letter-spacing: 0.2em; font-weight: 700; margin-bottom: 0.4rem; }}
-    .note {{ color: {MUTED}; font-size: 0.82rem; font-style: italic; line-height: 1.5; }}
-    .intro {{ color: {MUTED}; font-size: 0.95rem; margin: 0.2rem 0 1.2rem 0; max-width: 680px; }}
-    hr.thick {{ border: none; border-top: 3px solid {INK}; margin: 1.6rem 0 2rem 0; }}
+    .note {{ color: var(--muted); font-size: 0.82rem; font-style: italic; line-height: 1.5; }}
+    .intro {{ color: var(--muted); font-size: 0.95rem; margin: 0.2rem 0 1.2rem 0; max-width: 680px; }}
+    hr.thick {{ border: none; border-top: 3px solid var(--ink); margin: 1.6rem 0 2rem 0; }}
 
-    .stat {{ padding: 1rem 0; border-top: 1px solid {SOFT}; }}
-    .stat-label {{ color: {MUTED}; font-size: 0.72rem; text-transform: uppercase;
+    .stat {{ padding: 1rem 0; border-top: 1px solid var(--soft); }}
+    .stat-label {{ color: var(--muted); font-size: 0.72rem; text-transform: uppercase;
                    letter-spacing: 0.12em; margin-bottom: 0.35rem; font-weight: 600; }}
-    .stat-value {{ color: {INK}; font-size: 2.2rem; font-weight: 700; line-height: 1;
+    .stat-value {{ color: var(--ink); font-size: 2.2rem; font-weight: 700; line-height: 1;
                    font-variant-numeric: tabular-nums; font-family: 'Fraunces', Georgia, serif; }}
-    .stat-unit {{ color: {MUTED}; font-size: 0.8rem; margin-top: 0.3rem; }}
+    .stat-unit {{ color: var(--muted); font-size: 0.8rem; margin-top: 0.3rem; }}
 
-    .insight {{ padding: 1.3rem 0; border-top: 1px solid {SOFT}; }}
-    .insight-cat {{ color: {GREEN_DARK}; font-size: 0.7rem; text-transform: uppercase;
+    .insight {{ padding: 1.3rem 0; border-top: 1px solid var(--soft); }}
+    .insight-cat {{ color: var(--green-dark); font-size: 0.7rem; text-transform: uppercase;
                     letter-spacing: 0.15em; font-weight: 700; margin-bottom: 0.5rem; }}
-    .insight-find {{ color: {INK}; font-size: 1.15rem; font-weight: 600;
+    .insight-find {{ color: var(--ink); font-size: 1.15rem; font-weight: 600;
                      font-family: 'Fraunces', Georgia, serif;
                      line-height: 1.3; margin-bottom: 0.45rem; }}
-    .insight-act {{ color: {MUTED}; font-size: 0.96rem; line-height: 1.6; max-width: 780px; }}
+    .insight-act {{ color: var(--muted); font-size: 0.96rem; line-height: 1.6; max-width: 780px; }}
 
     /* Directory card — the whole row is a clickable button */
     .stButton > button[kind="tertiary"],
     div[data-testid="stButton"] button[kind="tertiary"] {{
         text-align: left !important;
         background: white !important;
-        color: {INK} !important;
+        color: var(--ink) !important;
         border: none !important;
-        border-top: 1px solid {SOFT} !important;
+        border-top: 1px solid var(--soft) !important;
         border-left: 3px solid transparent !important;
         border-radius: 0 !important;
         padding: 1.2rem 0.75rem 1.2rem 0.75rem !important;
@@ -182,24 +231,24 @@ st.markdown(f"""
         transition: background 0.14s ease, border-left-color 0.14s ease !important;
     }}
     .stButton > button[kind="tertiary"]:hover {{
-        background: {PAPER} !important;
-        color: {INK} !important;
-        border-left-color: {GREEN} !important;
+        background: var(--paper) !important;
+        color: var(--ink) !important;
+        border-left-color: var(--green) !important;
         cursor: pointer;
     }}
 
     /* Language & small pill buttons */
     div[data-testid="stHorizontalBlock"] button[kind="secondary"] {{
         background: transparent !important;
-        color: {MUTED} !important;
-        border: 1px solid {SOFT} !important;
+        color: var(--muted) !important;
+        border: 1px solid var(--soft) !important;
         border-radius: 999px !important;
         padding: 0.25rem 0.8rem !important;
         font-size: 0.82rem !important; min-height: 0 !important; height: auto !important;
     }}
     div[data-testid="stHorizontalBlock"] button[kind="primary"] {{
-        background: {INK} !important; color: white !important;
-        border: 1px solid {INK} !important; border-radius: 999px !important;
+        background: var(--ink) !important; color: white !important;
+        border: 1px solid var(--ink) !important; border-radius: 999px !important;
         padding: 0.25rem 0.8rem !important;
         font-size: 0.82rem !important; min-height: 0 !important; height: auto !important;
     }}
@@ -207,30 +256,30 @@ st.markdown(f"""
     .stPlotlyChart {{ border: none; }}
 
     /* Focus pill style */
-    .pill {{ display:inline-block; background:{GREEN_SOFT}; color:{GREEN_DARK};
+    .pill {{ display:inline-block; background:var(--green-soft); color:var(--green-dark);
              padding:0.22rem 0.7rem; border-radius:999px; font-size:0.78rem;
              font-weight:600; letter-spacing:0.04em; margin:0.15rem 0.2rem 0.15rem 0; }}
-    .pill-muted {{ display:inline-block; background:{SOFT}; color:{MUTED};
+    .pill-muted {{ display:inline-block; background:var(--soft); color:var(--muted);
                    padding:0.22rem 0.7rem; border-radius:999px; font-size:0.78rem;
                    margin:0.15rem 0.2rem 0.15rem 0; }}
 
     /* Search input styling */
     div[data-testid="stTextInput"] input {{
-        border: 1px solid {SOFT} !important;
+        border: 1px solid var(--soft) !important;
         border-radius: 999px !important;
         padding: 0.6rem 1.1rem !important;
         font-size: 0.95rem !important;
     }}
     div[data-testid="stTextInput"] input:focus {{
-        border-color: {GREEN} !important;
-        box-shadow: 0 0 0 3px {GREEN_SOFT} !important;
+        border-color: var(--green) !important;
+        box-shadow: 0 0 0 3px var(--green-soft) !important;
     }}
 
     /* Course card */
     .course-card {{
         background: white;
-        border: 1px solid {SOFT};
-        border-left: 4px solid {GREEN};
+        border: 1px solid var(--soft);
+        border-left: 4px solid var(--green);
         border-radius: 10px;
         padding: 1.5rem 1.8rem;
         margin: 0.9rem 0;
@@ -239,31 +288,31 @@ st.markdown(f"""
         font-family: 'Fraunces', Georgia, serif;
         font-size: 1.85rem;
         font-weight: 700;
-        color: {INK};
+        color: var(--ink);
         line-height: 1.1;
         letter-spacing: -0.01em;
         margin: 0.25rem 0 0.55rem 0;
     }}
     .course-meta {{
-        color: {MUTED};
+        color: var(--muted);
         font-size: 0.9rem;
         margin: 0.25rem 0 0.6rem 0;
         font-variant-numeric: tabular-nums;
     }}
     .course-desc {{
-        color: {INK};
+        color: var(--ink);
         font-size: 1rem;
         line-height: 1.55;
         margin: 0.55rem 0 0.85rem 0;
         max-width: 760px;
     }}
     .course-kv {{
-        color: {INK};
+        color: var(--ink);
         font-size: 0.9rem;
         margin: 0.35rem 0;
     }}
     .course-kv .k {{
-        color: {MUTED};
+        color: var(--muted);
         text-transform: uppercase;
         letter-spacing: 0.1em;
         font-size: 0.72rem;
@@ -272,7 +321,7 @@ st.markdown(f"""
     }}
     a.course-cta {{
         display: inline-block;
-        background: {GREEN};
+        background: var(--green);
         color: white !important;
         padding: 0.6rem 1.3rem;
         border-radius: 999px;
@@ -282,7 +331,7 @@ st.markdown(f"""
         margin-top: 0.8rem;
         transition: background 0.15s ease;
     }}
-    a.course-cta:hover {{ background: {GREEN_DARK}; transform: translateY(-1px); box-shadow: 0 6px 20px -8px rgba(111,168,61,0.55); }}
+    a.course-cta:hover {{ background: var(--green-dark); transform: translateY(-1px); box-shadow: 0 6px 20px -8px rgba(111,168,61,0.55); }}
 
     /* ── Motion — subtle entrance for cards & stats ──────────────────────── */
     @keyframes fadeInUp {{
@@ -311,7 +360,7 @@ st.markdown(f"""
         vertical-align: 0.08em;
     }}
     .cb-institution   {{ background: #E7EEF8; color: #2F4A7A; }}
-    .cb-civil_society {{ background: {GREEN_SOFT}; color: {GREEN_DARK}; }}
+    .cb-civil_society {{ background: var(--green-soft); color: var(--green-dark); }}
     .cb-politician    {{ background: #F6E8EE; color: #8A2B50; }}
     .cb-entrepreneur  {{ background: #FFF2D6; color: #7A541A; }}
     .cb-company       {{ background: #ECECEC; color: #2E2E2E; }}
@@ -331,35 +380,35 @@ st.markdown(f"""
         font-weight: 600;
         text-decoration: none !important;
         transition: all .16s ease;
-        border: 1px solid {SOFT};
+        border: 1px solid var(--soft);
     }}
-    .chip-primary {{ background: {GREEN}; color: white !important; border-color: {GREEN}; }}
-    .chip-primary:hover {{ background: {GREEN_DARK}; border-color: {GREEN_DARK};
+    .chip-primary {{ background: var(--green); color: white !important; border-color: var(--green); }}
+    .chip-primary:hover {{ background: var(--green-dark); border-color: var(--green-dark);
                            transform: translateY(-1px);
                            box-shadow: 0 8px 22px -8px rgba(111,168,61,0.6); }}
-    .chip-ghost {{ background: white; color: {INK} !important; }}
-    .chip-ghost:hover {{ border-color: {INK}; transform: translateY(-1px); }}
-    .chip-mute {{ background: {SOFT}; color: {MUTED} !important; cursor: default; }}
+    .chip-ghost {{ background: white; color: var(--ink) !important; }}
+    .chip-ghost:hover {{ border-color: var(--ink); transform: translateY(-1px); }}
+    .chip-mute {{ background: var(--soft); color: var(--muted) !important; cursor: default; }}
 
     /* Peer card with why-matched pills */
     .peer-card {{
         padding: 0.85rem 0;
-        border-top: 1px solid {SOFT};
+        border-top: 1px solid var(--soft);
         transition: background .15s ease, padding-left .15s ease;
     }}
-    .peer-card:hover {{ background: {PAPER}; padding-left: 0.4rem; }}
+    .peer-card:hover {{ background: var(--paper); padding-left: 0.4rem; }}
     .why-pill {{
         display: inline-block;
         background: white;
-        border: 1px solid {SOFT};
+        border: 1px solid var(--soft);
         padding: 0.18rem 0.6rem 0.18rem 0.55rem;
         border-radius: 999px;
         font-size: 0.72rem;
-        color: {INK};
+        color: var(--ink);
         margin: 0.25rem 0.25rem 0 0;
     }}
     .why-pill .why-k {{
-        color: {MUTED};
+        color: var(--muted);
         font-weight: 700;
         letter-spacing: 0.05em;
         text-transform: uppercase;
@@ -375,13 +424,13 @@ st.markdown(f"""
         transition: all .16s ease !important;
     }}
     div[data-testid="stSegmentedControl"] button:hover {{
-        border-color: {GREEN} !important;
-        color: {GREEN_DARK} !important;
+        border-color: var(--green) !important;
+        color: var(--green-dark) !important;
     }}
 
     /* Refined hero */
     .lede {{ letter-spacing: -0.005em; }}
-    h1 {{ background: linear-gradient(180deg, {INK} 0%, #3A3A3A 100%);
+    h1 {{ background: linear-gradient(180deg, var(--ink) 0%, #3A3A3A 100%);
           -webkit-background-clip: text; background-clip: text;
           -webkit-text-fill-color: transparent; }}
 
@@ -391,20 +440,20 @@ st.markdown(f"""
     /* Subtle green underline accent under top bar */
     .accent-line {{
         height: 2px; width: 100%;
-        background: linear-gradient(90deg, transparent 0%, {GREEN} 20%, {GREEN_DARK} 50%, {GREEN} 80%, transparent 100%);
+        background: linear-gradient(90deg, transparent 0%, var(--green) 20%, var(--green-dark) 50%, var(--green) 80%, transparent 100%);
         opacity: 0.55;
         margin-top: 0.7rem;
     }}
 
     .hero-panel {{
-        background: linear-gradient(180deg, #F6F2E8 0%, #FFFFFF 100%);
-        border: 1px solid #E8E1D3;
+        background: linear-gradient(180deg, var(--hero-panel-from) 0%, var(--hero-panel-to) 100%);
+        border: 1px solid var(--hero-panel-edge);
         border-radius: 24px;
         padding: 1.3rem 1.35rem;
         box-shadow: 0 18px 45px -34px rgba(17, 17, 17, 0.45);
     }}
     .hero-panel-kicker {{
-        color: {GREEN_DARK};
+        color: var(--green-dark);
         font-size: 0.72rem;
         text-transform: uppercase;
         letter-spacing: 0.16em;
@@ -412,7 +461,7 @@ st.markdown(f"""
         margin-bottom: 0.5rem;
     }}
     .hero-panel-title {{
-        color: {INK};
+        color: var(--ink);
         font-family: 'Fraunces', Georgia, serif;
         font-size: 1.55rem;
         font-weight: 700;
@@ -427,7 +476,7 @@ st.markdown(f"""
         display: flex;
         gap: 0.7rem;
         align-items: flex-start;
-        color: {INK};
+        color: var(--ink);
         font-size: 0.95rem;
         line-height: 1.5;
     }}
@@ -435,7 +484,7 @@ st.markdown(f"""
         width: 0.65rem;
         height: 0.65rem;
         border-radius: 999px;
-        background: linear-gradient(180deg, {GREEN} 0%, {GREEN_DARK} 100%);
+        background: linear-gradient(180deg, var(--green) 0%, var(--green-dark) 100%);
         flex: 0 0 0.65rem;
         margin-top: 0.32rem;
         box-shadow: 0 0 0 4px rgba(111, 168, 61, 0.12);
@@ -448,12 +497,12 @@ st.markdown(f"""
     }}
     .hero-metric {{
         background: rgba(255, 255, 255, 0.85);
-        border: 1px solid {SOFT};
+        border: 1px solid var(--soft);
         border-radius: 16px;
         padding: 0.8rem 0.9rem;
     }}
     .hero-metric-value {{
-        color: {INK};
+        color: var(--ink);
         font-family: 'Fraunces', Georgia, serif;
         font-size: 1.55rem;
         font-weight: 700;
@@ -461,7 +510,7 @@ st.markdown(f"""
         margin-bottom: 0.3rem;
     }}
     .hero-metric-label {{
-        color: {MUTED};
+        color: var(--muted);
         font-size: 0.78rem;
         line-height: 1.35;
     }}
@@ -474,38 +523,38 @@ st.markdown(f"""
     .platform-card {{
         grid-column: span 4;
         border-radius: 22px;
-        border: 1px solid {SOFT};
+        border: 1px solid var(--soft);
         padding: 1.2rem 1.2rem 1.15rem 1.2rem;
         min-height: 220px;
-        background: linear-gradient(180deg, #FFFFFF 0%, #F9F9F6 100%);
+        background: linear-gradient(180deg, var(--card-from) 0%, var(--card-to) 100%);
         box-shadow: 0 20px 45px -38px rgba(17, 17, 17, 0.38);
     }}
     .platform-card.tone-civic {{
-        background: linear-gradient(180deg, #F3F8EC 0%, #FFFFFF 100%);
-        border-color: #DAE7C8;
+        background: linear-gradient(180deg, var(--tone-civic-from) 0%, var(--card-to) 100%);
+        border-color: var(--tone-civic-edge);
     }}
     .platform-card.tone-public {{
-        background: linear-gradient(180deg, #EEF3FB 0%, #FFFFFF 100%);
-        border-color: #DCE5F3;
+        background: linear-gradient(180deg, var(--tone-public-from) 0%, var(--card-to) 100%);
+        border-color: var(--tone-public-edge);
     }}
     .platform-card.tone-political {{
-        background: linear-gradient(180deg, #F9EEF2 0%, #FFFFFF 100%);
-        border-color: #EBDCE1;
+        background: linear-gradient(180deg, var(--tone-political-from) 0%, var(--card-to) 100%);
+        border-color: var(--tone-political-edge);
     }}
     .platform-card.tone-business {{
-        background: linear-gradient(180deg, #FFF5E3 0%, #FFFFFF 100%);
-        border-color: #F0E0BC;
+        background: linear-gradient(180deg, var(--tone-business-from) 0%, var(--card-to) 100%);
+        border-color: var(--tone-business-edge);
     }}
     .platform-card.tone-academia {{
-        background: linear-gradient(180deg, #F1EEFB 0%, #FFFFFF 100%);
-        border-color: #E1DAF3;
+        background: linear-gradient(180deg, var(--tone-academia-from) 0%, var(--card-to) 100%);
+        border-color: var(--tone-academia-edge);
     }}
     .platform-card.tone-beta {{
         background: linear-gradient(180deg, #1A1A1A 0%, #2C2C2C 100%);
         border-color: #2A2A2A;
     }}
     .platform-kicker {{
-        color: {GREEN_DARK};
+        color: var(--green-dark);
         font-size: 0.72rem;
         text-transform: uppercase;
         letter-spacing: 0.15em;
@@ -513,7 +562,7 @@ st.markdown(f"""
         margin-bottom: 0.55rem;
     }}
     .platform-title {{
-        color: {INK};
+        color: var(--ink);
         font-family: 'Fraunces', Georgia, serif;
         font-size: 1.45rem;
         font-weight: 700;
@@ -521,18 +570,18 @@ st.markdown(f"""
         margin-bottom: 0.65rem;
     }}
     .platform-desc {{
-        color: {INK};
+        color: var(--ink);
         font-size: 0.96rem;
         line-height: 1.55;
         margin-bottom: 1.05rem;
     }}
     .platform-meta {{
-        color: {MUTED};
+        color: var(--muted);
         font-size: 0.86rem;
         line-height: 1.45;
     }}
     .platform-meta strong {{
-        color: {INK};
+        color: var(--ink);
         font-family: 'Fraunces', Georgia, serif;
         font-size: 1.2rem;
         font-weight: 700;
@@ -542,11 +591,399 @@ st.markdown(f"""
     .platform-card.tone-beta .platform-title,
     .platform-card.tone-beta .platform-desc,
     .platform-card.tone-beta .platform-meta,
-    .platform-card.tone-beta .platform-meta strong {{
+    .platform-card.tone-beta .platform-meta strong,
+    .platform-card.tone-beta .platform-footer {{
         color: #FFFFFF;
     }}
-    .platform-card.tone-beta .platform-meta {{
+    .platform-card.tone-beta .platform-meta,
+    .platform-card.tone-beta .platform-footer {{
         color: rgba(255, 255, 255, 0.78);
+    }}
+    /* Breathing room between every platform card and the CTA button below it */
+    .platform-card {{
+        margin-bottom: 0.75rem;
+    }}
+    /* Vertical gap between consecutive leader cards in the directory grid */
+    .leader-card-spacer {{
+        height: 1.9rem;
+    }}
+    .platform-footer {{
+        margin-top: 0.7rem;
+        color: var(--muted);
+        font-size: 0.86rem;
+        line-height: 1.45;
+    }}
+
+    /* ── Dual-audience entry strip ───────────────────────────────────────── */
+    .audience-grid {{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.1rem;
+        margin: 1.4rem 0 0.4rem 0;
+    }}
+    .audience-card {{
+        position: relative;
+        border-radius: 22px;
+        padding: 1.4rem 1.5rem 1.55rem 1.5rem;
+        border: 1px solid var(--soft);
+        background: linear-gradient(180deg, var(--card-from) 0%, var(--surface-warm) 100%);
+        box-shadow: var(--shadow-card);
+        transition: transform .18s ease, box-shadow .18s ease;
+    }}
+    .audience-card.audience-inst {{
+        background: linear-gradient(180deg, var(--audience-inst-from) 0%, var(--audience-inst-to) 100%);
+        border-color: var(--audience-inst-from);
+    }}
+    .audience-card.audience-inst .audience-kicker,
+    .audience-card.audience-inst .audience-title,
+    .audience-card.audience-inst .audience-copy {{ color: var(--audience-inst-text); }}
+    .audience-card.audience-inst .audience-kicker {{ color: var(--audience-inst-kicker); }}
+    .audience-card:hover {{
+        transform: translateY(-2px);
+        box-shadow: 0 26px 60px -36px rgba(17,17,17,0.45);
+    }}
+    .audience-kicker {{
+        color: var(--green-dark);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }}
+    .audience-title {{
+        color: var(--ink);
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1.4rem;
+        font-weight: 700;
+        line-height: 1.18;
+        margin-bottom: 0.6rem;
+    }}
+    .audience-copy {{
+        color: var(--ink);
+        font-size: 0.96rem;
+        line-height: 1.55;
+        margin-bottom: 0.75rem;
+    }}
+
+    /* ── Partners strip ──────────────────────────────────────────────────── */
+    .partners-block {{
+        background: var(--surface-warm);
+        border: 1px solid var(--surface-warm-edge);
+        border-radius: 22px;
+        padding: 1.6rem 1.7rem 1.55rem 1.7rem;
+        margin: 1.6rem 0 0.6rem 0;
+    }}
+    .partners-kicker {{
+        color: var(--green-dark);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-weight: 700;
+        margin-bottom: 0.45rem;
+    }}
+    .partners-title {{
+        color: var(--ink);
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1.45rem;
+        font-weight: 700;
+        line-height: 1.18;
+        margin-bottom: 0.5rem;
+    }}
+    .partners-copy {{
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.55;
+        max-width: 760px;
+        margin-bottom: 1.1rem;
+    }}
+    .partners-grid {{
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.9rem;
+    }}
+    .partners-segment {{
+        background: white;
+        border: 1px solid var(--soft);
+        border-radius: 16px;
+        padding: 0.85rem 1rem 0.95rem 1rem;
+    }}
+    .partners-segment-label {{
+        color: var(--muted);
+        font-size: 0.66rem;
+        text-transform: uppercase;
+        letter-spacing: 0.13em;
+        font-weight: 700;
+        margin-bottom: 0.45rem;
+    }}
+    .partners-segment-list {{
+        color: var(--ink);
+        font-size: 0.96rem;
+        line-height: 1.45;
+        font-weight: 600;
+    }}
+
+    /* ── Traction metrics block ─────────────────────────────────────────── */
+    .traction-block {{
+        background: linear-gradient(180deg, var(--traction-from) 0%, var(--traction-to) 100%);
+        border: 1px solid var(--traction-edge);
+        border-radius: 24px;
+        padding: 1.8rem 1.9rem 1.7rem 1.9rem;
+        margin: 1.8rem 0 0.6rem 0;
+    }}
+    .traction-kicker {{
+        color: var(--green-dark);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-weight: 700;
+        margin-bottom: 0.45rem;
+    }}
+    .traction-title {{
+        color: var(--ink);
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1.7rem;
+        font-weight: 700;
+        line-height: 1.15;
+        margin-bottom: 0.55rem;
+    }}
+    .traction-copy {{
+        color: var(--muted);
+        font-size: 0.97rem;
+        line-height: 1.55;
+        max-width: 760px;
+        margin-bottom: 1.4rem;
+    }}
+    .traction-grid {{
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+    }}
+    .traction-cell {{
+        background: white;
+        border: 1px solid var(--soft);
+        border-radius: 18px;
+        padding: 1rem 1.1rem 1.05rem 1.1rem;
+    }}
+    .traction-value {{
+        color: var(--green-dark);
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 1;
+        margin-bottom: 0.45rem;
+    }}
+    .traction-label {{
+        color: var(--ink);
+        font-size: 0.9rem;
+        line-height: 1.45;
+    }}
+
+    /* ── Products grid (PDF §6 — what NODAL delivers) ───────────────────── */
+    .products-grid {{
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.1rem;
+        margin: 1.1rem 0 0.5rem 0;
+    }}
+    .product-card {{
+        background: white;
+        border: 1px solid var(--soft);
+        border-left: 4px solid var(--green);
+        border-radius: 18px;
+        padding: 1.2rem 1.3rem 1.25rem 1.3rem;
+        transition: transform .18s ease, box-shadow .18s ease;
+    }}
+    .product-card:hover {{
+        transform: translateY(-2px);
+        box-shadow: 0 26px 50px -36px rgba(17,17,17,0.32);
+    }}
+    .product-kicker {{
+        color: var(--green-dark);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        font-weight: 700;
+        margin-bottom: 0.45rem;
+    }}
+    .product-title {{
+        color: var(--ink);
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1.25rem;
+        font-weight: 700;
+        line-height: 1.18;
+        margin-bottom: 0.55rem;
+    }}
+    .product-desc {{
+        color: var(--ink);
+        font-size: 0.95rem;
+        line-height: 1.55;
+        margin-bottom: 0.7rem;
+    }}
+    .product-meta {{
+        color: var(--muted);
+        font-size: 0.85rem;
+    }}
+
+    /* ── Propose section (helpers used in the join-network area) ─────────── */
+    .propose-hero {{
+        background: linear-gradient(180deg, var(--surface-warm) 0%, var(--paper) 100%);
+        border: 1px solid var(--surface-warm-edge);
+        border-radius: 22px;
+        padding: 1.6rem 1.7rem 1.5rem 1.7rem;
+        margin-bottom: 1rem;
+    }}
+    .propose-kicker {{
+        color: var(--green-dark);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-weight: 700;
+        margin-bottom: 0.45rem;
+    }}
+    .propose-title {{
+        color: var(--ink);
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        line-height: 1.18;
+        margin-bottom: 0.55rem;
+    }}
+    .propose-copy {{
+        color: var(--ink);
+        font-size: 0.96rem;
+        line-height: 1.55;
+        margin-bottom: 1rem;
+    }}
+    .propose-list {{
+        display: grid;
+        gap: 0.5rem;
+        margin-bottom: 0.9rem;
+    }}
+    .propose-item {{
+        display: flex;
+        gap: 0.6rem;
+        align-items: flex-start;
+        color: var(--ink);
+        font-size: 0.92rem;
+        line-height: 1.5;
+    }}
+    .propose-item-dot {{
+        width: 0.55rem; height: 0.55rem;
+        border-radius: 999px;
+        background: var(--green);
+        flex: 0 0 0.55rem;
+        margin-top: 0.42rem;
+        box-shadow: 0 0 0 4px rgba(111,168,61,0.15);
+    }}
+    .propose-trust {{
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-style: italic;
+    }}
+    .propose-forms-kicker {{
+        color: var(--green-dark);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        font-weight: 700;
+        margin: 0.6rem 0 0.3rem 0;
+    }}
+    .propose-forms-note {{
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin-bottom: 0.8rem;
+    }}
+    .propose-route-grid {{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.85rem;
+        margin-bottom: 0.6rem;
+    }}
+    .propose-route-card {{
+        background: white;
+        border: 1px solid var(--soft);
+        border-left: 4px solid var(--green);
+        border-radius: 14px;
+        padding: 0.95rem 1.1rem;
+    }}
+    .propose-route-kicker {{
+        color: var(--green-dark);
+        font-size: 0.66rem;
+        text-transform: uppercase;
+        letter-spacing: 0.13em;
+        font-weight: 700;
+        margin-bottom: 0.3rem;
+    }}
+    .propose-route-title {{
+        color: var(--ink);
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 0.3rem;
+    }}
+    .propose-route-copy {{
+        color: var(--muted);
+        font-size: 0.86rem;
+        line-height: 1.45;
+    }}
+
+    /* ── Vision close (PDF §9) ──────────────────────────────────────────── */
+    .vision-block {{
+        background: linear-gradient(135deg, var(--vision-from) 0%, var(--vision-to) 100%);
+        border-radius: 28px;
+        padding: 2.6rem 2.2rem 2.6rem 2.2rem;
+        margin: 2.4rem 0 1rem 0;
+        text-align: center;
+        color: var(--vision-text);
+        box-shadow: 0 30px 70px -40px rgba(0,0,0,0.55);
+    }}
+    .vision-kicker {{
+        color: var(--vision-kicker);
+        font-size: 0.74rem;
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+        font-weight: 700;
+        margin-bottom: 0.85rem;
+    }}
+    .vision-quote {{
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1.65rem;
+        font-weight: 700;
+        line-height: 1.3;
+        letter-spacing: -0.005em;
+        max-width: 820px;
+        margin: 0 auto;
+    }}
+
+    /* ── Talent gap insight (PDF §4) ─────────────────────────────────────── */
+    .gap-block {{
+        background: var(--gap-bg);
+        border: 1px solid var(--gap-edge);
+        border-radius: 22px;
+        padding: 1.5rem 1.7rem 1.55rem 1.7rem;
+        margin: 1.6rem 0 0.6rem 0;
+    }}
+    .gap-kicker {{
+        color: var(--gap-kicker);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-weight: 700;
+        margin-bottom: 0.45rem;
+    }}
+    .gap-title {{
+        color: var(--ink);
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1.45rem;
+        font-weight: 700;
+        line-height: 1.18;
+        margin-bottom: 0.5rem;
+    }}
+    .gap-copy {{
+        color: var(--ink);
+        font-size: 0.97rem;
+        line-height: 1.55;
+        max-width: 780px;
     }}
 
     @media (max-width: 980px) {{
@@ -563,6 +1000,12 @@ st.markdown(f"""
         .propose-route-grid {{
             grid-template-columns: 1fr;
         }}
+        .audience-grid,
+        .partners-grid,
+        .traction-grid,
+        .products-grid {{
+            grid-template-columns: 1fr;
+        }}
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -571,8 +1014,8 @@ st.markdown(f"""
 bar_l, _, bar_r1, bar_r2 = st.columns([6, 3.5, 0.8, 0.8])
 with bar_l:
     st.markdown(
-        f'<div style="font-weight:800; font-size:1.05rem; color:{INK}; padding-top:0.35rem;">'
-        f'<span style="color:{GREEN_DARK};">●</span>&nbsp; Sistema Urbano | Nodal &nbsp;<span style="color:{GREEN_DARK};">●</span>'
+        f'<div style="font-weight:800; font-size:1.05rem; color:var(--ink); padding-top:0.35rem;">'
+        f'<span style="color:var(--green-dark);">●</span>&nbsp; Sistema Urbano | Nodal &nbsp;<span style="color:var(--green-dark);">●</span>'
         f'</div>',
         unsafe_allow_html=True,
     )
@@ -673,8 +1116,8 @@ with st.sidebar:
             unsafe_allow_html=True,
         )
     else:
-        st.markdown(f'<div style="font-weight:800; font-size:1.3rem; color:{INK};">'
-                    f'<span style="color:{GREEN_DARK};">●</span>&nbsp; NODAL</div>',
+        st.markdown(f'<div style="font-weight:800; font-size:1.3rem; color:var(--ink);">'
+                    f'<span style="color:var(--green-dark);">●</span>&nbsp; NODAL</div>',
                     unsafe_allow_html=True)
     st.caption(t("sb_tag", lang))
 
@@ -803,6 +1246,32 @@ CLASS_TONES = {
     "researcher": "#1F6B63",
 }
 
+def class_tone(actor_class: str) -> str:
+    return CLASS_TONES.get(actor_class, MUTED)
+
+def truncate_text(text: str, max_chars: int = 200) -> str:
+    s = str(text or "").strip()
+    if len(s) <= max_chars:
+        return s
+    return s[: max_chars - 1].rstrip() + "…"
+
+def propose_item_html(text: str) -> str:
+    return (
+        '<div class="propose-item">'
+        '<span class="propose-item-dot"></span>'
+        f'<span>{text}</span>'
+        '</div>'
+    )
+
+def propose_route_card_html(kicker: str, title: str, copy: str) -> str:
+    return (
+        '<div class="propose-route-card">'
+        f'<div class="propose-route-kicker">{kicker}</div>'
+        f'<div class="propose-route-title">{title}</div>'
+        f'<div class="propose-route-copy">{copy}</div>'
+        '</div>'
+    )
+
 papers = load_papers(PAPERS_PATH)
 courses = load_courses(COURSES_PATH)
 today = pd.Timestamp.today().normalize()
@@ -810,6 +1279,11 @@ upcoming = (
     courses[courses["end_date"] >= today].sort_values("start_date")
     if not courses.empty else pd.DataFrame()
 )
+
+def preferred_tab(*classes: str) -> str:
+    """Pick the actor_class with the most entries among the candidates; first one wins ties."""
+    counts = {c: actor_count(df_f, c) for c in classes}
+    return max(counts, key=lambda c: (counts[c], -classes.index(c)))
 
 def actor_count(frame: pd.DataFrame, *classes: str) -> int:
     if frame.empty or "actor_class" not in frame.columns:
@@ -824,14 +1298,162 @@ def hero_point_html(text: str) -> str:
         "</div>"
     )
 
-def platform_card_html(kicker: str, title: str, desc: str, meta: str, tone: str) -> str:
+def platform_card_html(kicker: str, title: str, desc: str, meta: str, tone: str, footer: str = "") -> str:
+    footer_html = f'<div class="platform-footer">{footer}</div>' if footer else ""
     return (
         f'<div class="platform-card tone-{tone}">'
         f'<div class="platform-kicker">{kicker}</div>'
         f'<div class="platform-title">{title}</div>'
         f'<div class="platform-desc">{desc}</div>'
         f'<div class="platform-meta">{meta}</div>'
+        f'{footer_html}'
         "</div>"
+    )
+
+PARTNER_SEGMENTS = [
+    ("partners_segment_global", "ARUP · Vinci"),
+    ("partners_segment_mobility", "Uber · Yango"),
+    ("partners_segment_industry", "UNACEM"),
+    ("partners_segment_dev", "UNNA · Sistema Urbano"),
+]
+
+def render_audience_strip() -> None:
+    inst_html = (
+        f'<div class="audience-card audience-inst">'
+        f'<div class="audience-kicker">{t("audience_inst_kicker", lang)}</div>'
+        f'<div class="audience-title">{t("audience_inst_title", lang)}</div>'
+        f'<div class="audience-copy">{t("audience_inst_copy", lang)}</div>'
+        f'</div>'
+    )
+    pract_html = (
+        f'<div class="audience-card">'
+        f'<div class="audience-kicker">{t("audience_pract_kicker", lang)}</div>'
+        f'<div class="audience-title">{t("audience_pract_title", lang)}</div>'
+        f'<div class="audience-copy">{t("audience_pract_copy", lang)}</div>'
+        f'</div>'
+    )
+    st.markdown(
+        f'<div class="audience-grid">{inst_html}{pract_html}</div>',
+        unsafe_allow_html=True,
+    )
+    cta_l, cta_r = st.columns(2, gap="large")
+    with cta_l:
+        st.link_button(
+            t("audience_inst_cta", lang),
+            "mailto:nodal@sistemaurbano.org?subject=NODAL%20institutional%20inquiry",
+            use_container_width=True,
+        )
+    with cta_r:
+        if st.button(t("audience_pract_cta", lang),
+                     key="audience_pract_btn",
+                     type="primary",
+                     use_container_width=True):
+            st.session_state._pending_scroll = "join-network"
+            st.rerun()
+
+def render_partners_strip() -> None:
+    segments_html = "".join(
+        f'<div class="partners-segment">'
+        f'<div class="partners-segment-label">{t(label_key, lang)}</div>'
+        f'<div class="partners-segment-list">{names}</div>'
+        f'</div>'
+        for label_key, names in PARTNER_SEGMENTS
+    )
+    st.markdown(
+        f'<div class="partners-block">'
+        f'<div class="partners-kicker">{t("partners_kicker", lang)}</div>'
+        f'<div class="partners-title">{t("partners_title", lang)}</div>'
+        f'<div class="partners-copy">{t("partners_copy", lang)}</div>'
+        f'<div class="partners-grid">{segments_html}</div>'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+
+def render_products() -> None:
+    st.markdown(f'<div class="eyebrow">{t("products_kicker", lang)}</div>', unsafe_allow_html=True)
+    st.markdown(f"## {t('products_title', lang)}")
+    st.markdown(f'<div class="intro">{t("products_intro", lang)}</div>', unsafe_allow_html=True)
+
+    cards = [
+        {
+            "kicker": t("product_intel_kicker", lang),
+            "title":  t("product_intel_title", lang),
+            "desc":   t("product_intel_desc", lang),
+            "meta":   t("product_meta_actors", lang, n=len(df_f)),
+        },
+        {
+            "kicker": t("product_activation_kicker", lang),
+            "title":  t("product_activation_title", lang),
+            "desc":   t("product_activation_desc", lang),
+            "meta":   t("product_meta_courses", lang, n=len(upcoming)),
+        },
+        {
+            "kicker": t("product_marketplace_kicker", lang),
+            "title":  t("product_marketplace_title", lang),
+            "desc":   t("product_marketplace_desc", lang),
+            "meta":   t("product_meta_actors", lang, n=len(df_f)),
+        },
+        {
+            "kicker": t("product_data_kicker", lang),
+            "title":  t("product_data_title", lang),
+            "desc":   t("product_data_desc", lang),
+            "meta":   t("product_meta_research", lang, n=len(papers)),
+        },
+    ]
+    cards_html = "".join(
+        f'<div class="product-card">'
+        f'<div class="product-kicker">{c["kicker"]}</div>'
+        f'<div class="product-title">{c["title"]}</div>'
+        f'<div class="product-desc">{c["desc"]}</div>'
+        f'<div class="product-meta">{c["meta"]}</div>'
+        f'</div>'
+        for c in cards
+    )
+    st.markdown(f'<div class="products-grid">{cards_html}</div>', unsafe_allow_html=True)
+
+def render_traction_block() -> None:
+    metrics = [
+        ("traction_metric_social_value",     "traction_metric_social_label"),
+        ("traction_metric_advisory_value",   "traction_metric_advisory_label"),
+        ("traction_metric_membership_value", "traction_metric_membership_label"),
+        ("traction_metric_waitlist_value",   "traction_metric_waitlist_label"),
+        ("traction_metric_revenue_value",    "traction_metric_revenue_label"),
+        ("traction_metric_clients_value",    "traction_metric_clients_label"),
+    ]
+    cells_html = "".join(
+        f'<div class="traction-cell">'
+        f'<div class="traction-value">{t(v, lang)}</div>'
+        f'<div class="traction-label">{t(l, lang)}</div>'
+        f'</div>'
+        for v, l in metrics
+    )
+    st.markdown(
+        f'<div class="traction-block">'
+        f'<div class="traction-kicker">{t("traction_kicker", lang)}</div>'
+        f'<div class="traction-title">{t("traction_title", lang)}</div>'
+        f'<div class="traction-copy">{t("traction_copy", lang)}</div>'
+        f'<div class="traction-grid">{cells_html}</div>'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+
+def render_gap_insight() -> None:
+    st.markdown(
+        f'<div class="gap-block">'
+        f'<div class="gap-kicker">{t("gap_kicker", lang)}</div>'
+        f'<div class="gap-title">{t("gap_title", lang)}</div>'
+        f'<div class="gap-copy">{t("gap_copy", lang)}</div>'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+
+def render_vision_close() -> None:
+    st.markdown(
+        f'<div class="vision-block">'
+        f'<div class="vision-kicker">{t("vision_kicker", lang)}</div>'
+        f'<div class="vision-quote">{t("vision_quote", lang)}</div>'
+        f'</div>',
+        unsafe_allow_html=True,
     )
 
 def render_beta_banner() -> None:
@@ -1016,6 +1638,7 @@ def render_leader_card(row: pd.Series, active: str) -> None:
     if website:
         with btn_cols[1]:
             st.link_button(t("p_visit", lang), website, use_container_width=True)
+    st.markdown('<div class="leader-card-spacer"></div>', unsafe_allow_html=True)
 
 def render_connect_directory() -> None:
     next_course = upcoming.iloc[0] if not upcoming.empty else None
@@ -1123,13 +1746,13 @@ def render_research_hub() -> None:
         col = cols[i % 2]
         pills = " ".join(f'<span class="pill-muted">{f}</span>' for f in p.get("focus_areas", []))
         col.markdown(
-            f'<div class="course-card" style="border-left: 4px solid {MUTED}; padding: 1.2rem; margin-bottom: 0.8rem; height: 95%; display: flex; flex-direction: column;">'
+            f'<div class="course-card" style="border-left: 4px solid var(--muted); padding: 1.2rem; margin-bottom: 0.8rem; height: 95%; display: flex; flex-direction: column;">'
             f'<div class="course-title" style="font-size: 1.25rem; line-height: 1.25; margin-bottom: 0.4rem;">{p["title"]}</div>'
             f'<div class="course-meta">{t("paper_authors", lang)}: {p["authors"]} &nbsp;·&nbsp; {p["year"]}</div>'
             f'<div style="margin:0.25rem 0 0.5rem 0;">{pills}</div>'
             f'<div class="course-desc" style="font-size: 0.9rem; max-width: 100%; flex-grow: 1;">{p["abstract"]}</div>'
             f'<div style="margin-top:auto;">'
-            f'<a class="course-cta" style="background: {INK}; padding: 0.4rem 1rem; align-self: flex-start; margin-top: 0.8rem;" href="{p["link"]}" target="_blank" rel="noopener">'
+            f'<a class="course-cta" style="background: var(--ink); padding: 0.4rem 1rem; align-self: flex-start; margin-top: 0.8rem;" href="{p["link"]}" target="_blank" rel="noopener">'
             f'{t("paper_read", lang)}</a></div>'
             f'</div>',
             unsafe_allow_html=True,
@@ -1229,7 +1852,7 @@ def show_profile(name: str):
 
     # ── About ───────────────────────────────────────────────────────────────
     st.markdown(f"### {t('p_about', lang)}")
-    st.markdown(f'<div style="font-size:1rem; line-height:1.6; color:{INK};">'
+    st.markdown(f'<div style="font-size:1rem; line-height:1.6; color:var(--ink);">'
                 f'{row["description"]}</div>', unsafe_allow_html=True)
 
     c1, c2 = st.columns(2)
@@ -1243,10 +1866,10 @@ def show_profile(name: str):
             detail_rows.append((t("p_founded", lang), int(row["founded_year"])))
         for k, v in detail_rows:
             st.markdown(
-                f'<div style="padding:0.45rem 0; border-top:1px solid {SOFT};">'
-                f'<span style="color:{MUTED}; font-size:0.78rem; text-transform:uppercase; '
+                f'<div style="padding:0.45rem 0; border-top:1px solid var(--soft);">'
+                f'<span style="color:var(--muted); font-size:0.78rem; text-transform:uppercase; '
                 f'letter-spacing:0.1em; font-weight:600;">{k}</span><br>'
-                f'<span style="color:{INK}; font-size:0.98rem;">{v}</span></div>',
+                f'<span style="color:var(--ink); font-size:0.98rem;">{v}</span></div>',
                 unsafe_allow_html=True,
             )
 
@@ -1323,9 +1946,9 @@ def show_profile(name: str):
                                  f'<span class="why-k">{label}</span>{display_val}</span>')
                 st.markdown(
                     f'<div class="peer-card">'
-                    f'<div style="font-weight:600; font-size:0.97rem; color:{INK};">'
+                    f'<div style="font-weight:600; font-size:0.97rem; color:var(--ink);">'
                     f'{p["name"]}{class_badge_html(p_class, lang)}</div>'
-                    f'<div style="color:{MUTED}; font-size:0.82rem; margin-top:0.15rem;">'
+                    f'<div style="color:var(--muted); font-size:0.82rem; margin-top:0.15rem;">'
                     f'{p["city"]}, {p["country"]} · {p["type"]}</div>'
                     f'<div style="margin-top:0.35rem;">{why_html}</div>'
                     f'</div>',
@@ -1371,6 +1994,12 @@ with hero_r:
 
 st.markdown('<hr class="thick">', unsafe_allow_html=True)
 
+# ── Dual-audience entry strip ────────────────────────────────────────────────
+render_audience_strip()
+
+# ── Partners strip ───────────────────────────────────────────────────────────
+render_partners_strip()
+
 # Search bar
 sc1, sc2 = st.columns([3, 1])
 with sc1:
@@ -1382,13 +2011,16 @@ with sc1:
     )
 with sc2:
     st.markdown(
-        f'<div style="text-align:right; padding-top:0.55rem; color:{MUTED}; font-size:0.9rem;">'
+        f'<div style="text-align:right; padding-top:0.55rem; color:var(--muted); font-size:0.9rem;">'
         f'{t("search_result", lang, n=len(df_f))}'
         f'</div>',
         unsafe_allow_html=True,
     )
 
-# ── Platform overview ────────────────────────────────────────────────────────
+# ── Products (PDF §6 — what NODAL delivers) ──────────────────────────────────
+render_products()
+
+# ── Platform overview (browse the network by actor type) ─────────────────────
 render_platform_overview()
 
 # ── Stats ────────────────────────────────────────────────────────────────────
@@ -1416,6 +2048,14 @@ st.markdown('<div id="connect-hub"></div>', unsafe_allow_html=True)
 render_connect_directory()
 render_research_hub()
 render_courses_section()
+
+st.markdown('<hr class="thick">', unsafe_allow_html=True)
+
+# ── Talent gap insight ───────────────────────────────────────────────────────
+render_gap_insight()
+
+# ── Traction (revenue evidence) ──────────────────────────────────────────────
+render_traction_block()
 
 st.markdown('<hr class="thick">', unsafe_allow_html=True)
 st.markdown(f"## {t('sec_intelligence', lang)}")
@@ -1728,3 +2368,6 @@ with st.expander(t("prop_res_expand", lang), expanded=False):
                 st.success(t("prop_res_success", lang, name=r_title.strip()))
             except Exception as e:
                 st.error(t("prop_error", lang, err=str(e)))
+
+# ── Vision closing (PDF §9) ──────────────────────────────────────────────────
+render_vision_close()
